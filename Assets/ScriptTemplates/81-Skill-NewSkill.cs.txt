@@ -1,0 +1,19 @@
+﻿#nullable enable
+
+using System;
+using static SharedData.Constants;
+
+///<summary>
+///
+///</summary>
+public sealed class #SCRIPTNAME# : Skill
+{
+	public override string SkillName => "#SCRIPTNAME#";
+	public override Type StaticItemType => typeof(#SCRIPTNAME#);
+	public override ItemUseCallback OnActionUse => UseSkill;
+
+	private void UseSkill()
+	{
+		throw new NotImplementedException();
+	}
+}
