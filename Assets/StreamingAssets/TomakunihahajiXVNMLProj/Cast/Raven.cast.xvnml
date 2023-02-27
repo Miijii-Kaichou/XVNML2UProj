@@ -1,0 +1,19 @@
+<source name::"Raven.Cast.XVNML">
+    <imageDefinitions>
+        <image name::"Neutral"      src::"Raven/Neutral.png"    />
+        <image name::"Happy"        src::"Raven/Happy.png"      />
+        <image name::"Serious"      src::"Raven/Serious.png"    />
+        <image name::"Determined"   src::"Raven/Determined.png" />
+        <image name::"Mystic"       src::"Raven/Mystic.png"     />
+    </imageDefinitions>
+    <cast name::"Raven">
+        <portraitDefinitions>
+            <portrait name::"Neutral"      img::$Neutral/>
+            <portrait name::"Happy"        img::$Happy/>
+            <portrait name::"Serious"      img::$Serious/>
+            <portrait name::"Determined"   img::$Determined/>
+            <portrait name::"Mystic"       img::$Mystic/>
+        </portraitDefinitions>
+        <voiceDefinitions/>
+    </cast>
+</source>

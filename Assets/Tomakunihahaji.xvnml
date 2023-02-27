@@ -1,0 +1,172 @@
+$>  This is XVNML (Extensible Visual Novel Markup Language)
+$>  This files demonstrates a non-modular workflow of creating a Visual Novel wiht XVNML and Unity
+<proxy  name::"Tomakunihahaji_EN"
+        engine::"UnityEngine"
+        target::".."
+        lang::"CSharp"
+        screenWidth::"1920"
+        screenHeight::"1080"
+        aspectRatio::"3:2">
+    <metadata>
+        <title name::"Tomakunihahaji_English_Ver"/>
+        <author name::"Miijii"/>
+        <date>05/12/2022</date>
+        <description text::"Dialogue Information for The Far Land of Magic: Mothers Cursed Spell"/>
+        <copyright year::2019/>
+        <url href::"www.enjyoii.co/FLOMMCS/index.php"/>
+        <tags list::"bullet-hell, visual-novel, great-soundtrack, anime-girls, female-protagonist"/>
+    </metadata>
+
+    <dependencyDefinitions>
+        <dependency include::""/>
+        <dependency include::""/>
+        <dependency include::""/>
+        <dependency include::""/>
+        <dependency include::""/>
+        <dependency include::""/>
+        <dependency include::""/>
+        <dependency include::""/>
+        <dependency include::""/>
+    </dependencyDefinitions>
+
+    <castDefinitions>
+        <cast name::"Raven"     src::"Raven.cast.xvnml"   />
+        <cast name::"Maple"     src::"Maple.cast.xvnml"   />
+        <cast name::"Hanabi"    src::"Hanabi.cast.xvnml"  />
+        <cast name::"Devi"      src::"Devi.cast.xvnml"    />
+        <cast name::"Silka"     src::"Silka.cast.xvnml"   />
+        <cast name::"Hana"      src::"Hana.cast.xvnml"    />
+        <cast name::"Ageha"     src::"Ageha.cast.xvnml"   />
+        <cast name::"Konoha"    src::"Konoha.cast.xvnml"  />
+        <cast name::"Urara"     src::"Urara.cast.xvnml"   />
+        <cast name::"Anemelle"  src::"Anemelle.cast.xvnml"/>
+        <cast name::"Saki"      src::"Saki.cast.xvnml"    />
+        <cast name::"Luu"       src::"Luu.cast.xvnml"     />
+        <cast name::"Mythril"   src::"Mythril.cast.xvnml" />
+        <cast name::"Adula"     src::"Adula.cast.xvnml"   />
+    </castDefinitions>
+
+    <imageDefinitions>
+        <image name::"GrasslandsScene000" src::"GrasslandsLandscapeImg000.png"/>
+        <image name::"GrasslandsScene001" src::"GrasslandsLandscapeImg001.png"/>
+        <image name::"GrasslandsScene002" src::"GrasslandsLandscapeImg002.png"/>
+        <image name::"GrasslandsScene003" src::"GrasslandsLandscapeImg003.png"/>
+        <image name::"GrasslandsScene004" src::"GrasslandsLandscapeImg004.png"/>
+    </imageDefinitions>
+
+    <sceneDefinitions>
+        <scene name::"GrasslandsScene000" img::$GrasslandsScene000/>
+        <scene name::"GrasslandsScene001" img::$GrasslandsScene001/>
+        <scene name::"GrasslandsScene002" img::$GrasslandsScene002/>
+        <scene name::"GrasslandsScene003" img::$GrasslandsScene003/>
+        <scene name::"GrasslandsScene004" img::$GrasslandsScene004/>
+    </sceneDefinitions>
+
+    $/  This is Raven's Route. The events that she goes through is canonical.
+        Not fully canonical since characters like Maple and Hanabi are in the scenario,
+        but are not featured in Raven's route. There will be external material to be
+        release that explains the actual events that took place based on your 3
+        playthroughs.   /$
+    <dialogueGroup name::"RavenRoute">
+		$>  Dialogue id 0 unique only to this group.
+		<dialogue name::"Stage1" cast::"Raven,Devi" openingScene::$GrasslandsScene000>
+            @Raven>Wondering Dang it.> What's up with her?<
+			@* She knows she can't leave the Witch's Town knowing about the lingering miasma...<
+			@* So...> why now?<
+			@* ...<
+			@* By the way...> this most likely won't be my actual dialogue...<
+			@* In fact,> we're not even sure how my route will actually go.<
+			@* Apparently I was told that this is all some sort of system from Maple...<
+			@* She's always talking about things that doesn't even make sense to me.<
+			@* Anyways,> lets just do this boss fight...<
+			
+			@Devi What-What?!<
+			@* But I haven't event appeared on the screen yet!!!<<
+		</dialogue>
+        <dialogue name::"Stage2">
+        </dialogue>
+        <dialogue name::"Stage3">
+        </dialogue>
+        <dialogue name::"Stage4">
+        </dialogue>
+        <dialogue name::"Stage5">
+        </dialogue>
+        <dialogue name::"Stage6">
+        </dialogue>
+        <dialogue name::"Stage7">
+        </dialogue>
+        <dialogue name::"Stage8">
+        </dialogue>
+	</dialogueGroup>
+
+    $/  This is going to be Maple's Main Route.
+        Her route is mostly close to the canonical story
+        that Raven goes through. Still, what you see in the game
+        isn't how it usually is. Of course, reading external material
+        of the actual events in Tomakunihahaji will open a few gaps./$
+    <dialogueGroup name::"MapleRoute">
+        <dialogue name::"Stage1">
+            @Maple Oh yes!<
+            @* We're getting a dialogue system now!!!<
+            @* And perhaps a slightly better iteration than the one before it!<
+            @* I'm definitely keeping a record of this.> No way am I forgetting about this.<
+            @* And I might even decomile the system to just see how it even works.<
+            @* Nah...> Who am I kidding?> That would basically rupture the entire game that I'm in,> and that wouldn't be fun at all...<
+                
+            @Devi Are you serious?!<
+            @* You're doing this on purpose right?<
+            @* I can't believe you guys forgotten about me!<<
+        </dialogue>
+        <dialogue name::"Stage2">
+        </dialogue>
+        <dialogue name::"Stage3">
+        </dialogue>
+        <dialogue name::"Stage4">
+        </dialogue>
+        <dialogue name::"Stage5">
+        </dialogue>
+        <dialogue name::"Stage6">
+        </dialogue>
+        <dialogue name::"Stage7">
+        </dialogue>
+        <dialogue name::"Stage8">
+        </dialogue>
+    </dialogueGroup>
+
+    $/  This is going to be Hanabi's Main Route.
+        Her route is supposedly not canon to the game's
+        actual story (at least not completely). The 
+        events she goes through ties in some way, just not in
+        that fashion.   /$
+    <dialogueGroup name::"HanabiRoute">
+        <dialogue name::"Stage1">
+            @Hanabi Why does this music sound soo...> bump'in?<
+            @* I mean... I guess it's pretty cool...> there's a lot of work that needs to be done.<
+            @* I don't know though...<
+            @* Whenever I listen to it longer...> you...<
+            @* Kind of...<
+            @* Start getting used to it...<
+
+            @Devi W-What are you even talking about?<
+            @* I-I don't hear any music!<
+
+            @Hanabi Ha!> That just means you lack ears kid.<
+                
+            @Devi Th-> That's so mean!<<
+        </dialogue>
+         <dialogue name::"Stage2">
+        </dialogue>
+        <dialogue name::"Stage3">
+        </dialogue>
+        <dialogue name::"Stage4">
+        </dialogue>
+        <dialogue name::"Stage5">
+        </dialogue>
+        <dialogue name::"Stage6">
+        </dialogue>
+        <dialogue name::"Stage7">
+        </dialogue>
+        <dialogue name::"Stage8">
+        </dialogue>
+    </dialogueGroup>
+</proxy>

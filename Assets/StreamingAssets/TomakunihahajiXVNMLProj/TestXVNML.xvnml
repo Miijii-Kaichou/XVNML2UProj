@@ -1,0 +1,15 @@
+﻿<proxy name::"TestXVNML" lang::"CSharp" engine::"Unity">
+     <dialogue name::"XVNML2U Sample">
+          @ Welcome to XVNML2U!<
+          @ This package demonstrates the capabilities in which the XVNML 
+          Class Library is capable of when used with the Unity Game Engine.<
+          @ What you see here is a normal dialogue.<
+          @ And with a normal XVNML Dialogue Control component, you can run whatever 
+          dialogue you want.<
+          @ This is just a sample of what XVNML can do.<
+          @ XVNML will become a powerful tool that can be used in any environment...<
+          @ And we're starting our journey off by integrating XVNML to Unity 
+          {paren}hence "XVNML2U"{paren_end}.<
+          @ I'm very excited to put this tool to the ultimate test.<<
+     </dialogue>
+</proxy>
