@@ -13,8 +13,6 @@ namespace XVNML2U
         [SerializeField]
         private bool initializeOnWakeUp = false;
 
-        private string ActualEntryPath => Application.streamingAssetsPath + @"/" + entryPath;
-
         private XVNMLObj _main;
 
         private void Awake()
@@ -25,7 +23,8 @@ namespace XVNML2U
 
         public void Initialize()
         {
-            _main = XVNMLObj.Create(ActualEntryPath);
+            var projectPath = Application.dataPath + @"/" + entryPath;
+            _main = XVNMLObj.Create(projectPath);
             Debug.Log(_main.Root.tagName);
         }
 

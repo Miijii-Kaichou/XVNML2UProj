@@ -2170,7 +2170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 401675db143dfd445b7f39a644ee22ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entryPath: TomakunihahajiXVNMLProj/TestXVNML.xvnml
+  entryPath: XVNMLSamples/Sample1-XVNMLEssentials/XVNMLEssentials.main.xvnml
   initializeOnWakeUp: 1
 --- !u!1 &897744262
 GameObject:

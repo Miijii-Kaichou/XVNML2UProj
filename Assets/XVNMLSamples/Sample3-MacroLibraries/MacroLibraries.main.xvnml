@@ -1,0 +1,6 @@
+<proxy	name::"MacroLibraries.main"
+		engine::"UnityEngine"
+		target::".."
+		lang::"CSharp">
+
+</proxy>

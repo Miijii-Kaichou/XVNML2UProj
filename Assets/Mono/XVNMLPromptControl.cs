@@ -5,14 +5,17 @@ using UnityEngine.UI;
 using XVNML.Core.Dialogue;
 using XVNML.XVNMLUtility.Tags;
 
-public class XVNMLPromptControl : MonoBehaviour
+namespace XVNML2U.Mono
 {
-    [SerializeField]
-    VerticalLayoutGroup content;
-
-    public void SetPrompts(DialogueLine prompt)
+    public class XVNMLPromptControl : MonoBehaviour
     {
-        if (prompt.Mode is not XVNML.Core.Dialogue.Enums.DialogueLineMode.Prompt) return;
+        [SerializeField]
+        VerticalLayoutGroup content;
 
+        public void SetPrompts(DialogueLine prompt)
+        {
+            if (prompt.Mode is not XVNML.Core.Dialogue.Enums.DialogueLineMode.Prompt) return;
+
+        }
     }
 }

@@ -1,0 +1,6 @@
+<proxy	name::"CustomTags.main"
+		engine::"UnityEngine"
+		target::".."
+		lang::"CSharp">
+
+</proxy>
