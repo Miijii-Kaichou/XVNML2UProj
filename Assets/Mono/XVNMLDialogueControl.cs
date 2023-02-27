@@ -27,7 +27,7 @@ namespace XVNML2U.Mono
 
         // We first need a reference to the XVNML Module that you want to pull a dialogue from
         [Header("Set Up")]
-        [SerializeField] private XVNMLModule module;
+        [SerializeField] private XVNMLModule? module;
         [SerializeField] private bool runOnAwakeUp = false;
         [SerializeField] private bool dontDetain = false;
         [SerializeField] private int processChannel = 0;
@@ -134,7 +134,7 @@ namespace XVNML2U.Mono
 
             if (dialogueGroupReferenceValue != string.Empty)
             {
-                DialogueGroup group = null;
+                DialogueGroup? group = null;
                 if (dialogueGroupReferenceType == ElementReferenceValueType.ID)
                 {
                     group = module.Get<DialogueGroup>(Convert.ToInt32(dialogueGroupReferenceValue));
@@ -194,13 +194,19 @@ namespace XVNML2U.Mono
             RunDialogue(module.Get<Dialogue>(dialogueReferenceValue.ToString()), processChannel);
         }
 
-        private void RunDialogue(Dialogue dialogue, int channel)
+        private void RunDialogue(Dialogue? dialogue, int channel)
         {
+            if (dialogue == null)
+            {
+                Debug.LogError($"Failed to run dialogue for channel {channel}");
+                return;
+            }
+            dontDetain = dialogue.DoNotDetain;
             outputProcessQueue = new Queue<Func<WCResult>>();
-            DialogueWriter.OnLineSubstringChange[processChannel] += UpdateTextOutput;
-            DialogueWriter.OnLinePause[processChannel] += dontDetain ? DontWait : WaitForMouseClick;
-            DialogueWriter.OnDialogueFinish[processChannel] += OnFinish;
-            DialogueWriter.Write(dialogue.dialogueOutput, channel);
+            DialogueWriter.OnLineSubstringChange![processChannel] += UpdateTextOutput;
+            DialogueWriter.OnLinePause![processChannel] += dontDetain ? DontWait : WaitForMouseClick;
+            DialogueWriter.OnDialogueFinish![processChannel] += OnFinish;
+            DialogueWriter.Write(dialogue.dialogueOutput!, channel);
             StartCoroutine(QueueCycle());
         }
 
@@ -229,31 +235,37 @@ namespace XVNML2U.Mono
         {
             while (_isFinished == false)
             {
-                while (outputProcessQueue?.Count > 0)
+                while (outputProcessQueue?.Count < 1)
                 {
-                    outputProcessQueue.TryDequeue(out Func<WCResult> action);
-                    var result = WCResult.Unknown();
-                    if (action == null)
-                    {
-                        yield return null;
-                        continue;
-                    }
+                    yield return null;
+                    continue;
+                }
 
-                    while ((result = action.Invoke()) == WCResult.Unknown())
-                    {
-                        yield return null;
-                        continue;
-                    }
+                var action = new Func<WCResult>(() => WCResult.Unknown());
+                var result = WCResult.Unknown();
+                
+                outputProcessQueue?.TryDequeue(out action);
 
-                    if (result != WCResult.Error() && result.Message != string.Empty)
-                    {
-                        Debug.Log(result.Message);
-                    }
+                if (action == null)
+                {
+                    yield return null;
+                    continue;
+                }
 
-                    if (result == WCResult.Error())
-                    {
-                        Debug.LogError(result.Message);
-                    }
+                while ((result = action.Invoke()) == WCResult.Unknown())
+                {
+                    yield return null;
+                    continue;
+                }
+
+                if (result != WCResult.Error() && result.Message != string.Empty)
+                {
+                    Debug.Log(result.Message);
+                }
+
+                if (result == WCResult.Error())
+                {
+                    Debug.LogError(result.Message);
                 }
 
                 yield return null;
@@ -262,8 +274,7 @@ namespace XVNML2U.Mono
 
         private void SendNewAction(Func<WCResult> function)
         {
-            outputProcessQueue.Enqueue(function);
+            outputProcessQueue?.Enqueue(function);
         }
     }
-
 }
