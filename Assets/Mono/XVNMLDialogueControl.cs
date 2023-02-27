@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -15,6 +16,7 @@ using XVNML2U.Data;
 
 namespace XVNML2U.Mono
 {
+    [DisallowMultipleComponent]
     public sealed class XVNMLDialogueControl : MonoBehaviour
     {
         public enum ElementReferenceValueType
@@ -31,6 +33,7 @@ namespace XVNML2U.Mono
         [SerializeField] private bool runOnAwakeUp = false;
         [SerializeField] private bool dontDetain = false;
         [SerializeField] private int processChannel = 0;
+        [SerializeField] private AudioClip tickSound;
 
         // This is just going to be a normal object,
         // but we're expecting a number or a string.
@@ -50,9 +53,20 @@ namespace XVNML2U.Mono
         private TextMeshProUGUI textOutput;
         private Queue<Func<WCResult>>? outputProcessQueue;
 
+        private AudioSource tickSoundSource;
+
         private void OnValidate()
         {
             textOutput ??= GetComponent<TextMeshProUGUI>();
+
+            if (tickSound == null) return;
+            if (tickSoundSource != null) return;
+            if (gameObject.GetComponent<AudioSource>() == null)
+            {
+                tickSoundSource = gameObject.AddComponent<AudioSource>();
+                return;
+            }
+            tickSoundSource = gameObject.GetComponent<AudioSource>();
         }
 
         private void Start()
@@ -110,6 +124,7 @@ namespace XVNML2U.Mono
             {
                 if (sender.ID != processChannel) return WCResult.Unknown();
                 textOutput.text = sender.DisplayingContent;
+                tickSoundSource.PlayOneShot(tickSound);
                 return WCResult.Ok();
             });
         }

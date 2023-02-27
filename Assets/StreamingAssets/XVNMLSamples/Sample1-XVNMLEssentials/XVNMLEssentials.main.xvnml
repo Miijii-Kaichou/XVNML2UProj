@@ -1,0 +1,17 @@
+﻿<proxy name::"TestXVNML" lang::"CSharp" engine::"Unity">
+     <dialogue name::"XVNML2U Sample">
+          @ {set_text_speed::40}Welcome to XVNML2U!<
+          @ This package demonstrates the capabilities in which the XVNML 
+          Class Library is capable of{delay::500} when used with the Unity Game Engine.<
+          @ What you see here{delay::750} is a normal dialogue.<
+          @ And {insert::"THIS"|delay::1000} is a dialogue with {set_text_speed::100} a 
+          looooooooooooooooooooooooooooooooooooooooooooooooooooot of {set_text_speed::30}charisma!!!!<
+          @ {set_text_speed::60}And with a normal XVNML Dialogue Control component, you can run whatever 
+          dialogue you want.<
+          @ This is just a sample of what XVNML can do.<
+          @ XVNML will become a powerful tool that can be used in any environment...<
+          @ And we're starting our journey off by integrating XVNML to Unity 
+          {paren}hence "XVNML2U"{paren_end}.<
+          @ I'm very excited to put this tool to the ultimate test.<<
+     </dialogue>
+</proxy>

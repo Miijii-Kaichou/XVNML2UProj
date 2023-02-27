@@ -4,9 +4,9 @@ using XVNML.XVNMLUtility.Tags;
 namespace XVNML2U
 {
     [AssociateWithTag("struct", typeof(Proxy), TagOccurance.Multiple, true)]
-    public class StructTag : UserDefined
+    public sealed class StructTag : UserDefined
     {
-        internal string structName => tagName;
+        internal string structName => TagName;
         internal object this[string name]
         {
             get
@@ -26,15 +26,25 @@ namespace XVNML2U
     }
 
     [AssociateWithTag("property", typeof(StructTag), TagOccurance.Multiple, true)]
-    public class PropertyTag : UserDefined
+    public sealed class PropertyTag : UserDefined
     {
-        internal string propertyName => tagName;
+        internal string propertyName => TagName;
         internal object propertyValue;
 
         public override void OnResolve(string fileOrigin)
         {
+            AllowedParameters = new[]
+            {
+                "value"
+            };
+
+            AllowedFlags = new[]
+            {
+                "allowOverride"
+            };
+
             base.OnResolve(fileOrigin);
-            propertyValue = parameterInfo["value"];
+            propertyValue = GetParameter("value");
         }
     }
 }

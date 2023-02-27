@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ba5e6a50a716604eb819b53ee70effd, type: 3}
+  m_Name: XVNMLEssentials
+  m_EditorClassIdentifier: 
+  hashCode: 0
+  filePath: Assets/XVNMLSamples/Sample1-XVNMLEssentials/XVNMLEssentials.main.xvnml
+  asset: {fileID: 102900000, guid: 52cc82b2d2d6a2f44b26df5ddcddf03f, type: 3}
+  content: "<proxy name::\"TestXVNML\" lang::\"CSharp\" engine::\"Unity\">\r\n    
+    <dialogue name::\"XVNML2U Sample\">\r\n          @ Welcome to XVNML2U!<\r\n         
+    @ This package demonstrates the capabilities in which the XVNML \r\n         
+    Class Library is capable of when used with the Unity Game Engine.<\r\n         
+    @ What you see here is a normal dialogue.<\r\n          @ And with a normal XVNML
+    Dialogue Control component, you can run whatever \r\n          dialogue you want.<\r\n         
+    @ This is just a sample of what XVNML can do.<\r\n          @ XVNML will become
+    a powerful tool that can be used in any environment...<\r\n          @ And we're
+    starting our journey off by integrating XVNML to Unity \r\n          {paren}hence
+    \"XVNML2U\"{paren_end}.<\r\n          @ I'm very excited to put this tool to
+    the ultimate test.<<\r\n     </dialogue>\r\n</proxy>"

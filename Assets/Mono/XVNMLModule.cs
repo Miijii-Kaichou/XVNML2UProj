@@ -23,9 +23,9 @@ namespace XVNML2U
 
         public void Initialize()
         {
-            var projectPath = Application.dataPath + @"/" + entryPath;
+            var projectPath = Application.streamingAssetsPath + @"/" + entryPath;
             _main = XVNMLObj.Create(projectPath);
-            Debug.Log(_main.Root.tagName);
+            Debug.Log(_main.Root.TagName);
         }
 
         public T Get<T>(int index) where T : TagBase

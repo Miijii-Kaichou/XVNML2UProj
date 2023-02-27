@@ -7,6 +7,7 @@ using XVNML2U.Configuration;
 
 namespace XVNML2U.Mono.Editor
 {
+#if UNITY_EDITOR
     [CustomEditor(typeof(XVNMLAsset))]
     public class XVNMLAssetScriptableObjectInspector : UnityEditor.Editor
     {
@@ -89,4 +90,5 @@ namespace XVNML2U.Mono.Editor
             return path;
         }
     }
+#endif
 }
