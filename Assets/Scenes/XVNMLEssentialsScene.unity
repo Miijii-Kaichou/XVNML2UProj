@@ -2268,8 +2268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 401675db143dfd445b7f39a644ee22ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entryPath: XVNMLSamples/Sample1-XVNMLEssentials/XVNMLEssentials.main.xvnml
-  initializeOnWakeUp: 1
+  _main: {fileID: -1548105619829510566, guid: 52cc82b2d2d6a2f44b26df5ddcddf03f, type: 3}
 --- !u!1 &897744262
 GameObject:
   m_ObjectHideFlags: 0

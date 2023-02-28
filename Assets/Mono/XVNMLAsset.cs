@@ -3,7 +3,6 @@ using XVNML.XVNMLUtility;
 
 namespace XVNML2U.Mono
 {
-    [CreateAssetMenu(fileName = "New XVNML Asset", menuName = "XVNML/XVNML Asset")]
     public sealed class XVNMLAsset : ScriptableObject
     {
         /// <summary>
@@ -29,12 +28,17 @@ namespace XVNML2U.Mono
         /// <summary>
         /// Original file path of this asset
         /// </summary>
-        public string filePath;
+        [HideInInspector]public string filePath;
 
-        public Object asset;
+        [HideInInspector] public XVNMLObj top;
 
-        public XVNMLObj root;
+        [HideInInspector] public string content;
 
-        public string content;
+        public void Build()
+        {
+            Debug.Log(filePath);
+            top = XVNMLObj.Create(filePath);
+            Debug.Log(top.Root.TagName);
+        }
     } 
 }

@@ -4,7 +4,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -124,6 +123,7 @@ namespace XVNML2U.Mono
             {
                 if (sender.ID != processChannel) return WCResult.Unknown();
                 textOutput.text = sender.DisplayingContent;
+                if (tickSound == null) return WCResult.Ok();
                 tickSoundSource.PlayOneShot(tickSound);
                 return WCResult.Ok();
             });
