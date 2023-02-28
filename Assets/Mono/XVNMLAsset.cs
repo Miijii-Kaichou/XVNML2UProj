@@ -36,9 +36,7 @@ namespace XVNML2U.Mono
 
         public void Build()
         {
-            Debug.Log(filePath);
             top = XVNMLObj.Create(filePath);
-            Debug.Log(top.Root.TagName);
         }
     } 
 }

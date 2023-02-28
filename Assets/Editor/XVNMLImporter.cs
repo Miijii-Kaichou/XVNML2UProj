@@ -1,8 +1,8 @@
 #if UNITY_EDITOR
+using System.IO;
 using UnityEditor;
 using UnityEditor.AssetImporters;
 using UnityEngine;
-using XVNML.XVNMLUtility;
 
 namespace XVNML2U.Mono.Editor
 {
@@ -12,14 +12,13 @@ namespace XVNML2U.Mono.Editor
         public override void OnImportAsset(AssetImportContext ctx)
         {
             var xvnml = new XVNMLAsset();
-            xvnml.filePath = assetPath;
-            Debug.Log(xvnml.top.Root.TagName);
+            var name = Path.GetFileName(ctx.assetPath);
+            xvnml.filePath = ctx.assetPath;
             Texture2D icon = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/xvnml_file_icon.png");
             EditorGUIUtility.SetIconForObject(xvnml, icon);
-            ctx.AddObjectToAsset(xvnml.top.Root.TagName, xvnml);
+            ctx.AddObjectToAsset(name, xvnml);
             ctx.SetMainObject(xvnml);
         }
     }
 }
-
 #endif
