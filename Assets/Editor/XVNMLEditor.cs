@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace XVNML2U.Mono.Editor
+namespace XVNML2U.Mono.Core
 {
 #if UNITY_EDITOR
     public sealed class XVNMLEditor : EditorWindow

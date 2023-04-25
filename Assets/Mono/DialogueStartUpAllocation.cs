@@ -4,7 +4,7 @@ using XVNML2U.Mono.Singleton;
 
 namespace XVNML2U.Mono
 {
-    public class DialogueStartUpAllocation : Singleton<DialogueStartUpAllocation>
+    public sealed class DialogueStartUpAllocation : Singleton<DialogueStartUpAllocation>
     {
         [Tooltip("How many channels to allocate for " +
                  "Concurrent Dialogue Processes.")]

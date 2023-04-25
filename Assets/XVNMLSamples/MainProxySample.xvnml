@@ -1,0 +1,8 @@
+<proxy	name::"MainProxySample"
+		engine::"UnityEngine"
+		target::".."
+		lang::"CSharp">
+		<dialogue name::"Sample">
+			@ This is a sample of you courage!<<
+		</dialogue>
+</proxy>
