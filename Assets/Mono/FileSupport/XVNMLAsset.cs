@@ -40,6 +40,8 @@ namespace XVNML2U.Mono
 
         public string content;
 
+        public Action<XVNMLObj> assetBuildCompleted;
+
         private void OnValidate()
         {
             var icon = AssetDatabase.LoadAssetAtPath<Texture2D>(IconPath);

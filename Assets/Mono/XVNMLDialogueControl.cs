@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 using XVNML.Core.Dialogue;
+using XVNML.Core.Dialogue.Structs;
 using XVNML.Utility.Dialogue;
 using XVNML.XVNMLUtility.Tags;
 
@@ -33,6 +34,7 @@ namespace XVNML2U.Mono
         [SerializeField] private bool dontDetain = false;
         [SerializeField] private int processChannel = 0;
         [SerializeField] private AudioClip tickSound;
+        [SerializeField] private XVNMLStage stageObj;
 
         // This is just going to be a normal object,
         // but we're expecting a number or a string.
@@ -49,14 +51,19 @@ namespace XVNML2U.Mono
         [SerializeField] ElementReferenceValueType dialogueGroupReferenceType = ElementReferenceValueType.ID;
 
         [SerializeField, Header("TextMeshPro")]
-        private TextMeshProUGUI textOutput;
+        private TextMeshProUGUI nameOuput;
+
+        [SerializeField]
+        private TextMeshProUGUI bodyOutput;
+
         private Queue<Func<WCResult>>? outputProcessQueue;
 
         private AudioSource tickSoundSource;
+        private CastInfo castInfo;
 
         private void OnValidate()
         {
-            textOutput ??= GetComponent<TextMeshProUGUI>();
+            bodyOutput ??= GetComponent<TextMeshProUGUI>();
 
             if (tickSound == null) return;
             if (tickSoundSource != null) return;
@@ -70,7 +77,7 @@ namespace XVNML2U.Mono
 
         private void Start()
         {
-            textOutput ??= GetComponent<TextMeshProUGUI>();
+            bodyOutput ??= GetComponent<TextMeshProUGUI>();
             if (runOnAwakeUp == false) return;
             Play();
         }
@@ -81,7 +88,7 @@ namespace XVNML2U.Mono
             {
                 if (_isFinished) return WCResult.Ok();
                 if (sender.ID != processChannel) return WCResult.Unknown();
-                textOutput.text = string.Empty;
+                bodyOutput.text = string.Empty;
                 DialogueWriter.OnLineSubstringChange![processChannel] -= UpdateTextOutput;
                 DialogueWriter.OnLinePause![processChannel] -= dontDetain ? DontWait : WaitForMouseClick;
                 DialogueWriter.OnDialogueFinish![processChannel] -= OnFinish;
@@ -109,7 +116,7 @@ namespace XVNML2U.Mono
                 {
                     Debug.Log("Proceed");
                     DialogueWriter.MoveNextLine(sender);
-                    textOutput.text = sender.DisplayingContent;
+                    bodyOutput.text = sender.DisplayingContent;
                     return WCResult.Ok();
                 }
                 return WCResult.Unknown();
@@ -122,15 +129,32 @@ namespace XVNML2U.Mono
             SendNewAction(() =>
             {
                 if (sender.ID != processChannel) return WCResult.Unknown();
-                textOutput.text = sender.DisplayingContent;
+                bodyOutput.text = sender.DisplayingContent;
+                if (bodyOutput.isTextOverflowing) bodyOutput.pageToDisplay++;
                 if (tickSound == null) return WCResult.Ok();
                 tickSoundSource.PlayOneShot(tickSound);
                 return WCResult.Ok();
             });
         }
 
+        private void ManifestSpeakingCast(DialogueWriterProcessor sender)
+        {
+            SendNewAction(() =>
+            {
+                if (sender.CastInfo == null) return WCResult.Ok();
+                if (nameOuput == null) return WCResult.Ok();
+                castInfo = sender.CastInfo.Value;
+                nameOuput.text = castInfo.name;
+                stageObj.ChangeExpression(castInfo);
+                stageObj.ChangeVoice(castInfo);
+                return WCResult.Ok();
+            });
+        }
+
         public void Play()
         {
+            if (module == null) return;
+
             _isFinished = false;
             if (processChannel < 0)
             {
@@ -218,11 +242,41 @@ namespace XVNML2U.Mono
             }
             dontDetain = dialogue.DoNotDetain;
             outputProcessQueue = new Queue<Func<WCResult>>();
+
+            DialogueWriter.OnLineStart![processChannel] += ManifestSpeakingCast;
             DialogueWriter.OnLineSubstringChange![processChannel] += UpdateTextOutput;
             DialogueWriter.OnLinePause![processChannel] += dontDetain ? DontWait : WaitForMouseClick;
             DialogueWriter.OnDialogueFinish![processChannel] += OnFinish;
+
+            PrepareCasts();
+            PrepareScenes();
+
             DialogueWriter.Write(dialogue.dialogueOutput!, channel);
+
             StartCoroutine(QueueCycle());
+        }
+
+        private void PrepareScenes()
+        {
+            if (module == null) return;
+            if (stageObj == null) return;
+            SceneDefinitions definitions = module.Get<SceneDefinitions>();
+            if (definitions == null) return;
+            if (definitions.Scenes == null) return;
+            if (definitions.Scenes.Length == 0) return;
+            stageObj.InitializeSceneController(definitions.Scenes);
+
+        }
+
+        private void PrepareCasts()
+        {
+            if (module == null) return;
+            if (stageObj == null) return;
+            CastDefinitions definitions = module.Get<CastDefinitions>();
+            if (definitions == null) return;
+            if (definitions.CastMembers == null) return;
+            if (definitions.CastMembers.Length == 0) return;
+            stageObj.InitializeCastController(definitions.CastMembers);
         }
 
         private void RunDialogueInGroup(DialogueGroup group)
@@ -258,7 +312,7 @@ namespace XVNML2U.Mono
 
                 var action = new Func<WCResult>(() => WCResult.Unknown());
                 var result = WCResult.Unknown();
-                
+
                 outputProcessQueue?.TryDequeue(out action);
 
                 if (action == null)
