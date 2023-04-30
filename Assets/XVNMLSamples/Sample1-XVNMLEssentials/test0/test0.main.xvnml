@@ -4,9 +4,9 @@
 	</castDefinitions>
 
 	<dialogue name::"FlagTest">
-		@Hana>Smile {sts::60}Not sure if this works...>Happy>Wow But I'm going to do the thing anyways.<
+		@Hana>Smile {sts::60}Not sure if this works...>V::000>E::Happy But I'm going to do the thing anyways.<
 		@Hana>Smile {sts::60}Hello!<
-		@* If you are reading this{del::750|n|exp::"Happy"|ins::"GREAT JOB!"}<
+		@* If you are reading this{del::750|exp::"Happy"} GREAT JOB!<
 		@Hana>Smile Now, it's time to incoporate Cast data{del::500}, such as what emotion{n}
 		they are showing{del::500}, or how they sound!<
 		@* This will be a new chapter in our XVNML journey!

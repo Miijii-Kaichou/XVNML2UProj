@@ -30,8 +30,8 @@ namespace XVNML2U
         AudioSource voiceBox;
 
         //Data
-        public SortedDictionary<string, Sprite> PortraitLibrary = new();
-        public SortedDictionary<string, AudioClip> VoiceLibrary = new();
+        public ElementMediaLibrary<Sprite> PortraitLibrary = new();
+        public ElementMediaLibrary<AudioClip> VoiceLibrary = new();
 
         void Awake()
         {
@@ -40,17 +40,17 @@ namespace XVNML2U
             imageViewer ??= GetComponent<UnityEngine.UI.Image>();
         }
 
-        public void GenerateAndAddToPortraitLibrary(ReadOnlySpan<char> name, byte[] data)
+        public void GenerateAndAddToPortraitLibrary(int id, ReadOnlySpan<char> name, byte[] data)
         {
             if (data == null) return;
             if (data.Length == 0) return;
             Texture2D tex2D = XVNMLModule.ProcessTextureData(data);
             Sprite newSprite = Sprite.Create(tex2D, new Rect(0, 0, tex2D.width, tex2D.height), new Vector2(0.5f, 0.5f));
             newSprite.name = name.ToString();
-            PortraitLibrary.Add(name.ToString(), newSprite);
+            PortraitLibrary.Add(id, name.ToString(), newSprite);
         }
 
-        public void GenerateAndAddToVoiceLibrary(ReadOnlySpan<char> name, string path)
+        public void GenerateAndAddToVoiceLibrary(int id, ReadOnlySpan<char> name, string path)
         {
             if (path == string.Empty) return;
             using (UnityWebRequest requestAudio = UnityWebRequestMultimedia.GetAudioClip(path, AudioType.WAV))
@@ -69,9 +69,15 @@ namespace XVNML2U
 
                 AudioClip newClip = DownloadHandlerAudioClip.GetContent(requestAudio);
                 newClip.name = name.ToString();
-                VoiceLibrary.Add(name.ToString(), newClip);
+                VoiceLibrary.Add(id, name.ToString(), newClip);
                 return;
             }
+        }
+
+        internal void ChangeExpression(int id)
+        {
+            if (PortraitLibrary == null) return;
+            ChangeExpression(PortraitLibrary.GetStringKey(id));
         }
 
         internal void ChangeExpression(string name)
@@ -81,7 +87,7 @@ namespace XVNML2U
             {
                 case CastGraphicMode.Image:
                     if (imageViewer == null) return;
-                    if (PortraitLibrary.ContainsKey(name) == false)
+                    if (PortraitLibrary.ContainsName(name) == false)
                     {
                         imageViewer.sprite = null;
                         return;
@@ -90,7 +96,7 @@ namespace XVNML2U
                     return;
                 case CastGraphicMode.Sprite:
                     if (spriteViewer == null) return;
-                    if (PortraitLibrary.ContainsKey(name) == false)
+                    if (PortraitLibrary.ContainsName(name) == false)
                     {
                         spriteViewer.sprite = null;
                         return;
@@ -106,11 +112,17 @@ namespace XVNML2U
             }
         }
 
+        internal void ChangeVoice(int id)
+        {
+            if (VoiceLibrary == null) return;
+            ChangeVoice(VoiceLibrary.GetStringKey(id));
+        }
+
         internal void ChangeVoice(string name)
         {
             if (VoiceLibrary == null) return;
             if (name == string.Empty || name == null) return;
-            if (VoiceLibrary.ContainsKey(name) == false) return;
+            if (VoiceLibrary.ContainsName(name) == false) return;
             voiceBox.clip = VoiceLibrary[name];
             voiceBox.Play();
         }
@@ -128,7 +140,7 @@ namespace XVNML2U
             {
                 if (voices[i] == null) return;
                 if (voices[i].audioTarget == null) return;
-                GenerateAndAddToVoiceLibrary(voices[i].TagName, voices[i].audioTarget.GetAudioTargetPath());
+                GenerateAndAddToVoiceLibrary(voices[i].TagID.Value, voices[i].TagName, voices[i].audioTarget.GetAudioTargetPath());
             }
         }
 
@@ -136,7 +148,7 @@ namespace XVNML2U
         {
             for(int i = 0; i < portraits.Length; i++)
             {
-                GenerateAndAddToPortraitLibrary(portraits[i].TagName, portraits[i].imageTarget.GetImageData());
+                GenerateAndAddToPortraitLibrary(portraits[i].TagID.Value, portraits[i].TagName, portraits[i].imageTarget.GetImageData());
             }
         }
     }
