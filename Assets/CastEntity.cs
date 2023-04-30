@@ -68,6 +68,7 @@ namespace XVNML2U
                 }
 
                 AudioClip newClip = DownloadHandlerAudioClip.GetContent(requestAudio);
+                newClip.name = name.ToString();
                 VoiceLibrary.Add(name.ToString(), newClip);
                 return;
             }

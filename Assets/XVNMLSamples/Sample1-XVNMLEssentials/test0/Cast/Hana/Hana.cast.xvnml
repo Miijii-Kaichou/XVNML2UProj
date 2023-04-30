@@ -6,6 +6,9 @@
 		<image name::"HanaAngry"		src::"HanaAngry.png"	rel::Relative/>
 		<image name::"HanaNeutral"		src::"HanaNeutral.png" 	rel::Relative/>
 	</imageDefinitions>
+	<audioDefinitions>
+		<audio name::"HanaWow"			src::"HanaWow.wav"		rel::Relative/>
+	</audioDefinitions>
 	<castDefinitions>
 		<cast name::"Hana">
 			<portraitDefinitions>
@@ -16,10 +19,7 @@
 				<portrait name::"Neutral" 	img::$HanaNeutral/>
 			</portraitDefinitions>
 			<voiceDefinitions>
-				<voice name::"Yay" 	audio::$nil/>
-				<voice name::"Sigh" audio::$nil/>
-				<voice name::"Omg" 	audio::$nil/>
-				<voice name::"Aww" 	audio::$nil/>
+				<voice name::"Wow" 	audio::$HanaWow/>
 			</voiceDefinitions>
 		</cast>
 	</castDefinitions>
