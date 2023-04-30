@@ -11,6 +11,8 @@ namespace XVNML2U
     {
         private SortedDictionary<string, CastEntity> castObjectMap = new();
 
+        private CastInfo lastCastInfo;
+
         //Data
         private List<Cast> _castMembers = new();
 

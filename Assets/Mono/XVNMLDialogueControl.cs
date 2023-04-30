@@ -89,6 +89,10 @@ namespace XVNML2U.Mono
                 if (_isFinished) return WCResult.Ok();
                 if (sender.ID != processChannel) return WCResult.Unknown();
                 bodyOutput.text = string.Empty;
+                DialogueWriter.OnCastChange![processChannel] -= ManifestSpeakingCast;
+                DialogueWriter.OnCastExpressionChange![processChannel] -= ManifestSpeakingCast;
+                DialogueWriter.OnCastVoiceChange![processChannel] -= ManifestSpeakingCast;
+                DialogueWriter.OnLineStart![processChannel] -= ManifestSpeakingCast;
                 DialogueWriter.OnLineSubstringChange![processChannel] -= UpdateTextOutput;
                 DialogueWriter.OnLinePause![processChannel] -= dontDetain ? DontWait : WaitForMouseClick;
                 DialogueWriter.OnDialogueFinish![processChannel] -= OnFinish;
@@ -141,9 +145,9 @@ namespace XVNML2U.Mono
         {
             SendNewAction(() =>
             {
-                if (sender.CastInfo == null) return WCResult.Ok();
+                if (sender.CurrentCastInfo == null) return WCResult.Ok();
                 if (nameOuput == null) return WCResult.Ok();
-                castInfo = sender.CastInfo.Value;
+                castInfo = sender.CurrentCastInfo.Value;
                 nameOuput.text = castInfo.name;
                 stageObj.ChangeExpression(castInfo);
                 stageObj.ChangeVoice(castInfo);
@@ -243,6 +247,9 @@ namespace XVNML2U.Mono
             dontDetain = dialogue.DoNotDetain;
             outputProcessQueue = new Queue<Func<WCResult>>();
 
+            DialogueWriter.OnCastChange![processChannel] += ManifestSpeakingCast;
+            DialogueWriter.OnCastExpressionChange![processChannel] += ManifestSpeakingCast;
+            DialogueWriter.OnCastVoiceChange![processChannel] += ManifestSpeakingCast;
             DialogueWriter.OnLineStart![processChannel] += ManifestSpeakingCast;
             DialogueWriter.OnLineSubstringChange![processChannel] += UpdateTextOutput;
             DialogueWriter.OnLinePause![processChannel] += dontDetain ? DontWait : WaitForMouseClick;
