@@ -1,6 +1,4 @@
-using Codice.Client.BaseCommands.Fileinfo;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -120,6 +118,7 @@ namespace XVNML2U
         {
             ProducePortraitLibrary(cast.Portraits);
             ProduceVoiceLibrary(cast.Voices);
+            gameObject.name = $"{cast.TagName} [ActiveCastMember]";
         }
 
         private void ProduceVoiceLibrary(Voice[] voices)

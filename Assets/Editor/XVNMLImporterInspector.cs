@@ -4,6 +4,7 @@ using XVNML2U.Mono.Core;
 
 namespace XVNML2U
 {
+#if UNITY_EDITOR
     [CustomEditor(typeof(XVNMLImporter))]
     public sealed class XVNMLImporterInspector : Editor
     {
@@ -24,4 +25,5 @@ namespace XVNML2U
             }
         }
     }
+#endif
 }

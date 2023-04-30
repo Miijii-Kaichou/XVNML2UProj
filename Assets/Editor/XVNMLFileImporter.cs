@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 
 namespace XVNML2U.Mono.Editor
 {
+#if UNITY_EDITOR
     public sealed class XVNMLFileImporter : EditorWindow
     {
         private static XVNMLFileImporter Instance;
@@ -20,4 +21,5 @@ namespace XVNML2U.Mono.Editor
             rootVisualElement.Add(new Label("Hewwo"));
         }
     }
+#endif
 }

@@ -4,6 +4,7 @@
 	</castDefinitions>
 
 	<dialogue name::"FlagTest">
+		@Hana>Smile {sts::60}Not sure if this works...>Happy But I'm going to do the thing anyways.<
 		@Hana>Smile {sts::60}Hello!<
 		@* If you are reading this{del::750|n|exp::"Happy"|ins::"GREAT JOB!"}<
 		@Hana>Smile Now, it's time to incoporate Cast data{del::500}, such as what emotion{n}
@@ -43,7 +44,7 @@
 		@* We want to try to limit the heavy-lifting for the person using this tool{del::500|n}
 		but honestly{del::500}, that's our goal!<
 		@Hana>Happy We want to make creating Visual Novels{del::500} and Story-Centric games{del::500} as easy as possible to implement!<
-		@* So with that said{del::1000|exp::"Happy"} let's get on with it!<<
+		@Hana>Smile So with that said{del::1000|exp::"Happy"} let's get on with it!<<
 	</dialogue>
 
 	<dialogue name::"CDPTest000" #dontDetain>

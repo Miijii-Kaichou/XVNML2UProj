@@ -6,6 +6,7 @@ using XVNML.XVNMLUtility;
 
 namespace XVNML2U.Mono
 {
+
     public sealed class XVNMLAsset : ScriptableObject
     {
         /// <summary>
@@ -44,8 +45,10 @@ namespace XVNML2U.Mono
 
         private void OnValidate()
         {
+        #if UNITY_EDITOR
             var icon = AssetDatabase.LoadAssetAtPath<Texture2D>(IconPath);
             EditorGUIUtility.SetIconForObject(this, icon);
+        #endif
         }
 
         public void Build()
@@ -63,5 +66,5 @@ namespace XVNML2U.Mono
             using StreamReader streamReader = new StreamReader(filePath);
             content = streamReader.ReadToEnd();
         }
-    }
+    } 
 }
