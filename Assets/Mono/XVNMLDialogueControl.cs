@@ -258,7 +258,6 @@ namespace XVNML2U.Mono
                 if (sender.ID != processChannel) return WCResult.Unknown();
                 if (Input.GetMouseButtonDown(0) && sender.ID == 0)
                 {
-                    Debug.Log("Proceed");
                     DialogueWriter.MoveNextLine(sender);
                     bodyOutput.text = sender.DisplayingContent;
                     return WCResult.Ok();
