@@ -1,0 +1,51 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace XVNML2U
+{
+    public class ResponseControl : MonoBehaviour
+    {
+        [SerializeField]
+        private Button _button;
+
+        private TextMeshProUGUI _buttonText;
+        private int _index = -1;
+
+        public Action onClick;
+
+        private void OnEnable()
+        {
+            _button ??= GetComponent<Button>();
+            if (_button == null) return;
+            _buttonText = _button.GetComponentInChildren<TextMeshProUGUI>();
+            _button.onClick.AddListener(OnClickEvent);
+        }
+
+        internal void AssignIndex(int index)
+        {
+            _index = index;
+        }
+
+        internal void Clear()
+        {
+            _buttonText.text = string.Empty;
+            _index = -1;
+            _button.onClick.RemoveListener(OnClickEvent);
+        }
+
+        internal void SetText(string responseString)
+        {
+            _buttonText.text = responseString;
+        }
+
+        private void OnClickEvent()
+        {
+            onClick?.Invoke();
+            Clear();
+        }
+    }
+}

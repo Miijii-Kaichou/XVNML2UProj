@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -56,9 +57,12 @@ namespace XVNML2U.Mono
         [SerializeField]
         private TextMeshProUGUI bodyOutput;
 
+        [SerializeField, Header("Prompt Unit Component")]
+        private XVNMLPromptControl _promptUnitComponent;
+
         private Queue<Func<WCResult>>? outputProcessQueue;
 
-        private AudioSource tickSoundSource;
+        private AudioSource voiceAudioSource;
         private CastInfo castInfo;
 
         private void OnValidate()
@@ -66,13 +70,13 @@ namespace XVNML2U.Mono
             bodyOutput ??= GetComponent<TextMeshProUGUI>();
 
             if (tickSound == null) return;
-            if (tickSoundSource != null) return;
+            if (voiceAudioSource != null) return;
             if (gameObject.GetComponent<AudioSource>() == null)
             {
-                tickSoundSource = gameObject.AddComponent<AudioSource>();
+                voiceAudioSource = gameObject.AddComponent<AudioSource>();
                 return;
             }
-            tickSoundSource = gameObject.GetComponent<AudioSource>();
+            voiceAudioSource = gameObject.GetComponent<AudioSource>();
         }
 
         private void Start()
@@ -80,79 +84,6 @@ namespace XVNML2U.Mono
             bodyOutput ??= GetComponent<TextMeshProUGUI>();
             if (runOnAwakeUp == false) return;
             Play();
-        }
-
-        private void OnFinish(DialogueWriterProcessor sender)
-        {
-            SendNewAction(() =>
-            {
-                if (_isFinished) return WCResult.Ok();
-                if (sender.ID != processChannel) return WCResult.Unknown();
-                bodyOutput.text = string.Empty;
-                DialogueWriter.OnCastChange![processChannel] -= ManifestSpeakingCast;
-                DialogueWriter.OnCastExpressionChange![processChannel] -= ManifestSpeakingCast;
-                DialogueWriter.OnCastVoiceChange![processChannel] -= ManifestSpeakingCast;
-                DialogueWriter.OnLineStart![processChannel] -= ManifestSpeakingCast;
-                DialogueWriter.OnLineSubstringChange![processChannel] -= UpdateTextOutput;
-                DialogueWriter.OnLinePause![processChannel] -= dontDetain ? DontWait : WaitForMouseClick;
-                DialogueWriter.OnDialogueFinish![processChannel] -= OnFinish;
-                _isFinished = true;
-                return WCResult.Ok();
-            });
-        }
-
-        private void DontWait(DialogueWriterProcessor sender)
-        {
-            SendNewAction(() =>
-            {
-                if (sender.ID != processChannel) return WCResult.Unknown();
-                DialogueWriter.MoveNextLine(sender);
-                return WCResult.Ok();
-            });
-        }
-
-        private void WaitForMouseClick(DialogueWriterProcessor sender)
-        {
-            SendNewAction(() =>
-            {
-                if (sender.ID != processChannel) return WCResult.Unknown();
-                if (Input.GetMouseButtonDown(0) && sender.ID == 0)
-                {
-                    Debug.Log("Proceed");
-                    DialogueWriter.MoveNextLine(sender);
-                    bodyOutput.text = sender.DisplayingContent;
-                    return WCResult.Ok();
-                }
-                return WCResult.Unknown();
-            });
-        }
-
-
-        private void UpdateTextOutput(DialogueWriterProcessor sender)
-        {
-            SendNewAction(() =>
-            {
-                if (sender.ID != processChannel) return WCResult.Unknown();
-                bodyOutput.text = sender.DisplayingContent;
-                if (bodyOutput.isTextOverflowing) bodyOutput.pageToDisplay++;
-                if (tickSound == null) return WCResult.Ok();
-                tickSoundSource.PlayOneShot(tickSound);
-                return WCResult.Ok();
-            });
-        }
-
-        private void ManifestSpeakingCast(DialogueWriterProcessor sender)
-        {
-            SendNewAction(() =>
-            {
-                if (sender.CurrentCastInfo == null) return WCResult.Ok();
-                if (nameOuput == null) return WCResult.Ok();
-                castInfo = sender.CurrentCastInfo.Value;
-                nameOuput.text = castInfo.name;
-                stageObj.ChangeExpression(castInfo);
-                stageObj.ChangeVoice(castInfo);
-                return WCResult.Ok();
-            });
         }
 
         public void Play()
@@ -226,6 +157,16 @@ namespace XVNML2U.Mono
             dialogueGroupReferenceValue = dialogueGroup;
         }
 
+        public void Continue(DialogueWriterProcessor process)
+        {
+            DialogueWriter.MoveNextLine(process);
+        }
+
+        public void SetForChannel(int channel)
+        {
+            processChannel = channel;
+        }
+
         private void RunDialogue()
         {
             if (dialogueReferenceType == ElementReferenceValueType.ID)
@@ -247,12 +188,17 @@ namespace XVNML2U.Mono
             dontDetain = dialogue.DoNotDetain;
             outputProcessQueue = new Queue<Func<WCResult>>();
 
-            DialogueWriter.OnCastChange![processChannel] += ManifestSpeakingCast;
-            DialogueWriter.OnCastExpressionChange![processChannel] += ManifestSpeakingCast;
-            DialogueWriter.OnCastVoiceChange![processChannel] += ManifestSpeakingCast;
             DialogueWriter.OnLineStart![processChannel] += ManifestSpeakingCast;
             DialogueWriter.OnLineSubstringChange![processChannel] += UpdateTextOutput;
             DialogueWriter.OnLinePause![processChannel] += dontDetain ? DontWait : WaitForMouseClick;
+
+            DialogueWriter.OnPrompt![processChannel] += ShowPrompt;
+            DialogueWriter.OnPromptResonse![processChannel] += ResponseToPromptSelection;
+
+            DialogueWriter.OnCastChange![processChannel] += ManifestSpeakingCast;
+            DialogueWriter.OnCastExpressionChange![processChannel] += ManifestSpeakingCast;
+            DialogueWriter.OnCastVoiceChange![processChannel] += ManifestSpeakingCast;
+
             DialogueWriter.OnDialogueFinish![processChannel] += OnFinish;
 
             PrepareCasts();
@@ -261,6 +207,109 @@ namespace XVNML2U.Mono
             DialogueWriter.Write(dialogue.dialogueOutput!, channel);
 
             StartCoroutine(QueueCycle());
+        }
+
+
+
+        private void OnFinish(DialogueWriterProcessor sender)
+        {
+            SendNewAction(() =>
+            {
+                if (_isFinished) return WCResult.Ok();
+                if (sender.ID != processChannel) return WCResult.Unknown();
+                bodyOutput.text = string.Empty;
+
+                DialogueWriter.OnLineStart![processChannel] -= ManifestSpeakingCast;
+                DialogueWriter.OnLineSubstringChange![processChannel] -= UpdateTextOutput;
+                DialogueWriter.OnLinePause![processChannel] -= dontDetain ? DontWait : WaitForMouseClick;
+
+                DialogueWriter.OnPrompt![processChannel] -= ShowPrompt;
+                DialogueWriter.OnPromptResonse![processChannel] -= ResponseToPromptSelection;
+
+                DialogueWriter.OnCastChange![processChannel] -= ManifestSpeakingCast;
+                DialogueWriter.OnCastExpressionChange![processChannel] -= ManifestSpeakingCast;
+                DialogueWriter.OnCastVoiceChange![processChannel] -= ManifestSpeakingCast;
+
+                DialogueWriter.OnDialogueFinish![processChannel] -= OnFinish;
+
+
+                _isFinished = true;
+
+                return WCResult.Ok();
+            });
+        }
+
+        private void DontWait(DialogueWriterProcessor sender)
+        {
+            SendNewAction(() =>
+            {
+                if (sender.ID != processChannel) return WCResult.Unknown();
+                DialogueWriter.MoveNextLine(sender);
+                return WCResult.Ok();
+            });
+        }
+
+        private void WaitForMouseClick(DialogueWriterProcessor sender)
+        {
+            SendNewAction(() =>
+            {
+                if (sender.ID != processChannel) return WCResult.Unknown();
+                if (Input.GetMouseButtonDown(0) && sender.ID == 0)
+                {
+                    Debug.Log("Proceed");
+                    DialogueWriter.MoveNextLine(sender);
+                    bodyOutput.text = sender.DisplayingContent;
+                    return WCResult.Ok();
+                }
+                return WCResult.Unknown();
+            });
+        }
+
+
+        private void UpdateTextOutput(DialogueWriterProcessor sender)
+        {
+            SendNewAction(() =>
+            {
+                if (sender.ID != processChannel) return WCResult.Unknown();
+                bodyOutput.text = sender.DisplayingContent;
+                if (bodyOutput.isTextOverflowing) bodyOutput.pageToDisplay++;
+                if (tickSound == null) return WCResult.Ok();
+                voiceAudioSource.PlayOneShot(tickSound);
+                return WCResult.Ok();
+            });
+        }
+
+        private void ManifestSpeakingCast(DialogueWriterProcessor sender)
+        {
+            SendNewAction(() =>
+            {
+                if (sender.CurrentCastInfo == null) return WCResult.Ok();
+                if (nameOuput == null) return WCResult.Ok();
+                castInfo = sender.CurrentCastInfo.Value;
+                nameOuput.text = castInfo.name;
+                stageObj.ChangeExpression(castInfo);
+                stageObj.ChangeVoice(castInfo);
+                return WCResult.Ok();
+            });
+        }
+
+        private void ResponseToPromptSelection(DialogueWriterProcessor sender)
+        {
+            SendNewAction(() =>
+            {
+                bodyOutput.text = sender.DisplayingContent;
+                _promptUnitComponent.Clear();
+                return WCResult.Ok();
+            });
+        }
+
+        private void ShowPrompt(DialogueWriterProcessor sender)
+        {
+            SendNewAction(() =>
+            {
+                _promptUnitComponent.SetPrompts(sender);
+                return WCResult.Ok();
+            });
         }
 
         private void PrepareScenes()
@@ -297,17 +346,9 @@ namespace XVNML2U.Mono
             RunDialogue(group.GetDialogue(dialogueGroupReferenceValue.ToString()), processChannel);
         }
 
-        public void Continue(DialogueWriterProcessor process)
-        {
-            DialogueWriter.MoveNextLine(process);
-        }
 
-        public void SetForChannel(int channel)
-        {
-            processChannel = channel;
-        }
 
-        IEnumerator QueueCycle()
+        private IEnumerator QueueCycle()
         {
             while (_isFinished == false)
             {
