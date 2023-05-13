@@ -169,6 +169,8 @@ namespace XVNML2U.Mono
 
         private void RunDialogue()
         {
+            if (module == null) return;
+
             if (dialogueReferenceType == ElementReferenceValueType.ID)
             {
                 RunDialogue(module.Get<Dialogue>(Convert.ToInt32(dialogueReferenceValue)), processChannel);

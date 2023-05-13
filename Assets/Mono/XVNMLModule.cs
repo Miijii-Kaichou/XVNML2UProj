@@ -22,12 +22,6 @@ namespace XVNML2U
         {
             _main.Build();
         }
-        
-        private void Start()
-        {
-            //if (ReceiveLogs == false) return;
-            //StartCoroutine(LoggerListenerCycle());
-        }
 
         public T Get<T>(int index) where T : TagBase
         {

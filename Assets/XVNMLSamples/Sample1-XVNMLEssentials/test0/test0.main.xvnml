@@ -49,14 +49,23 @@
 
 	<dialogue name::"BasicXVNMLTutorial-Prompts">
 		@Hana>Smile {sts::60}I've just received some great news!<
-		@Hana>Happy>Wow You definitely want to hear this.> 
+		@*>Happy>Wow You definitely want to hear this.> 
 		Because this will change the way how we use XVNML2U from here one.<
-		@Hana>Smile It's a feature that XVNML2U definitely needed.<
+		@*>Smile It's a feature that XVNML2U definitely needed.<
 		@* And the feature in question...<
 		?* Can you guess?{pause}>>
 		(
 			("Based on what I'm seeing, it looks like we've implemented prompts...")>
-			@Hana>Happy>Wow That's correct!<<
+			@Hana You seen pretty confident...<
+			?* Are you sure about your answer?>>
+			(
+				("I'm positive!")>
+				@Hana>Happy>Wow That's correct!<<
+					
+				("You're making me have second thoughts...")>
+				@Hana Well...<
+				@*>Happy>Wow You're correct!<<
+			)
 
 			("Best cast representation?")>
 			@Hana No, silly!<<
@@ -66,36 +75,36 @@
 			@* More specifically, it has something to do with the updated XVNML API
 			that can be implemented to Unity.<<
 		)
-		@Hana>Happy IT'S PROMPTS!!!<<
-		@Hana>Smile We're in the process of taking the updated XVNML API and implementing prompts for you.<
+		@*>Happy IT'S PROMPTS!!!<
+		@*>Smile We're in the process of taking the updated XVNML API and implementing prompts for you.<
 		@* The user should be able to type in a prompt{pause}, and inside the game, you can click on the different responses.<
 		@* From then, you can then have branching dialogues that does different things!<
-		@Hana>Happy A feature that's essential for creating Visual Novels!<
-		?Hana>Smile So tell me, how do you think about XVNML2U so far?>>
+		@*>Happy A feature that's essential for creating Visual Novels!<
+		?*>Smile So tell me, how do you think about XVNML2U so far?>>
 		(
 			("It's pretty awesome!")>
 			@Hana>Happy>Wow That's great to hear!<<
 
 			("I'm not too sure yet...")>
 			@Hana Well, this isn't all that XVNML2U can offer.<
-			@Hana Give it a couple of months{pause}, It'll come out super special.<
-			@Hana>Happy I promise you that!<<
+			@* Give it a couple of months{pause}, It'll come out super special.<
+			@*>Happy I promise you that!<<
 
 			("It could do better")>
 			@Hana Well of course it can.<
-			@Hana We're only beginning to scratch the service.<
-			@Hana Eventually, it'll be a tool that will change how people does 
+			@* We're only beginning to scratch the service.<
+			@* Eventually, it'll be a tool that will change how people does 
 			story-centric content inside Unity.<
-			@Hana>Happy You can bet your lucky stars on that one.<<
+			@*>Happy You can bet your lucky stars on that one.<<
 		)
-		@Hana>Smile In the future, we'll be about to do
+		@*>Smile In the future, we'll be about to do
 		a lot more with XVNML2U.<
 		@* Like Cast Reactions, playing audio {paren}not including Cast Voices{paren_end},
 		moving cast to a position of the screen...<
 		@* Scene loading and transitions, Text Motions...<
-		@Hana>Happy>Wow And so much more!!!<
-		@Hana>Smile If you made it this far...<
-		@Hana>Happy Then we've officially implmented prompts!<<
+		@*>Happy>Wow And so much more!!!<
+		@*>Smile If you made it this far...<
+		@*>Happy Then we've officially implmented prompts!<<
 	</dialogue>
 
 	<dialogue name::"CDPTest000" #dontDetain>
