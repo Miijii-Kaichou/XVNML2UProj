@@ -53,7 +53,7 @@
 		Because this will change the way how we use XVNML2U from here one.<
 		@Hana>Smile It's a feature that XVNML2U definitely needed.<
 		@* And the feature in question...<
-		?* Can you guess?>>
+		?* Can you guess?{pause}>>
 		(
 			("Based on what I'm seeing, it looks like we've implemented prompts...")>
 			@Hana>Happy>Wow That's correct!<<
@@ -84,7 +84,7 @@
 			("It could do better")>
 			@Hana Well of course it can.<
 			@Hana We're only beginning to scratch the service.<
-			@Hana Eventually, it'll be a tool that will change how people does
+			@Hana Eventually, it'll be a tool that will change how people does 
 			story-centric content inside Unity.<
 			@Hana>Happy You can bet your lucky stars on that one.<<
 		)
@@ -93,9 +93,9 @@
 		@* Like Cast Reactions, playing audio {paren}not including Cast Voices{paren_end},
 		moving cast to a position of the screen...<
 		@* Scene loading and transitions, Text Motions...<
-		@Hana>Happy>Wow And so much more!!!<<
+		@Hana>Happy>Wow And so much more!!!<
 		@Hana>Smile If you made it this far...<
-		@Hana>Happy>Wow Then we've officially implmented prompts!<<
+		@Hana>Happy Then we've officially implmented prompts!<<
 	</dialogue>
 
 	<dialogue name::"CDPTest000" #dontDetain>
