@@ -20,6 +20,7 @@ namespace XVNML2U
         void Awake()
         {
             mainScene = GetComponent<UnityEngine.UI.Image>();
+            _scenes = new List<Scene>();
         }
 
         void ChangeScene(string sceneName)
@@ -52,6 +53,8 @@ namespace XVNML2U
 
         private void GenerateSceneImageAndAddToMap(Scene scene)
         {
+            if (scene == null) return;
+            if (scene.imageTarget == null || scene.imageTarget.GetImageTargetPath() == string.Empty) return;
             _scenes.Add(scene);
             sceneMap.Add(scene.TagName, Sprite.Create(XVNMLModule.ProcessTextureData(scene.imageTarget.GetImageData()), new Rect(0, 0, 100, 100), new Vector2(0.5f, 0.5f)));
         } 

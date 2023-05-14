@@ -348,7 +348,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960.00006, y: -603.5999}
+  m_AnchoredPosition: {x: 960.00006, y: -603.6}
   m_SizeDelta: {x: 1520.0001, y: 43.066666}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &198238141
@@ -1911,7 +1911,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960.00006, y: -0.000061035156}
+  m_AnchoredPosition: {x: 960, y: -0.00012207031}
   m_SizeDelta: {x: 1520.0001, y: 43.066666}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &760010774
@@ -2460,6 +2460,7 @@ GameObject:
   m_Component:
   - component: {fileID: 897744263}
   - component: {fileID: 897744264}
+  - component: {fileID: 897744265}
   m_Layer: 5
   m_Name: DIalogueBox
   m_TagString: Untagged
@@ -2506,6 +2507,7 @@ MonoBehaviour:
   _isFinished: 0
   module: {fileID: 888242071}
   runOnAwakeUp: 1
+  clearScreenOnFinish: 1
   dontDetain: 0
   processChannel: 0
   tickSound: {fileID: 0}
@@ -2517,6 +2519,18 @@ MonoBehaviour:
   nameOuput: {fileID: 1062401938}
   bodyOutput: {fileID: 992640577}
   _promptUnitComponent: {fileID: 617247297}
+--- !u!225 &897744265
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897744262}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &917829355
 GameObject:
   m_ObjectHideFlags: 0
@@ -3579,7 +3593,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960.00006, y: -670.66656}
+  m_AnchoredPosition: {x: 960.00006, y: -670.6666}
   m_SizeDelta: {x: 1520.0001, y: 43.066666}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1083940401
@@ -4098,7 +4112,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960.00006, y: -737.7332}
+  m_AnchoredPosition: {x: 960.00006, y: -737.7333}
   m_SizeDelta: {x: 1520.0001, y: 43.066666}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1400193724
@@ -5387,6 +5401,7 @@ MonoBehaviour:
   _isFinished: 0
   module: {fileID: 888242071}
   runOnAwakeUp: 1
+  clearScreenOnFinish: 0
   dontDetain: 0
   processChannel: 2
   tickSound: {fileID: 0}
@@ -5549,6 +5564,7 @@ MonoBehaviour:
   _isFinished: 0
   module: {fileID: 888242071}
   runOnAwakeUp: 1
+  clearScreenOnFinish: 0
   dontDetain: 0
   processChannel: 1
   tickSound: {fileID: 0}

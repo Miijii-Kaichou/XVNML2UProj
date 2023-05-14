@@ -32,6 +32,7 @@ namespace XVNML2U.Mono
         [Header("Set Up")]
         [SerializeField] private XVNMLModule? module;
         [SerializeField] private bool runOnAwakeUp = false;
+        [SerializeField] private bool clearScreenOnFinish = false;
         [SerializeField] private bool dontDetain = false;
         [SerializeField] private int processChannel = 0;
         [SerializeField] private AudioClip tickSound;
@@ -42,41 +43,43 @@ namespace XVNML2U.Mono
         [Header("Dialogue Target")]
         [SerializeField, Tooltip("Set a number or name of the dialogue" +
             "you want to access")]
-        string dialogueReferenceValue;
-        [SerializeField] ElementReferenceValueType dialogueReferenceType = ElementReferenceValueType.ID;
+        private string dialogueReferenceValue;
+        [SerializeField] private ElementReferenceValueType dialogueReferenceType = ElementReferenceValueType.ID;
 
         // Lastly, have an optional string that references the
         // dialogue group
         [Header("Dialogue Group Target")]
-        [SerializeField] string dialogueGroupReferenceValue;
-        [SerializeField] ElementReferenceValueType dialogueGroupReferenceType = ElementReferenceValueType.ID;
+        [SerializeField] private string dialogueGroupReferenceValue;
+        [SerializeField] private ElementReferenceValueType dialogueGroupReferenceType = ElementReferenceValueType.ID;
 
-        [SerializeField, Header("TextMeshPro")]
-        private TextMeshProUGUI nameOuput;
+        [Header("TextMeshPro/Styling")]
+        [SerializeField] private TextMeshProUGUI nameOuput;
+        [SerializeField] private TextMeshProUGUI bodyOutput;
 
-        [SerializeField]
-        private TextMeshProUGUI bodyOutput;
-
-        [SerializeField, Header("Prompt Unit Component")]
-        private XVNMLPromptControl _promptUnitComponent;
+        [Header("Prompt Unit Component")]
+        [SerializeField] private XVNMLPromptControl _promptUnitComponent;
 
         private Queue<Func<WCResult>>? outputProcessQueue;
+        private AudioSource? _voiceAudioSource;
+        private CastInfo _castInfo;
+        private CanvasGroup? _canvasGroup;
 
-        private AudioSource voiceAudioSource;
-        private CastInfo castInfo;
+        private const float InactiveAlpha = 0.0f;
+        private const float ActiveAlpha = 1.0f;
 
         private void OnValidate()
         {
             bodyOutput ??= GetComponent<TextMeshProUGUI>();
+            _canvasGroup ??= GetComponent<CanvasGroup>();
 
             if (tickSound == null) return;
-            if (voiceAudioSource != null) return;
+            if (_voiceAudioSource != null) return;
             if (gameObject.GetComponent<AudioSource>() == null)
             {
-                voiceAudioSource = gameObject.AddComponent<AudioSource>();
+                _voiceAudioSource = gameObject.AddComponent<AudioSource>();
                 return;
             }
-            voiceAudioSource = gameObject.GetComponent<AudioSource>();
+            _voiceAudioSource = gameObject.GetComponent<AudioSource>();
         }
 
         private void Start()
@@ -91,6 +94,7 @@ namespace XVNML2U.Mono
             if (module == null) return;
 
             _isFinished = false;
+
             if (processChannel < 0)
             {
                 Debug.LogError("Process Channel can not be less than zero.");
@@ -109,13 +113,19 @@ namespace XVNML2U.Mono
             if (dialogueGroupReferenceValue != string.Empty)
             {
                 DialogueGroup? group = null;
+
                 if (dialogueGroupReferenceType == ElementReferenceValueType.ID)
                 {
                     group = module.Get<DialogueGroup>(Convert.ToInt32(dialogueGroupReferenceValue));
+                    if (group == null) return;
+
                     RunDialogueInGroup(group);
                     return;
                 }
+
                 Assert.IsNull(dialogueReferenceValue.ToString());
+                if (group == null) return;
+
                 group = module.Get<DialogueGroup>(dialogueGroupReferenceValue.ToString());
                 RunDialogueInGroup(group);
                 return;
@@ -187,6 +197,7 @@ namespace XVNML2U.Mono
                 Debug.LogError($"Failed to run dialogue for channel {channel}");
                 return;
             }
+
             dontDetain = dialogue.DoNotDetain;
             outputProcessQueue = new Queue<Func<WCResult>>();
 
@@ -219,6 +230,7 @@ namespace XVNML2U.Mono
             {
                 if (_isFinished) return WCResult.Ok();
                 if (sender.ID != processChannel) return WCResult.Unknown();
+
                 bodyOutput.text = string.Empty;
 
                 DialogueWriter.OnLineStart![processChannel] -= ManifestSpeakingCast;
@@ -234,8 +246,12 @@ namespace XVNML2U.Mono
 
                 DialogueWriter.OnDialogueFinish![processChannel] -= OnFinish;
 
-
                 _isFinished = true;
+
+                if (clearScreenOnFinish == false) return WCResult.Ok();
+                if (_canvasGroup == null) return WCResult.Ok();
+
+                _canvasGroup.alpha = InactiveAlpha;
 
                 return WCResult.Ok();
             });
@@ -272,10 +288,14 @@ namespace XVNML2U.Mono
             SendNewAction(() =>
             {
                 if (sender.ID != processChannel) return WCResult.Unknown();
+
                 bodyOutput.text = sender.DisplayingContent;
+
                 if (bodyOutput.isTextOverflowing) bodyOutput.pageToDisplay++;
                 if (tickSound == null) return WCResult.Ok();
-                voiceAudioSource.PlayOneShot(tickSound);
+
+                _voiceAudioSource.PlayOneShot(tickSound);
+
                 return WCResult.Ok();
             });
         }
@@ -286,10 +306,12 @@ namespace XVNML2U.Mono
             {
                 if (sender.CurrentCastInfo == null) return WCResult.Ok();
                 if (nameOuput == null) return WCResult.Ok();
-                castInfo = sender.CurrentCastInfo.Value;
-                nameOuput.text = castInfo.name;
-                stageObj.ChangeExpression(castInfo);
-                stageObj.ChangeVoice(castInfo);
+
+                _castInfo = sender.CurrentCastInfo.Value;
+                nameOuput.text = _castInfo.name;
+                stageObj.ChangeExpression(_castInfo);
+                stageObj.ChangeVoice(_castInfo);
+
                 return WCResult.Ok();
             });
         }
@@ -317,22 +339,27 @@ namespace XVNML2U.Mono
         {
             if (module == null) return;
             if (stageObj == null) return;
+
             SceneDefinitions definitions = module.Get<SceneDefinitions>();
+
             if (definitions == null) return;
             if (definitions.Scenes == null) return;
             if (definitions.Scenes.Length == 0) return;
-            stageObj.InitializeSceneController(definitions.Scenes);
 
+            stageObj.InitializeSceneController(definitions.Scenes);
         }
 
         private void PrepareCasts()
         {
             if (module == null) return;
             if (stageObj == null) return;
+
             CastDefinitions definitions = module.Get<CastDefinitions>();
+
             if (definitions == null) return;
             if (definitions.CastMembers == null) return;
             if (definitions.CastMembers.Length == 0) return;
+
             stageObj.InitializeCastController(definitions.CastMembers);
         }
 
@@ -351,6 +378,8 @@ namespace XVNML2U.Mono
 
         private IEnumerator QueueCycle()
         {
+            if (_canvasGroup.alpha == InactiveAlpha)
+                _canvasGroup.alpha = ActiveAlpha;
             while (_isFinished == false)
             {
                 while (outputProcessQueue?.Count < 1)
