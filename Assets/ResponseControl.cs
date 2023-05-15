@@ -12,6 +12,8 @@ namespace XVNML2U
         [SerializeField]
         private Button _button;
 
+
+        private Color _originalColor;
         private TextMeshProUGUI _buttonText;
         private int _index = -1;
 
@@ -21,7 +23,9 @@ namespace XVNML2U
         {
             _button ??= GetComponent<Button>();
             if (_button == null) return;
+            _button.interactable = true;
             _buttonText = _button.GetComponentInChildren<TextMeshProUGUI>();
+            _originalColor = _button.targetGraphic.color;
             _button.onClick.AddListener(OnClickEvent);
         }
 
@@ -32,6 +36,7 @@ namespace XVNML2U
 
         internal void Clear()
         {
+            _button.interactable = false;
             _buttonText.text = string.Empty;
             _index = -1;
             _button.onClick.RemoveListener(OnClickEvent);

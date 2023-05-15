@@ -59,6 +59,7 @@ namespace XVNML2U.Mono
         [Header("Prompt Unit Component")]
         [SerializeField] private XVNMLPromptControl _promptUnitComponent;
 
+        private bool _castChanging = false;
         private Queue<Func<WCResult>>? outputProcessQueue;
         private AudioSource? _voiceAudioSource;
         private CastInfo _castInfo;
@@ -79,13 +80,16 @@ namespace XVNML2U.Mono
                 _voiceAudioSource = gameObject.AddComponent<AudioSource>();
                 return;
             }
+
             _voiceAudioSource = gameObject.GetComponent<AudioSource>();
         }
 
         private void Start()
         {
             bodyOutput ??= GetComponent<TextMeshProUGUI>();
+            _canvasGroup ??= GetComponent<CanvasGroup>();
             if (runOnAwakeUp == false) return;
+
             Play();
         }
 
@@ -201,7 +205,7 @@ namespace XVNML2U.Mono
             dontDetain = dialogue.DoNotDetain;
             outputProcessQueue = new Queue<Func<WCResult>>();
 
-            DialogueWriter.OnLineStart![processChannel] += ManifestSpeakingCast;
+            DialogueWriter.OnLineStart![processChannel] += ResetCastFlags;
             DialogueWriter.OnLineSubstringChange![processChannel] += UpdateTextOutput;
             DialogueWriter.OnLinePause![processChannel] += dontDetain ? DontWait : WaitForMouseClick;
 
@@ -233,7 +237,7 @@ namespace XVNML2U.Mono
 
                 bodyOutput.text = string.Empty;
 
-                DialogueWriter.OnLineStart![processChannel] -= ManifestSpeakingCast;
+                DialogueWriter.OnLineStart![processChannel] -= ResetCastFlags;
                 DialogueWriter.OnLineSubstringChange![processChannel] -= UpdateTextOutput;
                 DialogueWriter.OnLinePause![processChannel] -= dontDetain ? DontWait : WaitForMouseClick;
 
@@ -253,6 +257,15 @@ namespace XVNML2U.Mono
 
                 _canvasGroup.alpha = InactiveAlpha;
 
+                return WCResult.Ok();
+            });
+        }
+
+        private void ResetCastFlags(DialogueWriterProcessor sender)
+        {
+            SendNewAction(() =>
+            {
+                _castChanging = false;
                 return WCResult.Ok();
             });
         }
@@ -295,7 +308,6 @@ namespace XVNML2U.Mono
                 if (tickSound == null) return WCResult.Ok();
 
                 _voiceAudioSource.PlayOneShot(tickSound);
-
                 return WCResult.Ok();
             });
         }
@@ -304,9 +316,10 @@ namespace XVNML2U.Mono
         {
             SendNewAction(() =>
             {
+                if (_castChanging) return WCResult.Ok();
                 if (sender.CurrentCastInfo == null) return WCResult.Ok();
                 if (nameOuput == null) return WCResult.Ok();
-
+                _castChanging = true;
                 _castInfo = sender.CurrentCastInfo.Value;
                 nameOuput.text = _castInfo.name;
                 stageObj.ChangeExpression(_castInfo);
@@ -378,8 +391,10 @@ namespace XVNML2U.Mono
 
         private IEnumerator QueueCycle()
         {
-            if (_canvasGroup.alpha == InactiveAlpha)
+
+            if (_canvasGroup != null && _canvasGroup.alpha == InactiveAlpha)
                 _canvasGroup.alpha = ActiveAlpha;
+
             while (_isFinished == false)
             {
                 while (outputProcessQueue?.Count < 1)

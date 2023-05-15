@@ -64,8 +64,13 @@
 		(
 			("Based on what I'm seeing, it looks like we've implemented prompts...")>
 			@Hana You seem pretty confident...<
-			?* Are you sure about your answer?>>
+			?* Are you sure about your answer?{pause}>>
 			(
+				$> It's best practice that at every start of a prompt response
+				$> you start with a Normal Cast Definition (@[cast_name]) as opposed to a 
+				$> Persistent Cast Definition (@*).
+				$> Although both work, starting with a Normal Cast will 
+				$> keep track of who's still talking.
 				("I'm positive!")>
 				?Hana Are you absolutely sure?>>
 				(
@@ -90,7 +95,9 @@
 			@* More specifically,{del::500} it has something to do with the updated XVNML API
 			that can be implemented to Unity.<<
 		)
-		@* IT'S PROMPTS!!!<
+		$> It's also best practice to start with a Normal Cast Definition
+		$> at every end of a prompt.
+		@Hana IT'S PROMPTS!!!<
 		@*>Smile We're in the process of taking the updated XVNML API and implementing prompts for you.<
 		@* The user should be able to type in a prompt{pause}, and inside the game, you can click on the different responses.<
 		@* From then,{del::500} you can then have branching dialogues that does different things!<
@@ -112,7 +119,7 @@
 			story-centric content inside Unity.<
 			@*>Happy You can bet your lucky stars on that one.<<
 		)
-		@*>Smile In the future, we'll be about to do 
+		@Hana>Smile In the future, we'll be about to do 
 		a lot more with XVNML2U.<
 		@* Like Cast Reactions,{del::500} 
 		playing audio{del::500|sts::60} 
@@ -128,10 +135,12 @@
 				@Hana>Happy Good choice!<
 				@* I actually have a really great story idea!<
 				@* Want to hear it?<<
+
 			("Hang out with you...")>
 				@Hana>Happy>Wow Hehe!<
 				@* That's very sweet!<
 				@* Let's hang out then!<<
+					
 			("Sleep...")>
 				@Hana You must be tired then.<
 				@* I'll always be here if you want to do anything!<<
