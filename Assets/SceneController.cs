@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using XVNML.Core.Dialogue.Structs;
 using XVNML.XVNMLUtility.Tags;
 
 namespace XVNML2U
@@ -23,27 +24,18 @@ namespace XVNML2U
             _scenes = new List<Scene>();
         }
 
-        void ChangeScene(string sceneName)
+        internal void ChangeScene(SceneInfo sceneInfo)
         {
+            string sceneName = sceneInfo.name;
+            string transition = sceneInfo.transition;
 
+            if (sceneMap.ContainsKey(sceneName) == false) return;
+            var target = sceneMap[sceneName];
+
+            mainScene.sprite = target;
         }
 
-        void ChangeScene(string sceneName, Action<ChangeSceneOptions> options)
-        {
-
-        }
-
-        void ChangeScene(int sceneId)
-        {
-
-        }
-
-        void ChangeScene(int sceneId, Action<ChangeSceneOptions> options)
-        {
-
-        }
-
-        internal void Init(XVNML.XVNMLUtility.Tags.Scene[] scenes)
+        internal void Init(Scene[] scenes)
         {
             for(int i = 0; i < scenes.Length; i++)
             {
@@ -55,8 +47,9 @@ namespace XVNML2U
         {
             if (scene == null) return;
             if (scene.imageTarget == null || scene.imageTarget.GetImageTargetPath() == string.Empty) return;
+            Texture2D tex2D = XVNMLModule.ProcessTextureData(scene.imageTarget.GetImageData());
             _scenes.Add(scene);
-            sceneMap.Add(scene.TagName, Sprite.Create(XVNMLModule.ProcessTextureData(scene.imageTarget.GetImageData()), new Rect(0, 0, 100, 100), new Vector2(0.5f, 0.5f)));
+            sceneMap.Add(scene.TagName, Sprite.Create(tex2D, new Rect(0, 0, tex2D.width, tex2D.height), new Vector2(0.5f, 0.5f)));
         } 
     }
 

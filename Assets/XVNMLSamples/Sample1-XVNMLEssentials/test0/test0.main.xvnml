@@ -10,8 +10,13 @@
 		<scene name::"Cafeteria" 		src::$nil/>
 	</sceneDefinitions>
 
+	<audioDefinitions>
+		<audio name::"TestMusic" src::"C:\Users\tclte\Desktop\SpitFireLabsTes1t.wav" rel::Absolute/>
+	</audioDefinitions>
+
 	<dialogue name::"BasicXVNMLTutorial-Prompts">
-		@Hana>Smile {sts::45}I've just received some great news!<
+		[OutsideOfSchool]
+		@Hana>Smile {sts::45|play_sound}I've just received some great news!<
 		@*>Happy>Wow You definitely want to hear this.> 
 		Because this will change the way how we use XVNML2U from here on.<
 		@*>Smile It's a feature that XVNML2U definitely needed.<

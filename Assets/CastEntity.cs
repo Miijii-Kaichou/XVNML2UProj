@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
+using UnityEditor.AssetImporters;
 using UnityEngine;
 using UnityEngine.Networking;
 using XVNML.XVNMLUtility.Tags;
@@ -14,6 +16,12 @@ namespace XVNML2U
         Other
     }
 
+    public enum LoadingMode
+    {
+        Internal,
+        External
+    }
+
     public sealed class CastEntity : MonoBehaviour
     {
         [SerializeField, Header("General")]
@@ -21,6 +29,9 @@ namespace XVNML2U
 
         [SerializeField, Header("Graphics")]
         CastGraphicMode graphicMode;
+
+        [SerializeField, Header("Loading Mode")]
+        public LoadingMode loadingMode = LoadingMode.External;
 
         //We'll have the UI change based on the mode in the future
         [SerializeField] SpriteRenderer spriteViewer;
@@ -44,34 +55,23 @@ namespace XVNML2U
         {
             if (data == null) return;
             if (data.Length == 0) return;
+
             Texture2D tex2D = XVNMLModule.ProcessTextureData(data);
-            Sprite newSprite = Sprite.Create(tex2D, new Rect(0, 0, tex2D.width, tex2D.height), new Vector2(0.5f, 0.5f));
+
+            if (tex2D == null) return;
+
+            Sprite newSprite = Sprite.Create(tex2D, new Rect(0, 0, tex2D.width, tex2D.height), new Vector2(0.5f, 0.5f), 100, 0, SpriteMeshType.Tight, Vector4.zero, false);
             newSprite.name = name.ToString();
+
             PortraitLibrary.Add(id, name.ToString(), newSprite);
         }
 
         public void GenerateAndAddToVoiceLibrary(int id, ReadOnlySpan<char> name, string path)
         {
-            if (path == string.Empty) return;
-            using (UnityWebRequest requestAudio = UnityWebRequestMultimedia.GetAudioClip(path, AudioType.WAV))
-            {
-                if (requestAudio == null) return;
-
-                UnityWebRequestAsyncOperation operation = requestAudio.SendWebRequest();
-                while (!operation.isDone) continue;
-
-                if(requestAudio.result == UnityWebRequest.Result.ConnectionError || 
-                    requestAudio.result == UnityWebRequest.Result.ProtocolError)
-                {
-                    Debug.Log("Failed to load audio.");
-                    return;
-                }
-
-                AudioClip newClip = DownloadHandlerAudioClip.GetContent(requestAudio);
-                newClip.name = name.ToString();
-                VoiceLibrary.Add(id, name.ToString(), newClip);
-                return;
-            }
+            AudioClip newClip = XVNMLModule.ProcessAudioClip(path);
+            newClip.name = name.ToString();
+            VoiceLibrary.Add(id, name.ToString(), newClip);
+            return;
         }
 
         internal void ChangeExpression(int id)
@@ -136,7 +136,7 @@ namespace XVNML2U
 
         private void ProduceVoiceLibrary(Voice[] voices)
         {
-            for(int i = 0; i < voices.Length; i++)
+            for (int i = 0; i < voices.Length; i++)
             {
                 if (voices[i] == null) return;
                 if (voices[i].audioTarget == null) return;
@@ -146,7 +146,7 @@ namespace XVNML2U
 
         private void ProducePortraitLibrary(Portrait[] portraits)
         {
-            for(int i = 0; i < portraits.Length; i++)
+            for (int i = 0; i < portraits.Length; i++)
             {
                 GenerateAndAddToPortraitLibrary(portraits[i].TagID.Value, portraits[i].TagName, portraits[i].imageTarget.GetImageData());
             }

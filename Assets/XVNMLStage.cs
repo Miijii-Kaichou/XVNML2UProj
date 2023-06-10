@@ -13,6 +13,11 @@ namespace XVNML2U
         [SerializeField]
         private CastController castController;
 
+        internal void ChangeScene(SceneInfo currentSceneInfo)
+        {
+            sceneController.ChangeScene(currentSceneInfo);
+        }
+        
         internal void ChangeExpression(CastInfo castInfo)
         {
             castController.ChangeExpression(castInfo);
