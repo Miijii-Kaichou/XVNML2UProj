@@ -273,6 +273,7 @@ namespace XVNML2U.Mono
             {
                 _castChanging = false;
                 confirmMarker.gameObject.SetActive(false);
+                ManifestSpeakingCast(sender);
                 return WCResult.Ok();
             });
         }
@@ -294,7 +295,6 @@ namespace XVNML2U.Mono
 
                 if (sender.IsPass)
                 {
-                    sender.ResetPass();
                     return NextLine(sender);
                 }
 

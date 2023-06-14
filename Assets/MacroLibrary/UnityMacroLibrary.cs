@@ -14,12 +14,6 @@ namespace XVNML2U
             Debug.Log(message);
         }
 
-        [Macro("dont_detain")]
-        private static void DoNotDetainMacro(MacroCallInfo info)
-        {
-            info.process.AllowPass();
-        }
-
         [Macro("play_sound")]
         private static void PlayMacro(MacroCallInfo info)
         {

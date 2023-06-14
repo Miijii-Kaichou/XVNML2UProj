@@ -1,9 +1,5 @@
 using System;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.AssetImporters;
 using UnityEngine;
-using UnityEngine.Networking;
 using XVNML.XVNMLUtility.Tags;
 
 namespace XVNML2U

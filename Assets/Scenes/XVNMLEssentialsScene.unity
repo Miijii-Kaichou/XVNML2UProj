@@ -2491,7 +2491,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: -20.179932}
-  m_SizeDelta: {x: -200, y: 260}
+  m_SizeDelta: {x: -32, y: 280}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &897744264
 MonoBehaviour:
@@ -3002,8 +3002,8 @@ MonoBehaviour:
     It's just all part of protocol. You know.... Have to follow company guidelines
     so that I can keep my job, which pays well.
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8c4a0bd778d2bca42baf263a897b0c89, type: 2}
+  m_sharedMaterial: {fileID: -1412605181148732798, guid: 8c4a0bd778d2bca42baf263a897b0c89, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3039,7 +3039,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 32
+  m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -3063,7 +3063,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 50, y: 70, z: 50, w: 47.199986}
+  m_margin: {x: 50, y: 63.2, z: 50, w: 47.199986}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3348,8 +3348,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Castname
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8c4a0bd778d2bca42baf263a897b0c89, type: 2}
+  m_sharedMaterial: {fileID: -1412605181148732798, guid: 8c4a0bd778d2bca42baf263a897b0c89, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5107,7 +5107,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -20, y: 32}
+  m_AnchoredPosition: {x: -32, y: 36}
   m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1835789586
