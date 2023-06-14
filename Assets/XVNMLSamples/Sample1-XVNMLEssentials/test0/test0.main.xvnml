@@ -15,8 +15,8 @@
 	</audioDefinitions>
 	
 	<dialogue name::"BasicXVNMLTutorial-Prompts">
-		[OutsideOfSchool]
 		@ {
+			cue_scene::"OutsideOfSchool"|
 			sts::45|
 			set_sound::"TestMusic"|
 			enable_sound_loop|
@@ -113,13 +113,13 @@
 				@Hana You must be tired then.<
 				@* I'll always be here if you want to do anything!<<
 
-			("Can I hear you Japanese?")>
+			("Can I hear your Japanese?")>
 				@Hana>Happy>Wow いいよ！<
 				@* どうですか？<
 				@*>Smile 日本語で話してること。。。{del::1000}へんなの？<
 				?* 何か話し事がありますか？>>
 				(
-					("Tell me how did you learn Japanese?")>
+					("Tell me how you learned Japanese?")>
 						@Hana まあ、実はね。。。<
 						@* 私が日本人ので、日本語で話せるよ！<
 						@* 母は日本人と父さんはイギリス人です。<
