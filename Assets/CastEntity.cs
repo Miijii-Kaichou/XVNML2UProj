@@ -20,9 +20,6 @@ namespace XVNML2U
 
     public sealed class CastEntity : MonoBehaviour
     {
-        [SerializeField, Header("General")]
-        public string associateWithName;
-
         [SerializeField, Header("Graphics")]
         CastGraphicMode graphicMode;
 

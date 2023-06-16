@@ -3,7 +3,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -11,8 +10,9 @@ using UnityEngine.Assertions;
 using XVNML.Core.Dialogue;
 using XVNML.Core.Dialogue.Structs;
 using XVNML.Utility.Dialogue;
+using XVNML.XVNMLUtility;
 using XVNML.XVNMLUtility.Tags;
-
+using XVNML2U.Assets.Extensions;
 using XVNML2U.Data;
 
 namespace XVNML2U.Mono
@@ -53,7 +53,7 @@ namespace XVNML2U.Mono
         [SerializeField] private ElementReferenceValueType dialogueGroupReferenceType = ElementReferenceValueType.ID;
 
         [Header("TextMeshPro/Styling")]
-        [SerializeField] private TextMeshProUGUI nameOuput;
+        [SerializeField] private TextMeshProUGUI nameOutput;
         [SerializeField] private TextMeshProUGUI bodyOutput;
         [SerializeField] private ConfirmMarker confirmMarker;
 
@@ -65,6 +65,11 @@ namespace XVNML2U.Mono
         private AudioSource? _voiceAudioSource;
         private CastInfo _castInfo;
         private CanvasGroup? _canvasGroup;
+
+        internal XVNMLModule? Module => module;
+        internal XVNMLStage? Stage => stageObj;
+        internal int DOMWidth => module!.Main.top!.Root!["screenWidth"].ToInt();
+        internal int DOMHeight => module!.Main.top!.Root!["screenHeight"].ToInt();
 
         private const float InactiveAlpha = 0.0f;
         private const float ActiveAlpha = 1.0f;
@@ -88,7 +93,12 @@ namespace XVNML2U.Mono
         private void Start()
         {
             DialogueProcessAllocator.Register(this, (uint)processChannel);
+            module!.onModuleBuildProcessComplete = Initialize;
+            module!.Build();
+        }
 
+        private void Initialize(XVNMLObj obj)
+        {
             bodyOutput ??= GetComponent<TextMeshProUGUI>();
             _canvasGroup ??= GetComponent<CanvasGroup>();
             if (runOnAwakeUp == false) return;
@@ -134,7 +144,7 @@ namespace XVNML2U.Mono
                 if (group == null) return;
 
                 group = module.Get<DialogueGroup>(dialogueGroupReferenceValue.ToString());
-                RunDialogueInGroup(group);
+                RunDialogueInGroup(group!);
                 return;
             }
 
@@ -215,9 +225,9 @@ namespace XVNML2U.Mono
             DialogueWriter.OnPrompt![processChannel] += ShowPrompt;
             DialogueWriter.OnPromptResonse![processChannel] += ResponseToPromptSelection;
 
-            DialogueWriter.OnCastChange![processChannel] += ManifestSpeakingCast;
-            DialogueWriter.OnCastExpressionChange![processChannel] += ManifestSpeakingCast;
-            DialogueWriter.OnCastVoiceChange![processChannel] += ManifestSpeakingCast;
+            DialogueWriter.OnCastChange![processChannel] += SetCastName;
+            DialogueWriter.OnCastExpressionChange![processChannel] += SetCastExpression;
+            DialogueWriter.OnCastVoiceChange![processChannel] += SetCastVoice;
 
             DialogueWriter.OnSceneChange![processChannel] += ManifestCurrentScene;
 
@@ -248,9 +258,9 @@ namespace XVNML2U.Mono
                 DialogueWriter.OnPrompt![processChannel] -= ShowPrompt;
                 DialogueWriter.OnPromptResonse![processChannel] -= ResponseToPromptSelection;
 
-                DialogueWriter.OnCastChange![processChannel] -= ManifestSpeakingCast;
-                DialogueWriter.OnCastExpressionChange![processChannel] -= ManifestSpeakingCast;
-                DialogueWriter.OnCastVoiceChange![processChannel] -= ManifestSpeakingCast;
+                DialogueWriter.OnCastChange![processChannel] -= SetCastName;
+                DialogueWriter.OnCastExpressionChange![processChannel] -= SetCastExpression;
+                DialogueWriter.OnCastVoiceChange![processChannel] -= SetCastVoice;
 
                 DialogueWriter.OnSceneChange![processChannel] -= ManifestCurrentScene;
 
@@ -273,7 +283,7 @@ namespace XVNML2U.Mono
             {
                 _castChanging = false;
                 confirmMarker.gameObject.SetActive(false);
-                ManifestSpeakingCast(sender);
+                SetCastName(sender);
                 return WCResult.Ok();
             });
         }
@@ -333,18 +343,54 @@ namespace XVNML2U.Mono
             });
         }
 
-        private void ManifestSpeakingCast(DialogueWriterProcessor sender)
+        private void SetCastName(DialogueWriterProcessor sender)
         {
             SendNewAction(() =>
             {
-                if (_castChanging) return WCResult.Ok();
+                ;
                 if (sender.CurrentCastInfo == null) return WCResult.Ok();
-                if (nameOuput == null) return WCResult.Ok();
-                _castChanging = true;
+                if (nameOutput == null) return WCResult.Ok();
+
                 _castInfo = sender.CurrentCastInfo.Value;
-                nameOuput.text = _castInfo.name;
-                stageObj.ChangeExpression(_castInfo);
-                stageObj.ChangeVoice(_castInfo);
+
+                if (_castInfo.name == null) return WCResult.Ok();
+                if (nameOutput.text == _castInfo.name) return WCResult.Ok();
+
+                nameOutput.text = _castInfo.name;
+
+                SetCastExpression(sender);
+                SetCastVoice(sender);
+
+                return WCResult.Ok();
+            });
+        }
+
+
+        private void SetCastExpression(DialogueWriterProcessor sender)
+        {
+            SendNewAction(() =>
+            {
+                if (sender.CurrentCastInfo == null) return WCResult.Ok();
+
+                _castInfo = sender.CurrentCastInfo.Value;
+                if (_castInfo.name == null) return WCResult.Ok();
+
+                Stage?.ChangeExpression(_castInfo);
+
+                return WCResult.Ok();
+            });
+        }
+
+        private void SetCastVoice(DialogueWriterProcessor sender)
+        {
+            SendNewAction(() =>
+            {
+                if (sender.CurrentCastInfo == null) return WCResult.Ok();
+
+                _castInfo = sender.CurrentCastInfo.Value;
+                if (_castInfo.name == null) return WCResult.Ok();
+
+                Stage?.ChangeVoice(_castInfo);
 
                 return WCResult.Ok();
             });
@@ -359,7 +405,6 @@ namespace XVNML2U.Mono
                 return WCResult.Ok();
             });
         }
-
         private void ResponseToPromptSelection(DialogueWriterProcessor sender)
         {
             SendNewAction(() =>
@@ -384,7 +429,7 @@ namespace XVNML2U.Mono
             if (module == null) return;
             if (stageObj == null) return;
 
-            SceneDefinitions definitions = module.Get<SceneDefinitions>();
+            SceneDefinitions definitions = module.Get<SceneDefinitions>()!;
 
             if (definitions == null) return;
             if (definitions.Scenes == null) return;
@@ -398,7 +443,7 @@ namespace XVNML2U.Mono
             if (module == null) return;
             if (stageObj == null) return;
 
-            CastDefinitions definitions = module.Get<CastDefinitions>();
+            CastDefinitions definitions = module.Get<CastDefinitions>()!;
 
             if (definitions == null) return;
             if (definitions.CastMembers == null) return;
@@ -411,7 +456,7 @@ namespace XVNML2U.Mono
         {
             if (module == null) return;
 
-            AudioDefinitions definitions = module.Get<AudioDefinitions>();
+            AudioDefinitions definitions = module.Get<AudioDefinitions>()!;
 
             if (definitions == null) return;
             if (definitions.AudioCollection == null) return;
@@ -435,44 +480,45 @@ namespace XVNML2U.Mono
 
         private IEnumerator QueueCycle()
         {
+            bool errorEncountered = false;
 
             if (_canvasGroup != null && _canvasGroup.alpha == InactiveAlpha)
                 _canvasGroup.alpha = ActiveAlpha;
 
             while (_isFinished == false)
             {
-                while (outputProcessQueue?.Count < 1)
+                if (outputProcessQueue?.Count > 0)
                 {
-                    yield return null;
-                    continue;
+                    for (int i = 0; i < outputProcessQueue?.Count; i++)
+                    {
+                        var action = new Func<WCResult>(() => WCResult.Unknown());
+                        var result = WCResult.Unknown();
+
+                        outputProcessQueue?.TryDequeue(out action);
+
+                        if (action == null) continue;
+
+                        while ((result = action.Invoke()) == WCResult.Unknown())
+                        {
+                            yield return null;
+                            continue;
+                        }
+
+                        if (result != WCResult.Error() && result.Message != string.Empty)
+                        {
+                            Debug.Log(result.Message);
+                        }
+
+                        if (result == WCResult.Error())
+                        {
+                            Debug.LogError(result.Message);
+                            errorEncountered = true;
+                            break;
+                        }
+                    }
                 }
 
-                var action = new Func<WCResult>(() => WCResult.Unknown());
-                var result = WCResult.Unknown();
-
-                outputProcessQueue?.TryDequeue(out action);
-
-                if (action == null)
-                {
-                    yield return null;
-                    continue;
-                }
-
-                while ((result = action.Invoke()) == WCResult.Unknown())
-                {
-                    yield return null;
-                    continue;
-                }
-
-                if (result != WCResult.Error() && result.Message != string.Empty)
-                {
-                    Debug.Log(result.Message);
-                }
-
-                if (result == WCResult.Error())
-                {
-                    Debug.LogError(result.Message);
-                }
+                if (errorEncountered) yield break;
 
                 yield return null;
             }

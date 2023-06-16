@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using XVNML.Utility.Macros;
+using XVNML2U.Assets.Extensions;
 using XVNML2U.Data;
 using XVNML2U.Mono;
 
@@ -44,12 +46,12 @@ namespace XVNML2U
             });
         }
 
-        [Macro("set_sound_volume")]
-        private static void SetMusicVolumeMacro(MacroCallInfo info, int volume)
+        [Macro("set_volume")]
+        private static void SetMusicVolumeMacro(MacroCallInfo info, uint volume)
         {
             DialogueProcessAllocator.ProcessReference[info.process.ID].SendNewAction(() =>
             {
-                XVNMLAudioController.SetVolume(info.process.ID, volume);
+                XVNMLAudioController.SetVolume(info.process.ID, (int)volume);
                 return WCResult.Ok();
             });
         }
@@ -75,13 +77,19 @@ namespace XVNML2U
         }
 
         [Macro("play_one_shot")]
-        private static void OneShotMacro(MacroCallInfo info, string audioName, int volume)
+        private static void OneShotMacro(MacroCallInfo info, string audioName, uint volume)
         {
             DialogueProcessAllocator.ProcessReference[info.process.ID].SendNewAction(() =>
             {
-                XVNMLAudioController.PlayOneShot(info.process.ID, audioName, volume);
+                XVNMLAudioController.PlayOneShot(info.process.ID, audioName, (int)volume);
                 return WCResult.Ok();
             });
+        }
+
+        [Macro("htb")]
+        private static void HideTextBoxShortHand(MacroCallInfo info)
+        {
+            HideTextBox(info);
         }
 
         [Macro("hide_text_box")]
@@ -90,10 +98,22 @@ namespace XVNML2U
 
         }
 
-        [Macro("htb")]
-        private static void HideTextBoxShortHand(MacroCallInfo info)
+        [Macro("cue_cast")]
+        private static void CueCastMacro(MacroCallInfo info, string name, string anchoring, uint offset)
         {
-            HideTextBox(info);
+            DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.PositionCast(info, name, anchoring.Parse<Anchoring>(), offset);
+        }
+
+        [Macro("set_cast_motion")]
+        private static void SetCastMotionMacro(MacroCallInfo info, string motionType)
+        {
+            DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.SetCastMotion(motionType.Parse<CastMotionType>());
+        }
+
+        [Macro("set_cast_motion_duration")]
+        private static void SetCastMotionDurationMacro(MacroCallInfo info, float motionDuration)
+        {
+            DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.SetCastMotionDuration(motionDuration);
         }
     }
 }

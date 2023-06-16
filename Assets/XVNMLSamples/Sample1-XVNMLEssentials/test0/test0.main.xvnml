@@ -17,12 +17,16 @@
 	<dialogue name::"BasicXVNMLTutorial-Prompts">
 		@ {
 			cue_scene::"OutsideOfSchool"|
-			sts::45|
+			set_cast_motion::"Interpolation"|
+			set_cast_motion_duration::0.05|
+			set_text_speed::45|
 			set_sound::"TestMusic"|
 			enable_sound_loop|
+			set_volume::10|
 			play_sound|
 			pass
 		}<
+		@ {cue_cast::("Hana","Center",0)|pass}< 
 		@Hana>Smile I've just received some great news!<
 		@*>Happy>Wow You definitely want to hear this.> 
 		Because this will change the way how we use XVNML2U from here on.<
@@ -56,18 +60,20 @@
 			)
 
 			("Best cast representation?")>
-			@Hana No, silly!<<
+			@Hana No, silly!<
+			@*>V::Wow {pass}<<
 
 			("Does it have something to do with Unity?")>
 			@Hana Actually,{del::500} it does have something to do with Unity.<
 			@* More specifically,{del::500} it has something to do with the updated XVNML API
-			that can be implemented to Unity.<<
+			that can be implemented to Unity.<
+			@*>V::Wow {pass}<<
 		)
 		$> It's also best practice to start with a Normal Cast Definition
 		$> at every end of a prompt.
-		@Hana IT'S PROMPTS!!!<
+		@Hana>Happy IT'S PROMPTS!!!<
 		@*>Smile We're in the process of taking the updated XVNML API and implementing prompts for you.<
-		@* The user should be able to type in a prompt{pause}, and inside the game, you can click on the different responses.<
+		@* The user should be able to type in a prompt{pause}, and inside the game,{exp::"Happy"} you can click on the different responses.<
 		@* From then,{del::500} you can then have branching dialogues that does different things!<
 		@*>Happy A feature that's essential for creating Visual Novels!<
 		?*>Smile So tell me, how do you think about XVNML2U so far?>>
@@ -93,7 +99,7 @@
 		playing audio{del::500|sts::60} 
 		{paren}not including Cast Voices{paren_end|del::500|sts::30}, 
 		moving cast to a position of the screen...<
-		@* Scene loading and transitions,{del::500} Text Motions...<
+		@* {sts::45}Scene loading and transitions,{del::500} Text Motions...<
 		@*>Happy And so much more!!!<
 		@*>Smile If you made it this far...<
 		@*>Happy Then we've officially implmented prompts!<
@@ -114,7 +120,7 @@
 				@* I'll always be here if you want to do anything!<<
 
 			("Can I hear your Japanese?")>
-				@Hana>Happy>Wow いいよ！<
+				@Hana>Happy>Wow {sts::20}いいよ！<
 				@* どうですか？<
 				@*>Smile 日本語で話してること。。。{del::1000}へんなの？<
 				?* 何か話し事がありますか？>>
@@ -128,15 +134,15 @@
 
 					("What's your favorite food?")>
 						@Hana 沢山食べ物が好きよ！<
-						@* けど、好きな食べ物は。。。{clr|exp::"Happy"}大福です！<
+						@* けど、好きな食べ物は。。。{del::1000|exp::"Happy"|clr}大福です！<
 						@*>Smile とても上手くて、美味しくて。。。<
 						@*>Happy それが全部を一気に食べられるも！<
 						@*>Smile すべての味は好き！<
 				)
-				?Hana Did you happen to understand all that?>>
+				?Hana {sts::45}Did you happen to understand all that?>>
 				(
 					("Yes!")>
-						@Hana>Happy I'm so glad.<<
+						@Hana>Happy>Wow I'm so glad.<<
 					("A little bit...")>
 						@Hana Well, my Japanese is a bit off...<
 						@* I only speak Japanese around my mom...<
@@ -144,7 +150,7 @@
 						@* So my Japanese is very rusty!<
 						@*>Happy I do appreciate you listening to me though!<<
 					("Not exactly...")>
-						@Hana>Happy Hehe!<
+						@Hana>Happy>Wow Hehe!<
 						@* That's okay!<
 						@*>Smile My Japanese has been rusty over my time in the United States.<
 						@* So you have nothing to worry about.<<

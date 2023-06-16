@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using XVNML.Core.Dialogue.Structs;
+using XVNML.Utility.Macros;
 using XVNML.XVNMLUtility.Tags;
 
 namespace XVNML2U
@@ -36,6 +37,21 @@ namespace XVNML2U
         internal void InitializeSceneController(Scene[] scenes)
         {
             sceneController.Init(scenes);
+        }
+
+        internal void PositionCast(MacroCallInfo info, string name, Anchoring anchoring, uint offset)
+        {
+            castController.PositionCast(info.process, name, anchoring, (int)offset);
+        }
+
+        internal void SetCastMotion(CastMotionType castMotionType)
+        {
+            castController.SetCastMotion(castMotionType);
+        }
+
+        internal void SetCastMotionDuration(float motionDuration)
+        {
+            castController.SetCastMotionDuration(motionDuration);
         }
     }
 }

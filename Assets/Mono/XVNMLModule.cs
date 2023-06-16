@@ -10,37 +10,58 @@ using XVNML.XVNMLUtility;
 using XVNML2U.Data;
 using XVNML2U.Mono;
 
+#nullable enable
 namespace XVNML2U
 {
     public sealed class XVNMLModule : MonoBehaviour
     {
+        private static XVNMLModule? Instance;
+
         [SerializeField, Tooltip("XVNML Entry Path")]
         private XVNMLAsset _main;
 
         [SerializeField]
-        private bool ReceiveLogs = false;
-
-        private void OnEnable()
+        private bool _receiveLogs = false;
+        private static bool ReceiveLogs
         {
-            _main.Build();
+            get
+            {
+                return Instance!._receiveLogs;
+            }
+
+            set
+            {
+                Instance!._receiveLogs = value;
+            }
         }
 
-        public T Get<T>(int index) where T : TagBase
+        public Action<XVNMLObj> onModuleBuildProcessComplete;
+
+        internal XVNMLAsset Main => _main;
+
+        public void Build()
         {
-            return _main.top.Root.GetElement<T>(index);
+            Instance = this;
+            _main.Build(onModuleBuildProcessComplete);
+            StartLoggerListener();
         }
 
-        public T Get<T>(string path) where T : TagBase
+        public T? Get<T>(int index) where T : TagBase
         {
-            return _main.top.Root.GetElement<T>(path);
+            return _main.top?.Root?.GetElement<T>(index);
         }
 
-        public T Get<T>() where T : TagBase
+        public T? Get<T>(string path) where T : TagBase
         {
-            return _main.top.Root.GetElement<T>();
+            return _main.top?.Root?.GetElement<T>(path);
         }
 
-        public static Texture2D ProcessTextureData(byte[] data)
+        public T? Get<T>() where T : TagBase
+        {
+            return _main.top?.Root?.GetElement<T>();
+        }
+
+        public static Texture2D? ProcessTextureData(byte[]? data)
         {
             if (data == null) return null;
             if (data.Length == 0) return null;
@@ -93,11 +114,19 @@ namespace XVNML2U
             }
         }
 
-        public IEnumerator LoggerListenerCycle()
+        private static void StartLoggerListener()
+        {
+            if (ReceiveLogs == false) return;
+            if (Instance == null) return;
+
+            Instance.StartCoroutine(LoggerListenerCycle());
+        }
+
+        private static IEnumerator LoggerListenerCycle()
         {
             while(true)
             {
-                XVNMLLogger.CollectLog(out XVNMLLogMessage msg);
+                XVNMLLogger.CollectLog(out XVNMLLogMessage? msg);
                 if (msg == null)
                 {
                     yield return null;
@@ -122,3 +151,4 @@ namespace XVNML2U
         }
     }
 }
+#nullable disable
