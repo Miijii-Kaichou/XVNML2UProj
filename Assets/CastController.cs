@@ -16,6 +16,11 @@ using DG.Tweening;
 
 namespace XVNML2U
 {
+    public enum EnterSide
+    {
+        Left,
+        Right
+    }
 
     public class CastController : MonoBehaviour
     {
@@ -23,7 +28,10 @@ namespace XVNML2U
         private bool _isInitialized = false;
 
         public CastMotionType CastMotion { get; private set; }
+        public EnterSide CastEntersFrom { get; private set; }
         public float CastMotionDuration { get; private set; }
+
+        private const int DefaultXPos = -1325;
 
         internal void ChangeExpression(CastInfo castInfo)
         {
@@ -78,12 +86,15 @@ namespace XVNML2U
             var width = control.DOMWidth;
             var height = control.DOMHeight;
 
+            var initialXPos = CastEntersFrom == EnterSide.Right ? DefaultXPos * -1 : DefaultXPos;
             var xPos = EvaluateAnchor(anchor, offset, width, height);
 
             control.SendNewAction(() =>
             {
-
                 var transform = target.transform;
+                
+                target.transform.localPosition  = new Vector2(initialXPos, transform.localPosition.y);
+                
                 var startPosition = transform.localPosition;
                 var targetPosition = new Vector2(xPos, transform.localPosition.y);
 
@@ -93,8 +104,36 @@ namespace XVNML2U
                     {
                         startPosition,
                         targetPosition
-                    }, 0.5f, pathMode: PathMode.Sidescroller2D);
+                    }, CastMotionDuration, pathMode: PathMode.Sidescroller2D);
 
+                return WCResult.Ok();
+            });
+        }
+
+        internal void PositionCast(DialogueWriterProcessor process, string name, int offset)
+        {
+            if (castObjectMap.ContainsKey(name) == false) return;
+
+            var target = castObjectMap[name];
+
+            XVNMLDialogueControl control = DialogueProcessAllocator.ProcessReference[process.ID];
+
+            var width = control.DOMWidth;
+            var height = control.DOMHeight;
+
+            control.SendNewAction(() =>
+            {
+                var transform = target.transform;
+                var startPosition = transform.localPosition;
+                var targetPosition = new Vector2(offset, transform.localPosition.y);
+
+                if (CastMotion == CastMotionType.Instant) target.transform.localPosition = targetPosition;
+                if (CastMotion == CastMotionType.Interpolation) target.transform.DOLocalPath(
+                    new Vector3[2]
+                    {
+                        startPosition,
+                        targetPosition
+                    }, CastMotionDuration, pathMode: PathMode.Sidescroller2D);
                 return WCResult.Ok();
             });
         }
@@ -105,13 +144,13 @@ namespace XVNML2U
             switch (anchor)
             {
                 case Anchoring.Left:
-                    hPosition -= width / 2;
+                    hPosition -= width / 3;
                     break;
                 case Anchoring.Center:
                     hPosition = 0;
                     break;
                 case Anchoring.Right:
-                    hPosition += width / 2;
+                    hPosition += width / 3;
                     break;
                 default:
                     hPosition = width;
@@ -150,6 +189,11 @@ namespace XVNML2U
         internal void SetCastMotionDuration(float duration)
         {
             CastMotionDuration = duration;
+        }
+
+        internal void HaveCastEnterFrom(EnterSide side)
+        {
+            CastEntersFrom = side;
         }
     }
 }

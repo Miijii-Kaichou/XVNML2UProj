@@ -44,6 +44,11 @@ namespace XVNML2U
             castController.PositionCast(info.process, name, anchoring, (int)offset);
         }
 
+        internal void MoveCast(MacroCallInfo info, string name, int offset)
+        {
+            castController.PositionCast(info.process, name, offset);
+        }
+
         internal void SetCastMotion(CastMotionType castMotionType)
         {
             castController.SetCastMotion(castMotionType);
@@ -52,6 +57,11 @@ namespace XVNML2U
         internal void SetCastMotionDuration(float motionDuration)
         {
             castController.SetCastMotionDuration(motionDuration);
+        }
+
+        internal void HaveCastEnterFrom(EnterSide side)
+        {
+            castController.HaveCastEnterFrom(side);
         }
     }
 }

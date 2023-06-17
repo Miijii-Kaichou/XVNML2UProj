@@ -15,10 +15,10 @@
 	</audioDefinitions>
 	
 	<dialogue name::"BasicXVNMLTutorial-Prompts">
-		@ {
+		@Hana {
 			cue_scene::"OutsideOfSchool"|
 			set_cast_motion::"Interpolation"|
-			set_cast_motion_duration::0.05|
+			set_cast_motion_duration::0.5|
 			set_text_speed::45|
 			set_sound::"TestMusic"|
 			enable_sound_loop|
@@ -26,8 +26,8 @@
 			play_sound|
 			pass
 		}<
-		@ {cue_cast::("Hana","Center",0)|pass}< 
-		@Hana>Smile I've just received some great news!<
+		@* {cast_enters_from::"Left"|cue_cast::("Hana","Center",0)|pass}< 
+		@*>Smile I've just received some great news!<
 		@*>Happy>Wow You definitely want to hear this.> 
 		Because this will change the way how we use XVNML2U from here on.<
 		@*>Smile It's a feature that XVNML2U definitely needed.<

@@ -95,13 +95,34 @@ namespace XVNML2U
         [Macro("hide_text_box")]
         private static void HideTextBox(MacroCallInfo info)
         {
+            var control = DialogueProcessAllocator.ProcessReference[info.process.ID];
+            control.IsHidden = true;
+        }
 
+        [Macro("stb")]
+        private static void ShowTextBoxShortHand(MacroCallInfo info)
+        {
+            ShowTextBox(info);
+        }
+
+        [Macro("show_text_box")]
+        private static void ShowTextBox(MacroCallInfo info)
+        {
+            var control = DialogueProcessAllocator.ProcessReference[info.process.ID];
+            control.IsHidden = false;
         }
 
         [Macro("cue_cast")]
         private static void CueCastMacro(MacroCallInfo info, string name, string anchoring, uint offset)
         {
             DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.PositionCast(info, name, anchoring.Parse<Anchoring>(), offset);
+        }
+
+        [Macro("move_cast")]
+        private static void MoveCastMacro(MacroCallInfo info, string name, uint units, uint isNegative)
+        {
+            var sign = isNegative == 0 ? 1 : -1;
+            DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.MoveCast(info, name, (int)units * sign);
         }
 
         [Macro("set_cast_motion")]
@@ -114,6 +135,12 @@ namespace XVNML2U
         private static void SetCastMotionDurationMacro(MacroCallInfo info, float motionDuration)
         {
             DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.SetCastMotionDuration(motionDuration);
+        }
+
+        [Macro("cast_enters_from")]
+        private static void CastEntersFromMacro(MacroCallInfo info, string side)
+        {
+            DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.HaveCastEnterFrom(side.Parse<EnterSide>());
         }
     }
 }

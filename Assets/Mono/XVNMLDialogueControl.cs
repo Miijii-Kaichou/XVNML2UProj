@@ -65,11 +65,26 @@ namespace XVNML2U.Mono
         private AudioSource? _voiceAudioSource;
         private CastInfo _castInfo;
         private CanvasGroup? _canvasGroup;
+        private bool _isHidden = false;
 
         internal XVNMLModule? Module => module;
         internal XVNMLStage? Stage => stageObj;
         internal int DOMWidth => module!.Main.top!.Root!["screenWidth"].ToInt();
         internal int DOMHeight => module!.Main.top!.Root!["screenHeight"].ToInt();
+        internal bool IsHidden
+        {
+            get
+            {
+                return _isHidden;
+            }
+            set
+            {
+                _isHidden = value;
+                if (_canvasGroup == null) return;
+
+                _canvasGroup.alpha = _isHidden ? InactiveAlpha : ActiveAlpha;
+            }
+        }
 
         private const float InactiveAlpha = 0.0f;
         private const float ActiveAlpha = 1.0f;
@@ -528,6 +543,5 @@ namespace XVNML2U.Mono
         {
             outputProcessQueue?.Enqueue(function);
         }
-
     }
 }
