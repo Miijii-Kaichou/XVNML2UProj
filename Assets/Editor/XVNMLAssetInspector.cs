@@ -4,6 +4,7 @@ using XVNML2U.Mono;
 
 namespace XVNML2U
 {
+#if UNITY_EDITOR
     [CustomEditor(typeof(XVNMLAsset))]
     public sealed class XVNMLAssetInspector : Editor
     {
@@ -30,4 +31,5 @@ namespace XVNML2U
                 , GUILayout.MinHeight(500));
         }
     }
+#endif
 }

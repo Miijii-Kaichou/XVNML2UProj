@@ -4,8 +4,10 @@ using UnityEditor;
 using UnityEngine;
 using XVNML.XVNMLUtility;
 
+#nullable enable
 namespace XVNML2U.Mono
 {
+
     public sealed class XVNMLAsset : ScriptableObject
     {
         /// <summary>
@@ -34,21 +36,27 @@ namespace XVNML2U.Mono
         /// <summary>
         /// Original file path of this asset
         /// </summary>A
-        [HideInInspector] public string filePath;
+        [HideInInspector] public string? filePath;
 
-        [HideInInspector] public XVNMLObj top;
+        [HideInInspector] public XVNMLObj? top;
 
-        public string content;
+        public string? content;
 
         private void OnValidate()
         {
+        #if UNITY_EDITOR
             var icon = AssetDatabase.LoadAssetAtPath<Texture2D>(IconPath);
             EditorGUIUtility.SetIconForObject(this, icon);
+        #endif
         }
 
-        public void Build()
+        public void Build(Action<XVNMLObj>? onBuildFinished)
         {
-            top = XVNMLObj.Create(filePath);
+            XVNMLObj.Create(filePath!, top =>
+            {
+                this.top = top;
+                onBuildFinished?.Invoke(this.top);
+            });
         }
 
         public override int GetHashCode()
@@ -61,5 +69,6 @@ namespace XVNML2U.Mono
             using StreamReader streamReader = new StreamReader(filePath);
             content = streamReader.ReadToEnd();
         }
-    }
+    } 
 }
+#nullable disable
