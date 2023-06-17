@@ -119,10 +119,9 @@ namespace XVNML2U
         }
 
         [Macro("move_cast")]
-        private static void MoveCastMacro(MacroCallInfo info, string name, uint units, uint isNegative)
+        private static void MoveCastMacro(MacroCallInfo info, string name, int units)
         {
-            var sign = isNegative == 0 ? 1 : -1;
-            DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.MoveCast(info, name, (int)units * sign);
+            DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.MoveCast(info, name, units);
         }
 
         [Macro("set_cast_motion")]

@@ -18,7 +18,7 @@
 		@Hana {
 			cue_scene::"OutsideOfSchool"|
 			set_cast_motion::"Interpolation"|
-			set_cast_motion_duration::0.5|
+			set_cast_motion_duration::0.5f|
 			set_text_speed::45|
 			set_sound::"TestMusic"|
 			enable_sound_loop|
@@ -26,16 +26,28 @@
 			play_sound|
 			pass
 		}<
-		@* {cast_enters_from::"Left"|cue_cast::("Hana","Center",0)|pass}< 
+		@* {
+			cast_enters_from::"Left"|
+			cue_cast::("Hana","Center",0)|
+			pass
+		}< 
 		@*>Smile I've just received some great news!<
 		@*>Happy>Wow You definitely want to hear this.> 
 		Because this will change the way how we use XVNML2U from here on.<
+		@* {
+			move_cast::("Hana",-640)|
+			pass
+		}<
 		@*>Smile It's a feature that XVNML2U definitely needed.<
 		@* And the feature in question...<
 		?* Can you guess?{pause}>>
 		(
 			("Based on what I'm seeing, it looks like we've implemented prompts...")>
-			@Hana You seem pretty confident...<
+			@Hana {
+				move_cast::("Hana",640)|
+				pass
+			}<
+			@* You seem pretty confident...<
 			?* Are you sure about your answer?{pause}>>
 			(
 				$> It's best practice that at every start of a prompt response
@@ -44,7 +56,11 @@
 				$> Although both work, starting with a Normal Cast will 
 				$> keep track of who's still talking.
 				("I'm positive!")>
-				?Hana Are you absolutely sure?>>
+				@Hana {
+					move_cast::("Hana", 0)|
+					pass
+				}<
+				?* Are you absolutely sure?>>
 				(
 					("Seal in my answer!")>
 					@Hana>Happy>Wow That's correct!<<
