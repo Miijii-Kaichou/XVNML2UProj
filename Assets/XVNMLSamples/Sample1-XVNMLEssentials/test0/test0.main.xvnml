@@ -22,7 +22,7 @@
 			set_text_speed::45|
 			set_sound::"TestMusic"|
 			enable_sound_loop|
-			set_volume::10|
+			set_volume::100|
 			play_sound|
 			pass
 		}<
@@ -34,20 +34,12 @@
 		@*>Smile I've just received some great news!<
 		@*>Happy>Wow You definitely want to hear this.> 
 		Because this will change the way how we use XVNML2U from here on.<
-		@* {
-			move_cast::("Hana",-640)|
-			pass
-		}<
 		@*>Smile It's a feature that XVNML2U definitely needed.<
 		@* And the feature in question...<
 		?* Can you guess?{pause}>>
 		(
 			("Based on what I'm seeing, it looks like we've implemented prompts...")>
-			@Hana {
-				move_cast::("Hana",640)|
-				pass
-			}<
-			@* You seem pretty confident...<
+			@Hana You seem pretty confident...<
 			?* Are you sure about your answer?{pause}>>
 			(
 				$> It's best practice that at every start of a prompt response
@@ -56,11 +48,7 @@
 				$> Although both work, starting with a Normal Cast will 
 				$> keep track of who's still talking.
 				("I'm positive!")>
-				@Hana {
-					move_cast::("Hana", 0)|
-					pass
-				}<
-				?* Are you absolutely sure?>>
+				?Hana Are you absolutely sure?>>
 				(
 					("Seal in my answer!")>
 					@Hana>Happy>Wow That's correct!<<
@@ -80,11 +68,16 @@
 			@*>V::Wow {pass}<<
 
 			("Does it have something to do with Unity?")>
-			@Hana Actually,{del::500} it does have something to do with Unity.<
+			@Hana {
+					move_cast::("Hana", 0)|
+					pass
+			}<
+			@* Actually,{del::500} it does have something to do with Unity.<
 			@* More specifically,{del::500} it has something to do with the updated XVNML API
 			that can be implemented to Unity.<
 			@*>V::Wow {pass}<<
 		)
+
 		$> It's also best practice to start with a Normal Cast Definition
 		$> at every end of a prompt.
 		@Hana>Happy IT'S PROMPTS!!!<
@@ -109,6 +102,7 @@
 			story-centric content inside Unity.<
 			@*>Happy You can bet your lucky stars on that one.<<
 		)
+		
 		@Hana>Smile In the future, we'll be about to do 
 		a lot more with XVNML2U.<
 		@* Like Cast Reactions,{del::500} 

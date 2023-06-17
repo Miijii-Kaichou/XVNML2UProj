@@ -82,7 +82,11 @@ namespace XVNML2U.Mono
                 _isHidden = value;
                 if (_canvasGroup == null) return;
 
-                _canvasGroup.alpha = _isHidden ? InactiveAlpha : ActiveAlpha;
+                SendNewAction(() =>
+                {
+                    _canvasGroup.alpha = _isHidden ? InactiveAlpha : ActiveAlpha;
+                    return WCResult.Ok();
+                });
             }
         }
 

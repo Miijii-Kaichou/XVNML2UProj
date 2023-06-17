@@ -76,7 +76,7 @@ namespace XVNML2U
             });
         }
 
-        [Macro("play_one_shot")]
+        [Macro("play_sfx")]
         private static void OneShotMacro(MacroCallInfo info, string audioName, uint volume)
         {
             DialogueProcessAllocator.ProcessReference[info.process.ID].SendNewAction(() =>
