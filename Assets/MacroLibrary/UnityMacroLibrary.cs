@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using XVNML.Utility.Macros;
-using XVNML2U.Assets.Extensions;
 using XVNML2U.Data;
 using XVNML2U.Mono;
 
@@ -140,6 +139,23 @@ namespace XVNML2U
         private static void CastEntersFromMacro(MacroCallInfo info, string side)
         {
             DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.HaveCastEnterFrom(side.Parse<EnterSide>());
+        }
+
+        [Macro("react")]
+        private static void ReactMacro(MacroCallInfo info, string reactionName)
+        {
+            var castName = info.process.CurrentCastInfo?.name;
+            ReactMacro(info, castName, reactionName);
+        }
+
+        [Macro("react")]
+        private static void ReactMacro(MacroCallInfo info, string castName, string reactionName)
+        {
+            DialogueProcessAllocator.ProcessReference[info.process.ID].SendNewAction(() =>
+            {
+                ReactionRegistry.DoReaction(reactionName, castName);
+                return WCResult.Ok();
+            });
         }
     }
 }

@@ -13,6 +13,7 @@ using XVNML2U.Mono;
 #nullable enable
 namespace XVNML2U
 {
+    [DisallowMultipleComponent]
     public sealed class XVNMLModule : MonoBehaviour
     {
         private static XVNMLModule? Instance;

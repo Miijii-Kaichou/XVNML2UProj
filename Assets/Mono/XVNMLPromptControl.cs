@@ -9,6 +9,7 @@ using XVNML.XVNMLUtility.Tags;
 
 namespace XVNML2U.Mono
 {
+    [DisallowMultipleComponent]
     public class XVNMLPromptControl : MonoBehaviour
     {
         [SerializeField]

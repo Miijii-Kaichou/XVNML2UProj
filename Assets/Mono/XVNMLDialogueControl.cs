@@ -12,7 +12,6 @@ using XVNML.Core.Dialogue.Structs;
 using XVNML.Utility.Dialogue;
 using XVNML.XVNMLUtility;
 using XVNML.XVNMLUtility.Tags;
-using XVNML2U.Assets.Extensions;
 using XVNML2U.Data;
 
 namespace XVNML2U.Mono
@@ -488,11 +487,11 @@ namespace XVNML2U.Mono
         {
             if (dialogueReferenceType == ElementReferenceValueType.ID)
             {
-                RunDialogue(group.GetDialogue(Convert.ToInt32(dialogueGroupReferenceValue)), processChannel);
+                RunDialogue(group[dialogueGroupReferenceValue.Parse<int>()], processChannel);
                 return;
             }
 
-            RunDialogue(group.GetDialogue(dialogueGroupReferenceValue.ToString()), processChannel);
+            RunDialogue(group[dialogueGroupReferenceValue.Parse<string>()], processChannel);
         }
 
 

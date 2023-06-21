@@ -11,7 +11,7 @@
 	</sceneDefinitions>
 
 	<audioDefinitions>
-		<audio name::"TestMusic" src::"C:\Users\tclte\Desktop\SpitFireLabsTes1t.wav" rel::Absolute/>
+		<audio name::"TestMusic" src::"BGM/SpitFireLabsTes1t.wav" pathMode::Relative/>
 	</audioDefinitions>
 	
 	<dialogue name::"BasicXVNMLTutorial-Prompts">
@@ -24,13 +24,10 @@
 			enable_sound_loop|
 			set_volume::100|
 			play_sound|
-			pass
-		}<
-		@* {
 			cast_enters_from::"Left"|
 			cue_cast::("Hana","Center",0)|
 			pass
-		}< 
+		}<
 		@*>Smile I've just received some great news!<
 		@*>Happy>Wow You definitely want to hear this.> 
 		Because this will change the way how we use XVNML2U from here on.<
@@ -80,15 +77,15 @@
 
 		$> It's also best practice to start with a Normal Cast Definition
 		$> at every end of a prompt.
-		@Hana>Happy IT'S PROMPTS!!!<
+		@Hana>Happy {react::"Jump"}IT'S PROMPTS!!!<
 		@*>Smile We're in the process of taking the updated XVNML API and implementing prompts for you.<
-		@* The user should be able to type in a prompt{pause}, and inside the game,{exp::"Happy"} you can click on the different responses.<
+		@* The user should be able to type in a prompt{pause}, and inside the game,{react::"Jump"|exp::"Happy"} you can click on the different responses.<
 		@* From then,{del::500} you can then have branching dialogues that does different things!<
 		@*>Happy A feature that's essential for creating Visual Novels!<
 		?*>Smile So tell me, how do you think about XVNML2U so far?>>
 		(
 			("It's pretty awesome!")>
-			@Hana>Happy>Wow That's great to hear!<<
+			@Hana>Happy>Wow {react::"Jump"}That's great to hear!<<
 
 			("I'm not too sure yet...")>
 			@Hana Well,{del::500} this isn't all that XVNML2U can offer.<
@@ -121,7 +118,7 @@
 				@* Want to hear it?<<
 
 			("Hang out with you...")>
-				@Hana>Happy>Wow Hehe!<
+				@Hana>Happy>Wow {react::"Jump"}Hehe!<
 				@* That's very sweet!<
 				@* Let's hang out then!<<
 					
@@ -130,7 +127,7 @@
 				@* I'll always be here if you want to do anything!<<
 
 			("Can I hear your Japanese?")>
-				@Hana>Happy>Wow {sts::20}いいよ！<
+				@Hana>Happy>Wow {sts::20|react::"Jump"}いいよ！<
 				@* どうですか？<
 				@*>Smile 日本語で話してること。。。{del::1000}へんなの？<
 				?* 何か話し事がありますか？>>
@@ -152,7 +149,7 @@
 				?Hana {sts::45}Did you happen to understand all that?>>
 				(
 					("Yes!")>
-						@Hana>Happy>Wow I'm so glad.<<
+						@Hana>Happy>Wow {react::"Jump"}I'm so glad.<<
 					("A little bit...")>
 						@Hana Well, my Japanese is a bit off...<
 						@* I only speak Japanese around my mom...<

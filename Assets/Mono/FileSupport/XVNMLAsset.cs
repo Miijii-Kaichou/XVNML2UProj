@@ -7,7 +7,6 @@ using XVNML.XVNMLUtility;
 #nullable enable
 namespace XVNML2U.Mono
 {
-
     public sealed class XVNMLAsset : ScriptableObject
     {
         /// <summary>

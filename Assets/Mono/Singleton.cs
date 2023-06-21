@@ -13,12 +13,13 @@ namespace XVNML2U.Mono.Singleton
 
                 if (!transform.parent)
                     DontDestroyOnLoad(this);
+
+                return;
             }
-            else
-            {
-                if (!transform.parent)
-                    Destroy(gameObject);
-            }
+
+            if (!transform.parent)
+                Destroy(gameObject);
+
         }
 
         public static bool IsNull => Instance == null;
