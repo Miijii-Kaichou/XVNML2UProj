@@ -25,9 +25,19 @@ namespace XVNML2U
             castController.ChangeExpression(castInfo);
         }
 
+        internal void ChangeExpression(string castName, string value)
+        {
+            castController.ChangeExpression(new CastInfo() { name = castName, expression = value});
+        }
+
         internal void ChangeVoice(CastInfo castInfo)
         {
             castController.ChangeVoice(castInfo);
+        }
+
+        internal void ChangeVoice(string castName, string value)
+        {
+            castController.ChangeVoice(new CastInfo() { name = castName, expression = value});
         }
 
         internal void InitializeCastController(Cast[] castMembers)

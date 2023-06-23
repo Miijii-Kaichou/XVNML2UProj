@@ -66,7 +66,7 @@ namespace XVNML2U
         }
 
         [Macro("disable_sound_loop")]
-        private static void disableLoopMacro(MacroCallInfo info)
+        private static void DisableLoopMacro(MacroCallInfo info)
         {
             DialogueProcessAllocator.ProcessReference[info.process.ID].SendNewAction(() =>
             {
@@ -109,6 +109,26 @@ namespace XVNML2U
         {
             var control = DialogueProcessAllocator.ProcessReference[info.process.ID];
             control.IsHidden = false;
+        }
+
+        [Macro("cue_cast")]
+        private static void CueCastMacro(MacroCallInfo info, string anchoring)
+        {
+            var name = info.process.CurrentCastInfo.Value.name;
+            CueCastMacro(info, name, anchoring, 0);
+        }
+
+        [Macro("cue_cast")]
+        private static void CueCastMacro(MacroCallInfo info, string anchoring, uint offset)
+        {
+            var name = info.process.CurrentCastInfo.Value.name;
+            CueCastMacro(info, name, anchoring, offset);
+        }
+
+        [Macro("cue_cast")]
+        private static void CueCastMacro(MacroCallInfo info, string name, string anchoring)
+        {
+            CueCastMacro(info, name, anchoring, 0);
         }
 
         [Macro("cue_cast")]
@@ -157,5 +177,67 @@ namespace XVNML2U
                 return WCResult.Ok();
             });
         }
+
+        #region Standard Macro Overrides
+        [Macro("exp")]
+        internal static void SetCastExpressionMacroShortHand(MacroCallInfo info, string castName, string value)
+        {
+            SetCastExpressionMacro(info, castName, value);
+        }
+
+        [Macro("exp")]
+        internal static void SetCastExpressionMacroShortHand(MacroCallInfo info, string castName, int value)
+        {
+            SetCastExpressionMacro(info, castName, value);
+        }
+
+        [Macro("expression")]
+        internal static void SetCastExpressionMacro(MacroCallInfo info, string castName, string value)
+        {
+            var processRef = DialogueProcessAllocator.ProcessReference[info.process.ID];
+            var stage = processRef.Stage;
+            processRef.SendNewAction(() =>
+            {
+                stage.ChangeExpression(castName, value);
+                return WCResult.Ok();
+            });
+        }
+
+        [Macro("expression")]
+        internal static void SetCastExpressionMacro(MacroCallInfo info, string castName, int value)
+        {
+            SetCastExpressionMacro(info, castName, value.ToString());
+        }
+
+        [Macro("vo")]
+        internal static void SetCastVoiceShortHand(MacroCallInfo info, string castName, string value)
+        {
+            SetCastVoice(info, castName, value);
+        }
+
+        [Macro("vo")]
+        internal static void SetCastVoiceShortHand(MacroCallInfo info, string castName, int value)
+        {
+            SetCastVoice(info, castName, value);
+        }
+
+        [Macro("voice")]
+        internal static void SetCastVoice(MacroCallInfo info, string castName, string value)
+        {
+            var processRef = DialogueProcessAllocator.ProcessReference[info.process.ID];
+            var stage = processRef.Stage;
+            processRef.SendNewAction(() =>
+            {
+                stage.ChangeVoice(castName, value);
+                return WCResult.Ok();
+            });
+        }
+
+        [Macro("voice")]
+        internal static void SetCastVoice(MacroCallInfo info, string castName, int value)
+        {
+            SetCastVoice(info, castName, value.ToString());
+        }
+        #endregion
     }
 }

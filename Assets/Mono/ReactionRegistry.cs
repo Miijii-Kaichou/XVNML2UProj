@@ -19,7 +19,6 @@ namespace XVNML2U
                 var reaction = reactionRegistryList[i];
                 var reactionName = reaction.GetName();
                 _castReactions.Add(reactionName, reaction);
-                Debug.Log($"The Reaction {reactionName} has been successfully registered.");
             }
         }
 

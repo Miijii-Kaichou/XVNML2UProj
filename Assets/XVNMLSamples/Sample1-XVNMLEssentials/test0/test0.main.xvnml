@@ -13,7 +13,7 @@
 	<audioDefinitions>
 		<audio name::"TestMusic" src::"BGM/SpitFireLabsTes1t.wav" pathMode::Relative/>
 	</audioDefinitions>
-	
+
 	<dialogue name::"BasicXVNMLTutorial-Prompts">
 		@Hana {
 			cue_scene::"OutsideOfSchool"|

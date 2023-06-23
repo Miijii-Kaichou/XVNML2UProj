@@ -1,7 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace XVNML2U
@@ -10,6 +8,11 @@ namespace XVNML2U
     {
         [SerializeField]
         private Sprite confirmMarkerGraphic;
+
+        [Header("Unity Events")]
+        [SerializeField] private UnityEvent _onShow;
+        [SerializeField] private UnityEvent _onHide;
+
 
         private Image confirmMarkerRenderer;
 
@@ -20,14 +23,8 @@ namespace XVNML2U
             confirmMarkerRenderer.sprite = confirmMarkerGraphic;
         }
 
-        private void OnEnable()
-        {
-               
-        }
+        internal void OnPending() => _onShow?.Invoke();
 
-        private void OnDisable()
-        {
-            
-        }
+        internal void OnAccept() => _onHide?.Invoke();
     }
 }

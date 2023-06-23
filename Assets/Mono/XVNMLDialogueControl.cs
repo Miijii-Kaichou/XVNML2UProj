@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
-
+using UnityEngine.Events;
 using XVNML.Core.Dialogue;
 using XVNML.Core.Dialogue.Structs;
 using XVNML.Utility.Dialogue;
@@ -51,13 +51,15 @@ namespace XVNML2U.Mono
         [SerializeField] private string dialogueGroupReferenceValue;
         [SerializeField] private ElementReferenceValueType dialogueGroupReferenceType = ElementReferenceValueType.ID;
 
-        [Header("TextMeshPro/Styling")]
-        [SerializeField] private TextMeshProUGUI nameOutput;
-        [SerializeField] private TextMeshProUGUI bodyOutput;
-        [SerializeField] private ConfirmMarker confirmMarker;
-
-        [Header("Prompt Unit Component")]
+        [Header("Components")]
+        [SerializeField] private XVNMLTextRenderer _castNameText;
+        [SerializeField] private XVNMLTextRenderer _mainText;
+        [SerializeField] private ConfirmMarker _confirmMarker;
         [SerializeField] private XVNMLPromptControl _promptUnitComponent;
+
+        [Header("Unity Events"), Space(4)]
+        [SerializeField] private UnityEvent _onPlay;
+        [SerializeField] private UnityEvent _onFinish;
 
         private bool _castChanging = false;
         private Queue<Func<WCResult>>? outputProcessQueue;
@@ -94,7 +96,7 @@ namespace XVNML2U.Mono
 
         private void OnValidate()
         {
-            bodyOutput ??= GetComponent<TextMeshProUGUI>();
+            _mainText ??= GetComponent<XVNMLTextRenderer>();
             _canvasGroup ??= GetComponent<CanvasGroup>();
 
             if (tickSound == null) return;
@@ -117,7 +119,7 @@ namespace XVNML2U.Mono
 
         private void Initialize(XVNMLObj obj)
         {
-            bodyOutput ??= GetComponent<TextMeshProUGUI>();
+            _mainText ??= GetComponent<XVNMLTextRenderer>();
             _canvasGroup ??= GetComponent<CanvasGroup>();
             if (runOnAwakeUp == false) return;
 
@@ -267,7 +269,7 @@ namespace XVNML2U.Mono
                 if (_isFinished) return WCResult.Ok();
                 if (sender.ID != processChannel) return WCResult.Unknown();
 
-                bodyOutput.text = string.Empty;
+                _mainText.Text = string.Empty;
 
                 DialogueWriter.OnLineStart![processChannel] -= ResetCastFlags;
                 DialogueWriter.OnLineSubstringChange![processChannel] -= UpdateTextOutput;
@@ -300,7 +302,7 @@ namespace XVNML2U.Mono
             SendNewAction(() =>
             {
                 _castChanging = false;
-                confirmMarker.gameObject.SetActive(false);
+                _confirmMarker.OnAccept();
                 SetCastName(sender);
                 return WCResult.Ok();
             });
@@ -326,11 +328,11 @@ namespace XVNML2U.Mono
                     return NextLine(sender);
                 }
 
-                confirmMarker.gameObject.SetActive(true);
+                _confirmMarker.OnPending();
 
                 if (Input.GetMouseButtonDown(0) && sender.ID == 0)
                 {
-                    confirmMarker.gameObject.SetActive(false);
+                    _confirmMarker.OnAccept();
                     return NextLine(sender);
                 }
                 return WCResult.Unknown();
@@ -341,7 +343,7 @@ namespace XVNML2U.Mono
         private WCResult NextLine(DialogueWriterProcessor sender)
         {
             DialogueWriter.MoveNextLine(sender);
-            bodyOutput.text = sender.DisplayingContent;
+            _mainText.Text = sender.DisplayingContent;
             return WCResult.Ok();
         }
 
@@ -351,9 +353,9 @@ namespace XVNML2U.Mono
             {
                 if (sender.ID != processChannel) return WCResult.Unknown();
 
-                bodyOutput.text = sender.DisplayingContent;
+                _mainText.Text = sender.DisplayingContent;
 
-                if (bodyOutput.isTextOverflowing) bodyOutput.pageToDisplay++;
+                if (_mainText.IsTextOverflowing) _mainText.PageToDisplay++;
                 if (tickSound == null) return WCResult.Ok();
 
                 _voiceAudioSource?.PlayOneShot(tickSound);
@@ -367,14 +369,17 @@ namespace XVNML2U.Mono
             {
                 ;
                 if (sender.CurrentCastInfo == null) return WCResult.Ok();
-                if (nameOutput == null) return WCResult.Ok();
+                if (_castNameText == null) return WCResult.Ok();
 
                 _castInfo = sender.CurrentCastInfo.Value;
 
-                if (_castInfo.name == null) return WCResult.Ok();
-                if (nameOutput.text == _castInfo.name) return WCResult.Ok();
+                var name = _castInfo.name ?? string.Empty;
 
-                nameOutput.text = _castInfo.name;
+                if (_castNameText.Text == name) return WCResult.Ok();
+
+                _castNameText.Text = name;
+
+                if (_castInfo.name == null) return WCResult.Ok();
 
                 SetCastExpression(sender);
                 SetCastVoice(sender);
@@ -391,8 +396,6 @@ namespace XVNML2U.Mono
                 if (sender.CurrentCastInfo == null) return WCResult.Ok();
 
                 _castInfo = sender.CurrentCastInfo.Value;
-                if (_castInfo.name == null) return WCResult.Ok();
-
                 Stage?.ChangeExpression(_castInfo);
 
                 return WCResult.Ok();
@@ -406,8 +409,6 @@ namespace XVNML2U.Mono
                 if (sender.CurrentCastInfo == null) return WCResult.Ok();
 
                 _castInfo = sender.CurrentCastInfo.Value;
-                if (_castInfo.name == null) return WCResult.Ok();
-
                 Stage?.ChangeVoice(_castInfo);
 
                 return WCResult.Ok();
@@ -427,7 +428,7 @@ namespace XVNML2U.Mono
         {
             SendNewAction(() =>
             {
-                bodyOutput.text = sender.DisplayingContent;
+                _mainText.Text = sender.DisplayingContent;
                 _promptUnitComponent.Clear();
                 return WCResult.Ok();
             });
@@ -495,51 +496,51 @@ namespace XVNML2U.Mono
         }
 
 
-
         private IEnumerator QueueCycle()
         {
             bool errorEncountered = false;
 
-            if (_canvasGroup != null && _canvasGroup.alpha == InactiveAlpha)
-                _canvasGroup.alpha = ActiveAlpha;
+            _onPlay.Invoke();
 
             while (_isFinished == false)
             {
-                if (outputProcessQueue?.Count > 0)
-                {
-                    for (int i = 0; i < outputProcessQueue?.Count; i++)
-                    {
-                        var action = new Func<WCResult>(() => WCResult.Unknown());
-                        var result = WCResult.Unknown();
-
-                        outputProcessQueue?.TryDequeue(out action);
-
-                        if (action == null) continue;
-
-                        while ((result = action.Invoke()) == WCResult.Unknown())
-                        {
-                            yield return null;
-                            continue;
-                        }
-
-                        if (result != WCResult.Error() && result.Message != string.Empty)
-                        {
-                            Debug.Log(result.Message);
-                        }
-
-                        if (result == WCResult.Error())
-                        {
-                            Debug.LogError(result.Message);
-                            errorEncountered = true;
-                            break;
-                        }
-                    }
-                }
+                errorEncountered = ProcessActions(errorEncountered);
 
                 if (errorEncountered) yield break;
-
                 yield return null;
             }
+
+            _onFinish.Invoke();
+        }
+
+        private bool ProcessActions(bool errorEncountered)
+        {
+            if (outputProcessQueue?.Count > 0)
+            {
+                for (int i = 0; i < outputProcessQueue?.Count; i++)
+                {
+                    var action = new Func<WCResult>(() => WCResult.Unknown());
+                    var result = WCResult.Unknown();
+
+                    outputProcessQueue?.TryDequeue(out action);
+
+                    if (action == null) continue;
+                    if ((result = action.Invoke()) == WCResult.Unknown()) SendNewAction(action);
+                    if (result != WCResult.Error() && result.Message != string.Empty)
+                    {
+                        Debug.Log(result.Message);
+                    }
+
+                    if (result == WCResult.Error())
+                    {
+                        Debug.LogError(result.Message);
+                        errorEncountered = true;
+                        break;
+                    }
+                }
+            }
+
+            return errorEncountered;
         }
 
         internal void SendNewAction(Func<WCResult> function)

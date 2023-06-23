@@ -1,7 +1,6 @@
-
 The MIT License (MIT)
 
-Copyright (c) 2023 Tyrease Teer
+Copyright (c) 2023 Tyrease Teer, Enjyoii
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,3 +19,14 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Copyright (c) 2015 Daniele Giardini, Demigiant
+
+To check out DOTween license, visit this page: http://dotween.demigiant.com/license.php
+
+In short:
+- You can freely use DOTween in both commercial and non-commercial projects
+- You can redistribute verbatim copies of the code, along with any readme files and attributions
+- You can modify the code only for your own use and you cannot redistribute modified versions (but you can send pull requests to me)

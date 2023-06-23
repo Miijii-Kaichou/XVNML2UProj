@@ -5,9 +5,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 using XVNML.Core.Tags;
-using XVNML.Utility.Diagnostics;
 using XVNML.XVNMLUtility;
-using XVNML2U.Data;
 using XVNML2U.Mono;
 
 #nullable enable
@@ -21,21 +19,6 @@ namespace XVNML2U
         [SerializeField, Tooltip("XVNML Entry Path")]
         private XVNMLAsset _main;
 
-        [SerializeField]
-        private bool _receiveLogs = false;
-        private static bool ReceiveLogs
-        {
-            get
-            {
-                return Instance!._receiveLogs;
-            }
-
-            set
-            {
-                Instance!._receiveLogs = value;
-            }
-        }
-
         public Action<XVNMLObj> onModuleBuildProcessComplete;
 
         internal XVNMLAsset Main => _main;
@@ -44,7 +27,6 @@ namespace XVNML2U
         {
             Instance = this;
             _main.Build(onModuleBuildProcessComplete);
-            StartLoggerListener();
         }
 
         public T? Get<T>(int index) where T : TagBase
@@ -112,42 +94,6 @@ namespace XVNML2U
                 }
 
                 return DownloadHandlerAudioClip.GetContent(requestAudio);
-            }
-        }
-
-        private static void StartLoggerListener()
-        {
-            if (ReceiveLogs == false) return;
-            if (Instance == null) return;
-
-            Instance.StartCoroutine(LoggerListenerCycle());
-        }
-
-        private static IEnumerator LoggerListenerCycle()
-        {
-            while(true)
-            {
-                XVNMLLogger.CollectLog(out XVNMLLogMessage? msg);
-                if (msg == null)
-                {
-                    yield return null;
-                    continue;
-                }
-                switch (msg.Level)
-                {
-                    case XVNMLLogLevel.Standard:
-                        Debug.Log(msg.Message);
-                        break;
-                    case XVNMLLogLevel.Warning:
-                        Debug.LogWarning(msg.Message);
-                        break;
-                    case XVNMLLogLevel.Error:
-                        Debug.LogError(msg.Message);
-                        break;
-                    default:
-                        break;
-                }
-                yield return null;
             }
         }
     }

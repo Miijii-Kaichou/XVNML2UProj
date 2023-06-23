@@ -2858,7 +2858,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -4419,7 +4419,7 @@ GameObject:
   - component: {fileID: 888242070}
   - component: {fileID: 888242071}
   m_Layer: 0
-  m_Name: StandardXVNMLModule
+  m_Name: VNModuleKit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4454,8 +4454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 401675db143dfd445b7f39a644ee22ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _main: {fileID: 6580502312791144271, guid: 07f1a15513371e34aa8b154613c76d26, type: 3}
-  _receiveLogs: 0
+  _main: {fileID: -2771518378797853016, guid: 52cc82b2d2d6a2f44b26df5ddcddf03f, type: 3}
 --- !u!1 &897744262
 GameObject:
   m_ObjectHideFlags: 0
@@ -4518,14 +4517,44 @@ MonoBehaviour:
   processChannel: 0
   tickSound: {fileID: 0}
   stageObj: {fileID: 28105569}
-  dialogueReferenceValue: BasicXVNMLTutorial-Prompts
+  dialogueReferenceValue: XVNML2U Sample
   dialogueReferenceType: 1
   dialogueGroupReferenceValue: 
   dialogueGroupReferenceType: 0
-  nameOutput: {fileID: 1062401938}
-  bodyOutput: {fileID: 992640577}
-  confirmMarker: {fileID: 1835789588}
+  _castNameText: {fileID: 1062401940}
+  _mainText: {fileID: 1464674103}
+  _confirmMarker: {fileID: 1835789588}
   _promptUnitComponent: {fileID: 617247297}
+  _onPlay:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 897744265}
+        m_TargetAssemblyTypeName: UnityEngine.CanvasGroup, UnityEngine
+        m_MethodName: set_alpha
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 0
+  _onFinish:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 897744265}
+        m_TargetAssemblyTypeName: UnityEngine.CanvasGroup, UnityEngine
+        m_MethodName: set_alpha
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 0
 --- !u!225 &897744265
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -5877,6 +5906,7 @@ GameObject:
   - component: {fileID: 1062401937}
   - component: {fileID: 1062401939}
   - component: {fileID: 1062401938}
+  - component: {fileID: 1062401940}
   m_Layer: 5
   m_Name: CastName
   m_TagString: Untagged
@@ -6001,6 +6031,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1062401936}
   m_CullTransparentMesh: 1
+--- !u!114 &1062401940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1062401936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cef073f6284db14ba7b869a67b807b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 1062401938}
+  _onTextChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1065464021
 GameObject:
   m_ObjectHideFlags: 0
@@ -7757,6 +7803,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1464674102}
+  - component: {fileID: 1464674103}
   m_Layer: 5
   m_Name: Dialogue
   m_TagString: Untagged
@@ -7785,6 +7832,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0.20001, y: -0.15260315}
   m_SizeDelta: {x: 1719.6, y: 196.91}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1464674103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464674101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cef073f6284db14ba7b869a67b807b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 992640577}
+  _onTextChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1519023452
 GameObject:
   m_ObjectHideFlags: 0
@@ -9290,7 +9353,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3dcaa9c51f3dd647a6e253828ec717c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  confirmMarkerGraphic: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 3}
+  confirmMarkerGraphic: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  _onShow:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1835789586}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 1
+  _onHide:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1835789586}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
 --- !u!1 &1902254260
 GameObject:
   m_ObjectHideFlags: 0
@@ -9864,6 +9957,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2023242714}
   m_CullTransparentMesh: 1
+--- !u!1 &2032199634
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2032199636}
+  - component: {fileID: 2032199635}
+  m_Layer: 0
+  m_Name: XVNMLLogListener
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2032199635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032199634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 491b0805b9a6d0844aa5e74f2dcc57eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _receiveLogs: 1
+  _enableVerbose: 1
+  _enableWarning: 1
+  _enableError: 1
+  _pauseGamePlayOnError: 0
+--- !u!4 &2032199636
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032199634}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.6553667, y: -1.3330524, z: 1052.424}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2056704925
 GameObject:
   m_ObjectHideFlags: 0
