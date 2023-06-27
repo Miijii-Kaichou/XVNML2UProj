@@ -37,8 +37,6 @@ namespace XVNML2U.Mono
         {
             if (IsInitialized) return;
 
-            Debug.Log("Initializing");
-
             for (int i = 0; i < keycodes.Length; i++)
             {
                 Keycode code = keycodes[i];

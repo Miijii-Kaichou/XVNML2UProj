@@ -1,30 +1,34 @@
+#nullable enable
+using System;
 using System.Collections.Generic;
-using UnityEngine;
-using XVNML2U.Mono;
+using System.Linq;
+using System.Reflection;
 
 namespace XVNML2U.Mono
 {
-    [DisallowMultipleComponent]
-    public sealed class ReactionRegistry : Singleton<ReactionRegistry>
+    public static class ReactionRegistry
     {
-        private SortedDictionary<string, BaseCastReaction> _castReactions = new SortedDictionary<string, BaseCastReaction>();
+        private static readonly SortedDictionary<string, BaseCastReaction> CastReactions = new();
 
-        internal void OnEnable()
+        internal static void BeginRegistrationProcess()
         {
-            BaseCastReaction[] reactionRegistryList = GetComponents<BaseCastReaction>();
+            Assembly assembly = Assembly.GetExecutingAssembly();
 
-            for(int i = 0; i < reactionRegistryList.Length; i++)
-            {
-                var reaction = reactionRegistryList[i];
-                var reactionName = reaction.GetName();
-                _castReactions.Add(reactionName, reaction);
-            }
+            assembly.GetTypes()
+                    .Where(t => t.IsSubclassOf(typeof(BaseCastReaction)))
+                    .DoForEvery(t => Activator.CreateInstance(t));
+        }
+
+        internal static void Register(BaseCastReaction reaction)
+        {
+            var reactionName = reaction.GetName();
+            CastReactions.Add(reactionName, reaction);
         }
 
         internal static void DoReaction(string reactionName, string castName)
         {
             CastEntity target = CastController.Use(castName);
-            Instance._castReactions[reactionName].DoReaction(target);
+            CastReactions[reactionName].DoReaction(target);
         }
     }
 }

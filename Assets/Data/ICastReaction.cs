@@ -5,7 +5,7 @@ using XVNML2U.Mono.CastReactions;
 
 namespace XVNML2U.Data
 {
-    interface ICastReaction
+    public interface ICastReaction
     {
         public virtual float Duration
         {

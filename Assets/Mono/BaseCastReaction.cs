@@ -1,12 +1,10 @@
 ﻿using System.Collections;
-using System.Reflection;
 using UnityEngine;
 using XVNML2U.Data;
 
 namespace XVNML2U.Mono
 {
-    [SerializeField]
-    public abstract class BaseCastReaction : MonoBehaviour, ICastReaction
+    public abstract class BaseCastReaction : ICastReaction
     {
         private ICastReaction Instance => this;
 
@@ -16,10 +14,15 @@ namespace XVNML2U.Mono
 
         protected CastEntity Cast { get; private set; }
 
+        protected BaseCastReaction()
+        {
+            ReactionRegistry.Register(this);
+        }
+
         internal void DoReaction(CastEntity target)
         {
             Cast = target;
-            StartCoroutine(Instance.ReactionCycle());
+            CoroutineHandler.Execute(Instance.ReactionCycle());
         }
 
         public string GetName() => Name;

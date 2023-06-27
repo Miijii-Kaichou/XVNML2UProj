@@ -12,13 +12,14 @@
      <keycodeDefinitions name::"_globalInputDef">
           <keycode name::"_proceedWithMouse"     vkey::LeftMouse      purpose::PROCEED/>
           <keycode name::"_proceedWithEnter"     vkey::Return         purpose::PROCEED/>
-          <keycode name::"_navUp"       vkey::Up                      purpose::NAVIGATION_UP/>
-          <keycode name::"_navDown"     vkey::Down                    purpose::NAVIGATION_DOWN/>
-          <keycode name::"_navLeft"     vkey::Left                    purpose::NAVIGATION_LEFT/>
-          <keycode name::"_navRight"    vkey::Right                   purpose::NAVIGATION_RIGHT/>
+          <keycode name::"_navUp"                vkey::Up             purpose::NAVIGATION_UP/>
+          <keycode name::"_navDown"              vkey::Down           purpose::NAVIGATION_DOWN/>
+          <keycode name::"_navLeft"              vkey::Left           purpose::NAVIGATION_LEFT/>
+          <keycode name::"_navRight"             vkey::Right          purpose::NAVIGATION_RIGHT/>
      </keycodeDefinitions>
 
      <dialogue name::"XVNML2U Sample">
+          @ {jump_to::"Test"|sts::40|pass}<
           @ {set_text_speed::40}Welcome to XVNML2U!<
           @ This package demonstrates the capabilities in which the XVNML 
           Class Library is capable of{delay::500|clr}when used with the Unity Game Engine.<
@@ -142,6 +143,7 @@
                @ And if you jump to Line 120, you'll exactly what I'm currently saying.<
                @ You notice that it's just the {quot|at|quot} symbol when stating a 
                Declarative Role on a Skriptr line.<
+               ["Test"]
                @ However, if you've defined Cast members within your XVNML project...<
                @ You can set them as a speaker!<
                @ {

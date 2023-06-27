@@ -1,12 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 using XVNML.Core.Tags;
 using XVNML.XVNMLUtility;
-using XVNML2U.Mono;
 
 #nullable enable
 namespace XVNML2U.Mono
@@ -26,6 +22,7 @@ namespace XVNML2U.Mono
         public void Build()
         {
             Instance = this;
+            ReactionRegistry.BeginRegistrationProcess();
             _main.Build(onModuleBuildProcessComplete);
         }
 

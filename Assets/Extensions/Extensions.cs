@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace XVNML2U 
 {
@@ -56,6 +55,24 @@ namespace XVNML2U
             }
 
             return string.Empty;
+        }
+
+        internal static void DoForEvery<T,K>(this IEnumerable<T> objects, Func<T, K> method)
+        {
+            foreach(var obj in objects)
+            {
+                method(obj);
+            }
+        }
+
+        internal static void DoForEvery<T>(this T[] objects, Action<T> method)
+        {
+            var array = objects.AsEnumerable();
+            array.DoForEvery(o =>
+            {
+                method(o);
+                return (T)default;
+            });
         }
     }
 }
