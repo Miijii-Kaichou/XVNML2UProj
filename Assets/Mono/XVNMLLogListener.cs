@@ -5,9 +5,8 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using XVNML.Utility.Diagnostics;
-using XVNML2U.Mono.Singleton;
 
-namespace XVNML2U.Diagnostics
+namespace XVNML2U.Mono
 {
     internal sealed class XVNMLLogListener : Singleton<XVNMLLogListener>
     {

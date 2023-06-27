@@ -1,14 +1,9 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.AI;
 using XVNML.XVNMLUtility.Tags;
-using XVNML2U.Mono;
-using XVNML2U.Mono.Singleton;
 
-namespace XVNML2U
+
+namespace XVNML2U.Mono
 {
     [DisallowMultipleComponent]
     public sealed class XVNMLAudioController : Singleton<XVNMLAudioController>

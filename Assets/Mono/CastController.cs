@@ -10,9 +10,8 @@ using XVNML2U.Data;
 using XVNML2U.Mono;
 
 using DG.Tweening;
-using XVNML2U.Mono.Singleton;
 
-namespace XVNML2U
+namespace XVNML2U.Mono
 {
     public sealed class CastController : Singleton<CastController>
     {

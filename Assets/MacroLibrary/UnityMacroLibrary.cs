@@ -7,8 +7,10 @@ using XVNML2U.Mono;
 namespace XVNML2U
 {
     [MacroLibrary(typeof(UnityMacroLibrary))]
-    internal static class UnityMacroLibrary
+    internal class UnityMacroLibrary : ActionSender
     {
+        private static UnityMacroLibrary Instance => new UnityMacroLibrary();
+
         [Macro("debug")]
         private static void DebugLogMacro(MacroCallInfo info, string message)
         {
@@ -18,7 +20,7 @@ namespace XVNML2U
         [Macro("play_sound")]
         private static void PlayMacro(MacroCallInfo info)
         {
-            DialogueProcessAllocator.ProcessReference[info.process.ID].SendNewAction(() =>
+            Instance.SendNewAction(() =>
             {
                 XVNMLAudioController.Play(info.process.ID);
                 return WCResult.Ok();
@@ -28,7 +30,7 @@ namespace XVNML2U
         [Macro("pause_sound")]
         private static void PauseMacro(MacroCallInfo info)
         {
-            DialogueProcessAllocator.ProcessReference[info.process.ID].SendNewAction(() =>
+            Instance.SendNewAction(() =>
             {
                 XVNMLAudioController.Pause(info.process.ID);
                 return WCResult.Ok();
@@ -38,7 +40,7 @@ namespace XVNML2U
         [Macro("set_sound")]
         private static void SetMusicMacro(MacroCallInfo info, string audioName)
         {
-            DialogueProcessAllocator.ProcessReference[info.process.ID].SendNewAction(() =>
+            Instance.SendNewAction(() =>
             {
                 XVNMLAudioController.SetMusic(info.process.ID, audioName);
                 return WCResult.Ok();
@@ -48,7 +50,7 @@ namespace XVNML2U
         [Macro("set_volume")]
         private static void SetMusicVolumeMacro(MacroCallInfo info, uint volume)
         {
-            DialogueProcessAllocator.ProcessReference[info.process.ID].SendNewAction(() =>
+            Instance.SendNewAction(() =>
             {
                 XVNMLAudioController.SetVolume(info.process.ID, (int)volume);
                 return WCResult.Ok();
@@ -58,7 +60,7 @@ namespace XVNML2U
         [Macro("enable_sound_loop")]
         private static void EnableLoopMacro(MacroCallInfo info)
         {
-            DialogueProcessAllocator.ProcessReference[info.process.ID].SendNewAction(() =>
+            Instance.SendNewAction(() =>
             {
                 XVNMLAudioController.EnableLoop(info.process.ID);
                 return WCResult.Ok();
@@ -68,7 +70,7 @@ namespace XVNML2U
         [Macro("disable_sound_loop")]
         private static void DisableLoopMacro(MacroCallInfo info)
         {
-            DialogueProcessAllocator.ProcessReference[info.process.ID].SendNewAction(() =>
+            Instance.SendNewAction(() =>
             {
                 XVNMLAudioController.DisableLoop(info.process.ID);
                 return WCResult.Ok();
@@ -171,11 +173,45 @@ namespace XVNML2U
         [Macro("react")]
         private static void ReactMacro(MacroCallInfo info, string castName, string reactionName)
         {
-            DialogueProcessAllocator.ProcessReference[info.process.ID].SendNewAction(() =>
+            Instance.SendNewAction(() =>
             {
                 ReactionRegistry.DoReaction(reactionName, castName);
                 return WCResult.Ok();
             });
+        }
+
+        [Macro("utm")]
+        private static void UseTextMotionMacroShortHand(MacroCallInfo info, string textMotion)
+        {
+
+
+        }
+        [Macro("utm")]
+        private static void UseTextMotionMacroShortHand(MacroCallInfo info, string textMotion1, string textMotion2)
+        {
+
+
+        }
+        [Macro("utm")]
+        private static void UseTextMotionMacroShortHand(MacroCallInfo info, string textMotion1, string textMotion2, string textMotion3)
+        {
+
+
+        }
+        [Macro("use_text_motion")]
+        private static void UseTextMotionMacro(MacroCallInfo info, string textMotion)
+        {
+
+        }
+        [Macro("use_text_motion")]
+        private static void UseTextMotionMacro(MacroCallInfo info, string textMotion1, string textMotion2)
+        {
+
+        }
+        [Macro("use_text_motion")]
+        private static void UseTextMotionMacro(MacroCallInfo info, string textMotion1, string textMotion2, string textMotion3)
+        {
+
         }
 
         #region Standard Macro Overrides
@@ -194,9 +230,8 @@ namespace XVNML2U
         [Macro("expression")]
         internal static void SetCastExpressionMacro(MacroCallInfo info, string castName, string value)
         {
-            var processRef = DialogueProcessAllocator.ProcessReference[info.process.ID];
-            var stage = processRef.Stage;
-            processRef.SendNewAction(() =>
+            var stage = DialogueProcessAllocator.ProcessReference[info.process.ID].Stage;
+            Instance.SendNewAction(() =>
             {
                 stage.ChangeExpression(castName, value);
                 return WCResult.Ok();

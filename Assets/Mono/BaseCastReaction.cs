@@ -3,7 +3,7 @@ using System.Reflection;
 using UnityEngine;
 using XVNML2U.Data;
 
-namespace XVNML2U.Mono.CastReactions
+namespace XVNML2U.Mono
 {
     [SerializeField]
     public abstract class BaseCastReaction : MonoBehaviour, ICastReaction

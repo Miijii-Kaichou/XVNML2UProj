@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using XVNML.XVNMLUtility.Tags;
 
-namespace XVNML2U
+namespace XVNML2U.Mono
 {
     public sealed class CastEntity : MonoBehaviour
     {

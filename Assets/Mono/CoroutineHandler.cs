@@ -1,50 +1,53 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using XVNML2U.Mono.Singleton;
+using XVNML2U.Mono;
 
 /// <summary>
 /// This sealed class assisted other classes that do not inherit from Monobehaviour
 /// and need to run a coroutine. It's highly recommended to not use this class's methods unless you have to.
 /// </summary>
-public sealed class CoroutineHandler : Singleton<CoroutineHandler>
+namespace XVNML2U.Mono
 {
-    static Dictionary<IEnumerator, int> CoroutineLog = new Dictionary<IEnumerator, int>();
-    public static int Size => CoroutineLog.Count;
-    public static void Execute(IEnumerator enumerator)
+    public sealed class CoroutineHandler : Singleton<CoroutineHandler>
     {
-        try
+        static Dictionary<IEnumerator, int> CoroutineLog = new Dictionary<IEnumerator, int>();
+        public static int Size => CoroutineLog.Count;
+        public static void Execute(IEnumerator enumerator)
         {
-            if (Instance != null && enumerator != null && !IsNull && !CoroutineLog.ContainsKey(enumerator))
+            try
             {
-                Instance.StartCoroutine(enumerator);
-                CoroutineLog.Add(enumerator, enumerator.GetHashCode());
+                if (Instance != null && enumerator != null && !IsNull && !CoroutineLog.ContainsKey(enumerator))
+                {
+                    Instance.StartCoroutine(enumerator);
+                    CoroutineLog.Add(enumerator, enumerator.GetHashCode());
+                }
             }
+            catch { return; }
         }
-        catch { return; }
-    }
 
-    public static void Halt(IEnumerator enumerator)
-    {
-        try
+        public static void Halt(IEnumerator enumerator)
         {
-            if (Instance != null && enumerator != null && !IsNull && CoroutineLog.ContainsKey(enumerator))
+            try
             {
-                Instance.StopCoroutine(enumerator);
-                CoroutineLog.Remove(enumerator);
+                if (Instance != null && enumerator != null && !IsNull && CoroutineLog.ContainsKey(enumerator))
+                {
+                    Instance.StopCoroutine(enumerator);
+                    CoroutineLog.Remove(enumerator);
+                }
             }
+            catch
+            {
+                return;
+            }
+            //Otherwise, there's no existing CoroutineEntry that we can stop, or that this object is null.
         }
-        catch
-        {
-            return;
-        }
-        //Otherwise, there's no existing CoroutineEntry that we can stop, or that this object is null.
-    }
 
-    public static void ClearRoutines()
-    {
-        CoroutineLog.Clear();
-        Instance.StopAllCoroutines();
-    }
+        public static void ClearRoutines()
+        {
+            CoroutineLog.Clear();
+            Instance.StopAllCoroutines();
+        }
+    } 
 }
 
 

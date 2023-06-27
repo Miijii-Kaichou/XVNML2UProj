@@ -4,7 +4,7 @@ using XVNML.Core.Dialogue.Structs;
 using XVNML.Utility.Macros;
 using XVNML.XVNMLUtility.Tags;
 
-namespace XVNML2U
+namespace XVNML2U.Mono
 {
     [DisallowMultipleComponent]
     public sealed class XVNMLStage : MonoBehaviour

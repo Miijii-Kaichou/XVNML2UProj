@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace XVNML2U
+namespace XVNML2U.Mono
 {
     public sealed class XVNMLTextRenderer : MonoBehaviour
     {

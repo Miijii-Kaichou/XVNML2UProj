@@ -4,7 +4,7 @@ using UnityEngine;
 using XVNML.Core.Dialogue.Structs;
 using XVNML.XVNMLUtility.Tags;
 
-namespace XVNML2U
+namespace XVNML2U.Mono
 {
     public sealed class SceneController : MonoBehaviour
     {

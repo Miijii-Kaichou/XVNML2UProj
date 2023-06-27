@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace XVNML2U
+namespace XVNML2U.Mono
 {
     public sealed class DialogueUI : MonoBehaviour
     {

@@ -29,7 +29,8 @@
         "XVNML.dll",
         "unityplastic.dll",
         "XVNMLStd.dll",
-        "DOTween.dll"
+        "DOTween.dll",
+        ""
     ],
     "autoReferenced": true,
     "defineConstraints": [],

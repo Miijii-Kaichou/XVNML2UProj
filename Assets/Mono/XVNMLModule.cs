@@ -9,7 +9,7 @@ using XVNML.XVNMLUtility;
 using XVNML2U.Mono;
 
 #nullable enable
-namespace XVNML2U
+namespace XVNML2U.Mono
 {
     [DisallowMultipleComponent]
     public sealed class XVNMLModule : MonoBehaviour

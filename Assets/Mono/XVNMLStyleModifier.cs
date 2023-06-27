@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace XVNML2U
+namespace XVNML2U.Mono
 {
     public class XVNMLStyleModifier : MonoBehaviour
     {

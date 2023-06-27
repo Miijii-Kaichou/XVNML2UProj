@@ -1,14 +1,15 @@
 #nullable enable
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
 using XVNML.Core.Dialogue;
 using XVNML.Core.Dialogue.Structs;
+using XVNML.Input.Enums;
 using XVNML.Utility.Dialogue;
 using XVNML.XVNMLUtility;
 using XVNML.XVNMLUtility.Tags;
@@ -17,7 +18,7 @@ using XVNML2U.Data;
 namespace XVNML2U.Mono
 {
     [DisallowMultipleComponent]
-    public sealed class XVNMLDialogueControl : MonoBehaviour
+    public sealed class XVNMLDialogueControl : MonoActionSender
     {
         public enum ElementReferenceValueType
         {
@@ -25,13 +26,10 @@ namespace XVNML2U.Mono
             Name
         }
 
-        [SerializeField] private bool _isFinished = false;
-
         // We first need a reference to the XVNML Module that you want to pull a dialogue from
         [Header("Set Up")]
         [SerializeField] private XVNMLModule? module;
         [SerializeField] private bool runOnAwakeUp = false;
-        [SerializeField] private bool clearScreenOnFinish = false;
         [SerializeField] private bool dontDetain = false;
         [SerializeField] private int processChannel = 0;
         [SerializeField] private AudioClip tickSound;
@@ -61,12 +59,6 @@ namespace XVNML2U.Mono
         [SerializeField] private UnityEvent _onPlay;
         [SerializeField] private UnityEvent _onFinish;
 
-        private bool _castChanging = false;
-        private Queue<Func<WCResult>>? outputProcessQueue;
-        private AudioSource? _voiceAudioSource;
-        private CastInfo _castInfo;
-        private CanvasGroup? _canvasGroup;
-        private bool _isHidden = false;
 
         internal XVNMLModule? Module => module;
         internal XVNMLStage? Stage => stageObj;
@@ -91,6 +83,11 @@ namespace XVNML2U.Mono
             }
         }
 
+        private AudioSource? _voiceAudioSource;
+        private CastInfo _castInfo;
+        private CanvasGroup? _canvasGroup;
+        private bool _isHidden = false;
+        private bool _isFinished = false;
         private const float InactiveAlpha = 0.0f;
         private const float ActiveAlpha = 1.0f;
 
@@ -113,7 +110,7 @@ namespace XVNML2U.Mono
         private void Start()
         {
             DialogueProcessAllocator.Register(this, (uint)processChannel);
-            module!.onModuleBuildProcessComplete = Initialize;
+            module!.onModuleBuildProcessComplete += Initialize;            
             module!.Build();
         }
 
@@ -236,7 +233,6 @@ namespace XVNML2U.Mono
             }
 
             dontDetain = dialogue.DoNotDetain;
-            outputProcessQueue = new Queue<Func<WCResult>>();
 
             DialogueWriter.OnLineStart![processChannel] += ResetCastFlags;
             DialogueWriter.OnLineSubstringChange![processChannel] += UpdateTextOutput;
@@ -259,7 +255,7 @@ namespace XVNML2U.Mono
 
             DialogueWriter.Write(dialogue.dialogueOutput!, channel);
 
-            StartCoroutine(QueueCycle());
+            _onPlay?.Invoke();
         }
 
         private void OnFinish(DialogueWriterProcessor sender)
@@ -270,6 +266,7 @@ namespace XVNML2U.Mono
                 if (sender.ID != processChannel) return WCResult.Unknown();
 
                 _mainText.Text = string.Empty;
+                _onFinish?.Invoke();
 
                 DialogueWriter.OnLineStart![processChannel] -= ResetCastFlags;
                 DialogueWriter.OnLineSubstringChange![processChannel] -= UpdateTextOutput;
@@ -288,11 +285,6 @@ namespace XVNML2U.Mono
 
                 _isFinished = true;
 
-                if (clearScreenOnFinish == false) return WCResult.Ok();
-                if (_canvasGroup == null) return WCResult.Ok();
-
-                _canvasGroup.alpha = InactiveAlpha;
-
                 return WCResult.Ok();
             });
         }
@@ -301,7 +293,6 @@ namespace XVNML2U.Mono
         {
             SendNewAction(() =>
             {
-                _castChanging = false;
                 _confirmMarker.OnAccept();
                 SetCastName(sender);
                 return WCResult.Ok();
@@ -330,7 +321,7 @@ namespace XVNML2U.Mono
 
                 _confirmMarker.OnPending();
 
-                if (Input.GetMouseButtonDown(0) && sender.ID == 0)
+                if (XVNMLInputManager.OnInputActive(InputEvent.PROCEED) && sender.ID == 0)
                 {
                     _confirmMarker.OnAccept();
                     return NextLine(sender);
@@ -493,59 +484,6 @@ namespace XVNML2U.Mono
             }
 
             RunDialogue(group[dialogueGroupReferenceValue.Parse<string>()], processChannel);
-        }
-
-
-        private IEnumerator QueueCycle()
-        {
-            bool errorEncountered = false;
-
-            _onPlay.Invoke();
-
-            while (_isFinished == false)
-            {
-                errorEncountered = ProcessActions(errorEncountered);
-
-                if (errorEncountered) yield break;
-                yield return null;
-            }
-
-            _onFinish.Invoke();
-        }
-
-        private bool ProcessActions(bool errorEncountered)
-        {
-            if (outputProcessQueue?.Count > 0)
-            {
-                for (int i = 0; i < outputProcessQueue?.Count; i++)
-                {
-                    var action = new Func<WCResult>(() => WCResult.Unknown());
-                    var result = WCResult.Unknown();
-
-                    outputProcessQueue?.TryDequeue(out action);
-
-                    if (action == null) continue;
-                    if ((result = action.Invoke()) == WCResult.Unknown()) SendNewAction(action);
-                    if (result != WCResult.Error() && result.Message != string.Empty)
-                    {
-                        Debug.Log(result.Message);
-                    }
-
-                    if (result == WCResult.Error())
-                    {
-                        Debug.LogError(result.Message);
-                        errorEncountered = true;
-                        break;
-                    }
-                }
-            }
-
-            return errorEncountered;
-        }
-
-        internal void SendNewAction(Func<WCResult> function)
-        {
-            outputProcessQueue?.Enqueue(function);
         }
     }
 }

@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using XVNML2U.Mono.CastReactions;
-using XVNML2U.Mono.Singleton;
+using XVNML2U.Mono;
 
-namespace XVNML2U
+namespace XVNML2U.Mono
 {
     [DisallowMultipleComponent]
     public sealed class ReactionRegistry : Singleton<ReactionRegistry>
