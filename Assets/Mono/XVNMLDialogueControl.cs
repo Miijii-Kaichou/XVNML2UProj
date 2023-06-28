@@ -246,14 +246,14 @@ namespace XVNML2U.Mono
 
             DialogueWriter.OnDialogueFinish![processChannel] += OnFinish;
 
+            PrepareActionSchedular();
             PrepareInputManager();
             PrepareCasts();
             PrepareAudioPool();
             PrepareScenes();
-            PrepareActionSchedular();
 
             DialogueWriter.Write(dialogue.dialogueOutput!, channel);
-            Debug.Log(dialogue.dialogueOutput!);
+
             _onPlay?.Invoke();
         }
 

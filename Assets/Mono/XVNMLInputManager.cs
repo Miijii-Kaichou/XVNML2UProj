@@ -30,7 +30,7 @@ namespace XVNML2U.Mono
             for (int i = 0; i < keycodes.Length; i++)
             {
                 Keycode code = keycodes[i];
-                Debug.Log(code.TagName);
+
                 if (targetInputKeyPairs.ContainsKey(code.purpose))
                 {
                     targetInputKeyPairs[code.purpose].Add(code.vkey);
@@ -43,19 +43,19 @@ namespace XVNML2U.Mono
 
         public static bool KeyPressed(XVNMLModule module, VirtualKey key)
         {
-            var modulesWithKey = VKPurposeMap[module].Where(ivp => ivp.Value.Equals(key));
+            var modulesWithKey = VKPurposeMap[module].Where(ivp => ivp.Value.Contains(key));
             return modulesWithKey.Any() && Input.GetKeyDown((KeyCode)key);
         }
 
         public static bool KeyHold(XVNMLModule module, VirtualKey key)
         {
-            var modulesWithKey = VKPurposeMap[module].Where(ivp => ivp.Value.Equals(key));
+            var modulesWithKey = VKPurposeMap[module].Where(ivp => ivp.Value.Contains(key));
             return modulesWithKey.Any() && Input.GetKey((KeyCode)key);
         }
 
         public static bool KeyReleased(XVNMLModule module, VirtualKey key)
         {
-            var modulesWithKey = VKPurposeMap[module].Where(ivp => ivp.Value.Equals(key));
+            var modulesWithKey = VKPurposeMap[module].Where(ivp => ivp.Value.Contains(key));
             return modulesWithKey.Any() && Input.GetKeyUp((KeyCode)key);
         }
 
@@ -103,7 +103,8 @@ namespace XVNML2U.Mono
             var vkList = VKPurposeMap[module][purpose];
             if (vkList.Count == 1)
             {
-                return KeyPressed(module, targetInputKeyPairs[purpose].First());
+                Debug.Log("Checking if your mom was pressed! *Hits Dab*");
+                return KeyPressed(module, targetInputKeyPairs[purpose][0]);
             }
 
             foreach (var vk in vkList)
@@ -123,7 +124,7 @@ namespace XVNML2U.Mono
             var vkList = VKPurposeMap[module][purpose];
             if (vkList.Count == 1)
             {
-                return KeyReleased(module, targetInputKeyPairs[purpose].First());
+                return KeyReleased(module, targetInputKeyPairs[purpose][0]);
             }
 
             foreach (var vk in vkList)

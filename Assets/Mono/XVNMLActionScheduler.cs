@@ -25,50 +25,47 @@ namespace XVNML2U.Mono
 
         private static IEnumerator QueueCycle()
         {
-            bool errorEncountered = false;
-
             while (true)
             {
-                errorEncountered = ProcessActions(errorEncountered);
-
+                ProcessActions(out bool errorEncountered);
                 if (errorEncountered) yield break;
                 yield return null;
             }
         }
 
-        private static bool ProcessActions(bool errorEncountered)
+        private static void ProcessActions(out bool errorEncountered)
         {
-            if (ActionQueue?.Count > 0)
+            errorEncountered = false;
+
+            if (ActionQueue?.Count == 0) return;
+
+            for (int i = 0; i < ActionQueue?.Count; i++)
             {
-                for (int i = 0; i < ActionQueue?.Count; i++)
+                var action = new Func<WCResult>(() => WCResult.Unknown());
+                var result = WCResult.Unknown();
+
+                ActionQueue?.TryDequeue(out action);
+
+                if (action == null) continue;
+                if ((result = action.Invoke()) == WCResult.Unknown()) ActionQueue?.Enqueue(action);
+                if (result != WCResult.Error() && result.Message != string.Empty)
                 {
-                    var action = new Func<WCResult>(() => WCResult.Unknown());
-                    var result = WCResult.Unknown();
+                    Debug.Log(result.Message);
+                }
 
-                    ActionQueue?.TryDequeue(out action);
-
-                    if (action == null) continue;
-                    if ((result = action.Invoke()) == WCResult.Unknown()) ActionQueue?.Enqueue(action);
-                    if (result != WCResult.Error() && result.Message != string.Empty)
-                    {
-                        Debug.Log(result.Message);
-                    }
-
-                    if (result == WCResult.Error())
-                    {
-                        Debug.LogError(result.Message);
-                        errorEncountered = true;
-                        break;
-                    }
+                if (result == WCResult.Error())
+                {
+                    Debug.LogError(result.Message);
+                    errorEncountered = true;
+                    break;
                 }
             }
 
-            return errorEncountered;
+            return;
         }
 
         public static void SendNewAction(Func<WCResult> function)
         {
-            if (ActionQueue?.Count == 0) return; 
             ActionQueue?.Enqueue(function);
         }
     }
