@@ -208,8 +208,27 @@ namespace XVNML2U
         {
 
         }
+
         [Macro("use_text_motion")]
         private static void UseTextMotionMacro(MacroCallInfo info, string textMotion1, string textMotion2, string textMotion3)
+        {
+
+        }
+
+        [Macro("clear_scene")]
+        private static void ClearSceneMacro(MacroCallInfo info)
+        {
+
+        }
+
+        [Macro("clear_scene")]
+        private static void ClearSceneMacro(MacroCallInfo info, string sceneName)
+        {
+
+        }
+
+        [Macro("clear_scene")]
+        private static void ClearSceneMacro(MacroCallInfo info, uint layerID)
         {
 
         }

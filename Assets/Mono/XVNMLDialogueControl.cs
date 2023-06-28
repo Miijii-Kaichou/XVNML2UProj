@@ -1,9 +1,6 @@
 #nullable enable
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
@@ -62,8 +59,8 @@ namespace XVNML2U.Mono
 
         internal XVNMLModule? Module => module;
         internal XVNMLStage? Stage => stageObj;
-        internal int DOMWidth => module!.Main.top!.Root!["screenWidth"].ToInt();
-        internal int DOMHeight => module!.Main.top!.Root!["screenHeight"].ToInt();
+        internal int DOMWidth => module!.Root!["screenWidth"].ToInt();
+        internal int DOMHeight => module!.Root!["screenHeight"].ToInt();
         internal bool IsHidden
         {
             get
@@ -249,12 +246,14 @@ namespace XVNML2U.Mono
 
             DialogueWriter.OnDialogueFinish![processChannel] += OnFinish;
 
+            PrepareInputManager();
             PrepareCasts();
-            PrepareScenes();
             PrepareAudioPool();
+            PrepareScenes();
+            PrepareActionSchedular();
 
             DialogueWriter.Write(dialogue.dialogueOutput!, channel);
-
+            Debug.Log(dialogue.dialogueOutput!);
             _onPlay?.Invoke();
         }
 
@@ -321,7 +320,7 @@ namespace XVNML2U.Mono
 
                 _confirmMarker.OnPending();
 
-                if (XVNMLInputManager.OnInputActive(InputEvent.PROCEED) && sender.ID == 0)
+                if (XVNMLInputManager.OnInputActive(module, InputEvent.PROCEED) && sender.ID == 0)
                 {
                     _confirmMarker.OnAccept();
                     return NextLine(sender);
@@ -473,6 +472,18 @@ namespace XVNML2U.Mono
             if (definitions.AudioCollection.Length == 0) return;
 
             XVNMLAudioController.Init(definitions.AudioCollection);
+        }
+
+        private void PrepareInputManager()
+        {
+            if (module == null) return;
+            XVNMLInputManager.Init(module);
+        }
+
+        private void PrepareActionSchedular()
+        {
+            if (module == null) return;
+            XVNMLActionScheduler.Init();
         }
 
         private void RunDialogueInGroup(DialogueGroup group)

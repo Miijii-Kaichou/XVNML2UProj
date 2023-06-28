@@ -2,130 +2,133 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using XVNML.Input.Enums;
-using XVNML.XVNMLUtility;
 using XVNML.XVNMLUtility.Tags;
 
 namespace XVNML2U.Mono
 {
     public sealed class XVNMLInputManager : Singleton<XVNMLInputManager>
     {
-        [SerializeField]
-        private XVNMLModule _module;
+        private static readonly Dictionary<XVNMLModule, SortedDictionary<InputEvent, List<VirtualKey>>> VKPurposeMap = new();
+        private static readonly Dictionary<XVNMLModule, KeycodeDefinitions> AttachedKeycodeDefinitions = new();
 
-        private static readonly SortedDictionary<InputEvent, List<VirtualKey>> VKPurposeMap = new();
-        private static KeycodeDefinitions AttachedKeycodeDefinitions;
-        private static bool IsInitialized = false;
-
-        private void Start()
+        public static void Init(XVNMLModule module)
         {
-            _module.onModuleBuildProcessComplete += OnModuleReady;
-        }
+            var root = module.Root;
 
-        private void OnModuleReady(XVNMLObj dom)
-        {
-            KeycodeDefinitions def = dom.Root.GetElement<KeycodeDefinitions>();
+            KeycodeDefinitions def = root.GetElement<KeycodeDefinitions>();
             if (def == null) return;
 
-            Keycode[] keycodes = dom.Root.GetElement<KeycodeDefinitions>().KeyCodes;
+            Keycode[] keycodes = root?.GetElement<KeycodeDefinitions>().KeyCodes;
             if (keycodes.Length == 0) return;
-        
-            AttachedKeycodeDefinitions = def;
-            Initialize(keycodes);
-        }
 
-        private static void Initialize(Keycode[] keycodes)
-        {
-            if (IsInitialized) return;
+            AttachedKeycodeDefinitions[module] = def;
+
+            VKPurposeMap.Add(module, new SortedDictionary<InputEvent, List<VirtualKey>>());
+
+            SortedDictionary<InputEvent, List<VirtualKey>> targetInputKeyPairs = VKPurposeMap[module];
 
             for (int i = 0; i < keycodes.Length; i++)
             {
                 Keycode code = keycodes[i];
-
-                if (VKPurposeMap.ContainsKey(code.purpose))
+                Debug.Log(code.TagName);
+                if (targetInputKeyPairs.ContainsKey(code.purpose))
                 {
-                    VKPurposeMap[code.purpose].Add(code.vkey);
+                    targetInputKeyPairs[code.purpose].Add(code.vkey);
                     continue;
                 }
 
-                VKPurposeMap.Add(code.purpose, new List<VirtualKey> { code.vkey });
+                targetInputKeyPairs.Add(code.purpose, new List<VirtualKey> { code.vkey });
             }
-
-            IsInitialized = true;
         }
 
-        public static bool KeyPressed(VirtualKey key)
+        public static bool KeyPressed(XVNMLModule module, VirtualKey key)
         {
-            return Input.GetKeyDown((KeyCode)key);
+            var modulesWithKey = VKPurposeMap[module].Where(ivp => ivp.Value.Equals(key));
+            return modulesWithKey.Any() && Input.GetKeyDown((KeyCode)key);
         }
 
-        public static bool KeyHold(VirtualKey key)
+        public static bool KeyHold(XVNMLModule module, VirtualKey key)
         {
-            return Input.GetKey((KeyCode)key);
+            var modulesWithKey = VKPurposeMap[module].Where(ivp => ivp.Value.Equals(key));
+            return modulesWithKey.Any() && Input.GetKey((KeyCode)key);
         }
 
-        public static bool KeyReleased(VirtualKey key)
+        public static bool KeyReleased(XVNMLModule module, VirtualKey key)
         {
-            return Input.GetKeyUp((KeyCode)key);
+            var modulesWithKey = VKPurposeMap[module].Where(ivp => ivp.Value.Equals(key));
+            return modulesWithKey.Any() && Input.GetKeyUp((KeyCode)key);
         }
 
-        public static bool KeyPressed(string key)
+        public static bool KeyPressed(XVNMLModule module, string key)
         {
-            return Input.GetKeyDown((KeyCode)AttachedKeycodeDefinitions.GetElement<Keycode>(key).vkey);
+            return Input.GetKeyDown((KeyCode)AttachedKeycodeDefinitions[module].GetElement<Keycode>(key).vkey);
         }
 
-        public static bool KeyHold(string key)
+        public static bool KeyHold(XVNMLModule module, string key)
         {
-            return Input.GetKey((KeyCode)AttachedKeycodeDefinitions.GetElement<Keycode>(key).vkey);
+            return Input.GetKey((KeyCode)AttachedKeycodeDefinitions[module].GetElement<Keycode>(key).vkey);
         }
 
-        public static bool KeyReleased(string key)
+        public static bool KeyReleased(XVNMLModule module, string key)
         {
-            return Input.GetKeyUp((KeyCode)AttachedKeycodeDefinitions.GetElement<Keycode>(key).vkey);
+            return Input.GetKeyUp((KeyCode)AttachedKeycodeDefinitions[module].GetElement<Keycode>(key).vkey);
         }
 
-        public static bool OnInput(InputEvent purpose)
+        public static bool OnInput(XVNMLModule module, InputEvent purpose)
         {
-            var validInput = VKPurposeMap.ContainsKey(purpose);
+            SortedDictionary<InputEvent, List<VirtualKey>> targetInputKeyPairs = VKPurposeMap[module];
+            var validInput = VKPurposeMap[module].ContainsKey(purpose);
             if (validInput == false) return validInput;
             
-            var vkList = VKPurposeMap[purpose];
-            if (vkList.Count == 1) return KeyHold(VKPurposeMap[purpose].First());
-
-            foreach(var vk in vkList)
+            var vkList = VKPurposeMap[module][purpose];
+            if (vkList.Count == 1)
             {
-                if (KeyHold(vk)) return true;
+                return KeyHold(module, targetInputKeyPairs[purpose].First());
+            }
+
+            foreach (var vk in vkList)
+            {
+                if (KeyHold(module, vk)) return true;
             }
 
             return false;
         }
 
-        public static bool OnInputActive(InputEvent purpose)
+        public static bool OnInputActive(XVNMLModule module, InputEvent purpose)
         {
-            var validInput = VKPurposeMap.ContainsKey(purpose);
+            SortedDictionary<InputEvent, List<VirtualKey>> targetInputKeyPairs = VKPurposeMap[module];
+            var validInput = VKPurposeMap[module].ContainsKey(purpose);
             if (validInput == false) return validInput;
 
-            var vkList = VKPurposeMap[purpose];
-            if (vkList.Count == 1) return KeyPressed(VKPurposeMap[purpose].First());
+            var vkList = VKPurposeMap[module][purpose];
+            if (vkList.Count == 1)
+            {
+                return KeyPressed(module, targetInputKeyPairs[purpose].First());
+            }
 
             foreach (var vk in vkList)
             {
-                if (KeyPressed(vk)) return true;
+                if (KeyPressed(module, vk)) return true;
             }
 
             return false;
         }
 
-        public static bool OnInputRelease(InputEvent purpose)
+        public static bool OnInputRelease(XVNMLModule module, InputEvent purpose)
         {
-            var validInput = VKPurposeMap.ContainsKey(purpose);
+            SortedDictionary<InputEvent, List<VirtualKey>> targetInputKeyPairs = VKPurposeMap[module];
+            var validInput = VKPurposeMap[module].ContainsKey(purpose);
             if (validInput == false) return validInput;
 
-            var vkList = VKPurposeMap[purpose];
-            if (vkList.Count == 1) return KeyReleased(VKPurposeMap[purpose].First());
+            var vkList = VKPurposeMap[module][purpose];
+            if (vkList.Count == 1)
+            {
+                return KeyReleased(module, targetInputKeyPairs[purpose].First());
+            }
 
             foreach (var vk in vkList)
             {
-                if (KeyReleased(vk)) return true;
+                if (KeyReleased(module, vk)) return true;
             }
 
             return false;

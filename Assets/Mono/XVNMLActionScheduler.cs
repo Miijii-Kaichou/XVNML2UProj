@@ -8,41 +8,22 @@ using XVNML2U.Data;
 
 namespace XVNML2U.Mono
 {
-    internal interface ISendAction
-    {
-        void SendNewAction(Func<WCResult> function);
-    }
-
-    /// <summary>
-    /// MonoBehaviour variant of ActionSender
-    /// </summary>
-    public class MonoActionSender : MonoBehaviour, ISendAction
-    {
-        public void SendNewAction(Func<WCResult> function)
-        {
-            XVNMLActionScheduler.ActionQueue?.Enqueue(function);
-        }
-    }
-
-    public class ActionSender : ISendAction
-    {
-        public void SendNewAction(Func<WCResult> function)
-        {
-            XVNMLActionScheduler.ActionQueue?.Enqueue(function);
-        }
-    }
 
     public sealed class XVNMLActionScheduler : Singleton<XVNMLActionScheduler>
     {
         public static Queue<Func<WCResult>>? ActionQueue { get; private set; }
 
-        private void OnEnable()
+        private static bool IsInitialzed = false;
+
+        internal static void Init()
         {
+            if (IsInitialzed) return;
             ActionQueue = new Queue<Func<WCResult>>();
-            StartCoroutine(QueueCycle());
+            Instance.StartCoroutine(QueueCycle());
+            IsInitialzed = true;
         }
 
-        private IEnumerator QueueCycle()
+        private static IEnumerator QueueCycle()
         {
             bool errorEncountered = false;
 
@@ -55,7 +36,7 @@ namespace XVNML2U.Mono
             }
         }
 
-        private bool ProcessActions(bool errorEncountered)
+        private static bool ProcessActions(bool errorEncountered)
         {
             if (ActionQueue?.Count > 0)
             {
@@ -83,6 +64,12 @@ namespace XVNML2U.Mono
             }
 
             return errorEncountered;
+        }
+
+        public static void SendNewAction(Func<WCResult> function)
+        {
+            if (ActionQueue?.Count == 0) return; 
+            ActionQueue?.Enqueue(function);
         }
     }
 }

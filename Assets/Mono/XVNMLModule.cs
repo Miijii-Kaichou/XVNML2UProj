@@ -15,9 +15,9 @@ namespace XVNML2U.Mono
         [SerializeField, Tooltip("XVNML Entry Path")]
         private XVNMLAsset _main;
 
-        public Action<XVNMLObj> onModuleBuildProcessComplete;
+        internal Action<XVNMLObj> onModuleBuildProcessComplete;
 
-        internal XVNMLAsset Main => _main;
+        internal TagBase? Root => _main.top!.Root;
 
         public void Build()
         {

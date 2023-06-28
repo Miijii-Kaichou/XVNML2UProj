@@ -5,8 +5,6 @@ using UnityEditor;
 using UnityEditor.AssetImporters;
 using UnityEngine;
 
-using Editor = UnityEditor.Editor;
-
 namespace XVNML2U.Mono.Core
 {
     [ScriptedImporter(1, "xvnml")]
@@ -25,7 +23,6 @@ namespace XVNML2U.Mono.Core
             ctx.AddObjectToAsset(name, xvnml);
             ctx.SetMainObject(xvnml);
             StoredContext = ctx;
-            AssetDatabase.SaveAssets();
         }
     }
 }

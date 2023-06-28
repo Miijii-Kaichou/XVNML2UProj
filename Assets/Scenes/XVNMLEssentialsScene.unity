@@ -4361,6 +4361,7 @@ GameObject:
   m_Component:
   - component: {fileID: 888242070}
   - component: {fileID: 888242071}
+  - component: {fileID: 888242072}
   m_Layer: 0
   m_Name: VNModuleKit
   m_TagString: Untagged
@@ -4398,6 +4399,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _main: {fileID: -2771518378797853016, guid: 52cc82b2d2d6a2f44b26df5ddcddf03f, type: 3}
+--- !u!114 &888242072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 888242069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d39eb3e96c773d94499872ac99cb5e99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &897744262
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,8 +18,7 @@
           <keycode name::"_navRight"             vkey::Right          purpose::NAVIGATION_RIGHT/>
      </keycodeDefinitions>
 
-     <dialogue name::"XVNML2U Sample">
-          @ {jump_to::"Test"|sts::40|pass}<
+     <dialogue name::"XVNML2U Sample" #textSpeedControlledExternally>
           @ {set_text_speed::40}Welcome to XVNML2U!<
           @ This package demonstrates the capabilities in which the XVNML 
           Class Library is capable of{delay::500|clr}when used with the Unity Game Engine.<
@@ -50,14 +49,10 @@
                          @ {show_text_box|jump_to::"P2"|pass}<<
                     ("What is XVNML2U...")>
                          @ {show_text_box|jump_to::"P3"|pass}<<
-                    ("More on XVNML2U...")>
-                         @ {show_text_box|jump_to::"P4"|pass}<<
-                    ("How to start using XVNML2U...")>
-                         @ {show_text_box|jump_to::"P5"|pass}<<
                     ("Integrate XVNML Manually...")>
-                         @ {show_text_box|jump_to::"P6"|pass}<<
+                         @ {show_text_box|jump_to::"P4"|pass}<<
                     ("Some Best Practices...")>
-                         @ {show_text_box|jump_to::"P7"|pass}<<
+                         @ {show_text_box|jump_to::"P5"|pass}<<
                )
 
                ["Main"]
@@ -70,14 +65,10 @@
                          @ {show_text_box|jump_to::"P2"|pass}<<
                     ("What is XVNML2U...")>
                          @ {show_text_box|jump_to::"P3"|pass}<<
-                    ("More on XVNML2U...")>
-                         @ {show_text_box|jump_to::"P4"|pass}<<
-                    ("How to start using XVNML2U...")>
-                         @ {show_text_box|jump_to::"P5"|pass}<<
                     ("Integrate XVNML Manually...")>
-                         @ {show_text_box|jump_to::"P6"|pass}<<
+                         @ {show_text_box|jump_to::"P4"|pass}<<
                     ("Some Best Practices...")>
-                         @ {show_text_box|jump_to::"P7"|pass}<<
+                         @ {show_text_box|jump_to::"P5"|pass}<<
                     ("End Demo")>
                          @ {show_text_box|jump_to::"CL"|pass}<<
                )
@@ -87,7 +78,7 @@
           #//What is XVNML
 
                ["P1"]
-               @ {sts::100}XVNML stands for 
+               @ {set_text_speed::40}XVNML stands for 
                {quot}X-Tensible Visual Novel Mark-Up Language.{quot}<
                @ It takes the usual format that people are used to when 
                storing dialogue data, and caters it towards those making visual novels.<
@@ -107,10 +98,11 @@
                )
 
                ["P1-Skriptr-Incorrect"]
-               @ Unfortunately, that's not the correct answer...{jump_to::"P1-Skriptr-CorrectAnswer"}<
+               @ {set_text_speed::40}Unfortunately, that's not the correct answer...
+               {jump_to::"P1-Skriptr-CorrectAnswer"}<
 
                ["P1-Skriptr"]
-               @ Skriptr is the syntaxical language used in tandem with XVNML to...<
+               @ {set_text_speed::40}Skriptr is the syntaxical language used in tandem with XVNML to...<
                @ type out dialogue.<
                @ Each Skriptr line must first be given a role to play.<
                @ It can either take in a Declarative Role {paren}denoted by the {quot|at|quot} symbol{paren_end}...<
@@ -132,7 +124,7 @@
                )
 
                ["P1-Skriptr-CorrectAnswer"]
-               @ There are 50 states that makes up the United States of America.<
+               @ {set_text_speed::40}There are 50 states that makes up the United States of America.<
                @ Awesome huh?<
                @ Let's take a look at the file where we have all of this dialogue.<
                @ And don't freak out when you look at it.<
@@ -143,7 +135,6 @@
                @ And if you jump to Line 120, you'll exactly what I'm currently saying.<
                @ You notice that it's just the {quot|at|quot} symbol when stating a 
                Declarative Role on a Skriptr line.<
-               ["Test"]
                @ However, if you've defined Cast members within your XVNML project...<
                @ You can set them as a speaker!<
                @ {
@@ -175,11 +166,12 @@
                          @ You have sample files to look over and study.<
                          @ However, if you need more context for something, or understanding...<
                          @ You can always look at the documentation that comes with XVNML2U...<
-                         @ As it goes more in-depth with how to work with XVNML.{jump_to::"Main"}<<
+                         @ As it goes more in-depth with how to work with XVNML.
+                         {jump_to::"Main"}<<
                )
 
                ["P1-Skriptr-CastSignatures-Main-FirstTime"]
-               ? Which Cast Signature would you like to know about?>>
+               ? {set_text_speed::40}Which Cast Signature would you like to know about?>>
                (
                     ("Narrative Cast Signatures...")>
                          @ {jump_to::"P1-Skriptr-CastSignatures-Narrative"|pass}<<
@@ -192,7 +184,7 @@
                )
 
                ["P1-Skriptr-CastSignatures-Main"]
-               ? Which Cast Signature would you like to know about?>>
+               ? {set_text_speed::40}Which Cast Signature would you like to know about?>>
                (
                     ("Narrative Cast Signatures...")>
                          @ {jump_to::"P1-Skriptr-CastSignatures-Narrative"|pass}<<
@@ -203,20 +195,34 @@
                     ("Anonymous Cast Signatures...")>
                          @ {jump_to::"P1-Skriptr-CastSignatures-Anonymous"|pass}<<
                     ("I've learned everything there is to know about Cast Signatures...")>
-                         @ That's great to hear!{jump_to::"P1-Skriptr-CastSignatures-Complete"}<<
+                         @ That's great to hear!
+                         {jump_to::"P1-Skriptr-CastSignatures-Complete"}<<
                )
 
                ["P1-Skriptr-CastSignatures-Narrative"]
-               @ A Narrative Cast Signature denote that the narrator is 
+               @ {set_text_speed::40}A Narrative Cast Signature denote that the narrator is 
                speaking.<
                @ You can not set an expression for the narrative...<
                @ But you can set a voice.<
                @ We don't have a voice set up for the narrator though...<
                @ But that is the only valid syntax that it has.<
-               @ Filler dialogue...{jump_to::"P1-Skriptr-CastSignatures-Main"}<
+               @ There is a hidden benefit of just using a Narrative Cast Signature.<
+               @ And that is if you just want to execute macros alone.<
+               @ When doing so, a macro to keep in mind is the {quot}pass{quot} macro.<
+               @ This macro simpily bypasses user input, and will immediately go to the{space}
+               next SkriptrLine.<
+               @ So any macros that does some form of configuration or setup...<
+               @ You would use the Narrative Cast Signature, and create your Macro Invocation Block.<
+               @ To invoke more than one macro, you would seperate each invocation with {quot}{pipe}{quot}.<
+               @ It's a hidden benefit of the Narrative Cast Signature significant enough to be mentioned...<
+               @ Because even the XVNML file being used to display all of this uses this method from{space}
+               time to time.<
+               @ Never forget to add the {quot}pass{quot} macro after all prior macro invocations.<
+               @ Or you will be presented with a empty dialogue box, waiting for you to send an input.<
+               @ That is unless you have the {quot}{hash}dontDetain{quot} flag set.{jump_to::"P1-Skriptr-CastSignatures-Main"}<
                
                ["P1-Skriptr-CastSignatures-Normal"]
-               @ A Normal Cast Signature denotes that a character is speaking.<
+               @ {set_text_speed::40}A Normal Cast Signature denotes that a character is speaking.<
                @Jimmy You can put whatever name in here...<
                @* However, if that cast was not defined, you can't using expressions{space}
                or voices.<
@@ -240,10 +246,11 @@
                @ You can even change the order from Expression{tag_end}Voice to Voice{tag_end}Expression!<
                @ You just need to make sure that an Expression Prefix {paren}E{colon|colon}{paren_end}{space}
                and a {paren}V{colon|colon}{paren_end} before the expression name and voice name{space}
-               respectively.{jump_to::"P1-Skriptr-CastSignatures-Main"}<
+               respectively.
+               {jump_to::"P1-Skriptr-CastSignatures-Main"}<
                
                ["P1-Skriptr-CastSignatures-Persistent"]
-               @ A Persistent Cast Signature takes the last cast member to speak, and{space}
+               @ {set_text_speed::40}A Persistent Cast Signature takes the last cast member to speak, and{space}
                carries them over.<
                @ The keywords here is {quot}last cast member{quot}.<
                @ Persistent Casts doesn't work if the previous speaker was{space}
@@ -256,10 +263,11 @@
                @ You just don't have to type the name out {paren}which is the core reasoning{space}
                for having a Persistent Cast Signature{paren_end}.<
                @ You can set the Expressions and Voices of the previous mentioned cast{space}
-               as normal.{jump_to::"P1-Skriptr-CastSignatures-Main"}<
+               as normal.
+               {jump_to::"P1-Skriptr-CastSignatures-Main"}<
                
                ["P1-Skriptr-CastSignatures-Anonymous"]
-               @ An Anonymous Cast Signature denotes that the speaker is unknown.<
+               @ {set_text_speed::40}An Anonymous Cast Signature denotes that the speaker is unknown.<
                @ You really can't do much with an Anonymous Cast Signature.<
                @ However, by combining macros, you can set a cast on to the screen{space}
                and still change their expressions and voices.<
@@ -268,10 +276,11 @@
                @  If you have checked out Persistent Cast Signatures, you've learned that{space}
                an Anonymous Cast Signature has no persistency.<
                @ So, you'll have to keep on typing {quot|qm|qm|qm|quot} until{space}
-               the speaker is known to the player.{jump_to::"P1-Skriptr-CastSignatures-Main"}<
+               the speaker is known to the player.
+               {jump_to::"P1-Skriptr-CastSignatures-Main"}<
                
                ["P1-Skriptr-CastSignatures-Complete"]
-               @ It's definitely a lot, huh?<
+               @ {set_text_speed::40}It's definitely a lot, huh?<
                @ You can always look back into {quot}XVNMLEssentials.main.xvnml{quot|space}
                to get a feel of how Skriptr works.<
                @ One last thing to cover before we conclude is that you can{space}
@@ -290,7 +299,7 @@
                @ For now, that's all we have to cover for Skriptr.<
 
                ["P1-Tags"]    
-               @ The last thing that we need to mention for XVNML is Tags.<
+               @ {set_text_speed::40}The last thing that we need to mention for XVNML is Tags.<
                @ Since XVNML is a mark-up language, it'll be closely related{space}
                to something like HTML or XML.<
                @ However, there's a couple of features that every tag has.<
@@ -333,14 +342,15 @@
                @ The documentation has all of that information checked.<
                @ Be sure to read it thoroughly.<
                @ You'll soon realize that you can do a whole lot with XVNML{space}
-               as you explore more into the XVNML2U package.{jump_to::"Main"}<
+               as you explore more into the XVNML2U package.
+               {jump_to::"Main"}<
 
           #//endregion
      
           #//Why Create XVNML
 
                ["P2"]
-               @ {quot}Why{quot} is a very good question.<
+               @ {set_text_speed::40}{quot}Why{quot} is a very good question.<
                @ Primarily because we already have certain tools and 
                packages that makes creating dialogue and providing story-centric...< 
                @ elements to your games very easily.<
@@ -375,14 +385,15 @@
                @ Of course, if anything, you can always get the binary for XVNML and do the integration yourself...<
                @ Allowing you to reduce the amount of bloat that you get from XVNML2U.<
                @ There will be a whole section on how to integrate XVNML into your own projects without 
-               the use of XVNML2U.{jump_to::"Main"}<
+               the use of XVNML2U.
+               {jump_to::"Main"}<
 
           #//endregion    
 
           #//What is XVNML2U
 
                ["P3"]
-               @ XVNML2U...<
+               @ {set_text_speed::40}XVNML2U...<
                @ Why...{delay::1000|clr}It's this one of course!<
                @ The Unity Package that you are using right now!<
                @ Jokes aside, XVNML2U is a Unity Package that integrates 
@@ -425,37 +436,268 @@
                @ {use_text_motion::"FadeIn"}So you can have the each letter of your text fade in...<
                @ {use_text_motion::"UpDown"}Or bounce up and down...<
                @ {use_text_motion::("FadeIn","UpDown")}Or both!<
+               @ Utilizing these UnityEvents{delay::500}, you can truly give your dialogue personality and PAZZAZ!<
+               @ There are other important Unity components that you can benefit from with XVNML2U...<
+               @ Such as the XVNMLLogListener, XVNMLActionScheduler, and XVNMLInputManager.<
+               ? Would you like to learn more about these components?>>
+               (
+                    ("Yes")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents"}<<
+                    ("No")>
+                         @ That is fine<
+                         @ You can always look at the documentation for later.<
+               )
 
-          #//endregion
+               ["P3-XVNML2U-UnityComponents-Main-FirstTime"]
+               ? {set_text_speed::40}Which component are you interested in learning?>>
+               (
+                    ("The LogListner Component")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-LogListener"|pass}<<
+                    ("The ActionScheduler Component")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-ActionScheduler"|pass}<<
+                    ("The InputManager Component")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-InputManager"|pass}<<
+                    ("The Stage Component")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-Stage"|pass}<<
+                    ("The SceneController Component")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-SceneController"|pass}<<
+                    ("The CastController Component")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-CastController"|pass}<<
+                    ("The XVNMLPromptControl Component")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-XVNMLPromptControl"|pass}<<
+                    ("The XVNMLAudioController")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-XVNMLAudioController"|pass}<<
+                    ("The ResponseControl Component")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-ResponseControl"|pass}<<
+                    ("The Confirm Marker")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-ConfirmMarker"|pass}<<
+               )
 
-          #//More on XVNML2U
+               ["P3-XVNML2U-UnityComponents-Main"]
+               ? {set_text_speed::40}Are there any more components you would like to learn about?>>
+               (
+                    ("The LogListner Component")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-LogListener"|pass}<<
+                    ("The ActionScheduler Component")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-ActionScheduler"|pass}<<
+                    ("The InputManager Component")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-InputManager"|pass}<<
+                    ("The Stage Component")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-Stage"|pass}<<
+                    ("The SceneController Component")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-SceneController"|pass}<<
+                    ("The CastController Component")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-CastController"|pass}<<
+                    ("The XVNMLPromptControl Component")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-XVNMLPromptControl"|pass}<<
+                    ("The XVNMLAudioController")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-XVNMLAudioController"|pass}<<
+                    ("The ResponseControl Component")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-ResponseControl"|pass}<<
+                    ("The Confirm Marker")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-ConfirmMarker"|pass}<<
+                    ("I have learned enough about XVNML2U components...")>
+                         @ {jump_to::"P3-XVNML2U-UnityComponents-Complete"|pass}<<
+               )
 
-               ["P4"]
-               @ Filler Dialogue...
-               {jump_to::"Main"}<
+               ["P3-XVNML2U-UnityComponents-LogListener"]
+               @ {set_text_speed::40}The LogListener Component is a very handy component when it comes to receiving internal messages...<
+               @ from the XVNML binary.<
+               @ From running the tokenizer, to analyzing Tags and Skriptr Lines with the parser...<
+               @ to even tags being resolved to their respective types...<
+               @ the LogListner Component takes those messages, and allows them to be displayed{space}
+               on the Unity Console.<
+               @ You can toggle off if you want to receive any logs {paren}because we know{space}
+               how annoying it can be being bombarded with messages...{paren_end}<
+               @ You can even toggle on and off the different kinds of messages you receive.<
+               @ You'll receive either a Verbose message {paren}with not-so important pieces of information{paren_end}...<
+               @ Warning messages...<
+               @ And of course Error messages.<
+               @ If you wanted to, you could have the Editor's PlayMode status as {quot}paused{quot|space}
+               every time an error message is received from either...<
+               @ The Tokenizer...<
+               @ Parser...<
+               @ Tags...<
+               @ Macro Invocations...<
+               @ And much more.<
+               @ A really handy component to use, but definitely isn't need.<
+               @ It is recommended to have this component within your game scene so that you{space}
+               can undergo the proper debugging in your code.<
+               @ However, sometimes it could be an issue from our end.<
+               @ You can always report the issue on GitHub, stating what you are trying to accomplish...<
+               @ The message you are receiving...<
+               @ And if it's replicable or not.<
+               @ We will review and resolve the issue as promptly as possible...<
+               @ To assure that you are using XVNML2U to its fullest.<
+               @ Because no one likes to have to deal with errors slowing them down from their progress.<
+               @ We know we don't.<
+               @ And neither does Hana.
+               {jump_to::"P3-XVNML2U-UnityComponents-Main"}<
 
-          #//endregion
-          
-          #//How to Start Using XVNML2U
+               ["P3-XVNML2U-UnityComponents-ActionScheduler"]
+               @ {set_text_speed::40}The ActionScheduler Component is one of the most important components to have{space}
+               within your project.<
+               @ It's responsibility is to add pending actions on a queue for it to be properly executed.<
+               @ Objects that do send an action to the ActionScheduler usually inherit from the{space}
+               MonoActionSender class.<
+               @ Without it, you can't extend any functionalities you want to include, since the backend of{space}
+               XVNML2U runs on a seperate thread...<
+               @ And can not be called on the Unity Thread.<
+               @ There are a few exceptions.<
+               @ However, if you are implementing your own Macros or Tags...<
+               @ And you receive an error message in Unity that you must modify something on the Main Thread{del::500|clr}
+               {paren}that being Unity's Thread{paren_end}...<
+               @ Try finding a way to incorporate your code using the MonoActionSender class.<
+               @ With it, you'll be given the {quot}SendNewAction{quot} method.<
+               @ It takes in an anonymous method where it must return a WCResult.<
+               @ You can either return an {quot}Ok{quot}{space}{paren}a successful execution{paren_end}...<
+               @ an {quot}Unknown{quot}{space}{paren}which it will retry the action{paren_end}...<
+               @ or an {quot}Error{quot}{space}{paren}an unsuccessful execution{paren_end}...<
+               @ However, this must be noted...<
+               @ By return an {quot}Unknown{quot} WCResult, it'll repeat the action until you either receive...<
+               @ an {quot}Ok{quot} result, or an {quot}Error{quot} result.<
+               @ So use this sparingly{semi} keep it between an {quot}Ok{quot} result...<
+               @ and an {quot}Error{quot} result.<
+               @ That way, you'll never come across any issues down the line.<
+               @ XVNML2U uses the {quot}SendNewAction{quot} method for it's MacroLibrary and within the{space}
+               DialogueControl component.<
+               @ So having an ActionScheduler within your scene is crucial if you want Unity-Specific Macros{space}
+               and Tags to work inside your XVNML file.<
+               @ This can especially be said for your own Macros and Tags.<
+               @ In the future, we may have it where it's not required to add an ActionScheduler as a component.<
+               @ But for now, make it your mission to include this component inside your project.<
+               @ Otherwise, any XVNML files that uses those Macros will not invoke.<
+               @ The same thing goes with creating your own custom tags.<
+               @ However, since you are inheriting from UserDefinedTag, you won't be able to{space}
+               use MonoActionSender.<
+               @ The solution to that is using the static variant of SendNewAction via the ActionScheduler itself.<
+               @ Honestly, you don't have to inherit any of your classes with the MonoActionSender, and opt for{space}
+               using the static method variant instead...<
+               @ Allowing you to inherit you class a different way.<
+               @ Though it's best to use the static method if you really need to.<
+               @ If you know your class will be a Unity Component inside your gameObject...<
+               @ have it inherit from MonoActionSender.<
+               @ Otherwise, switch to using the static variant of that method.
+               {jump_to::"P3-XVNML2U-UnityComponents-Main"}<
 
-               ["P5"]
-               @ Filler Dialogue...
-               {jump_to::"Main"}<
+               ["P3-XVNML2U-UnityComponents-InputManager"]
+               @ {set_text_speed::40}The InputManager Component utilized defined keycodes inside your XVNML file.<
+               @ This component is also an important one.<
+               @ In order to be able to do things like progressing the dialogue...<
+               @ you need this component in your Game Scene.<
+               @ The event that triggers from signaling an input from you defined keycodes...<
+               @ is know as that keycode's {quot}purpose{quot}.<
+               @ However, inside XVNML2U, it's called the {quot}InputEvent{quot}.<
+               @ Very inconsistent.{delay::750} I know...<
+               @ You don't have to rub it in.<
+               @ There are pre-defined Purposes or InputEvents that you can put inside your keycode definition...<
+               @ Those being PROCEED, SAVE, LOAD, QUICK_SAVE, QUICK_LOAD, PAUSE, RESUME, SHOW_LOG...<
+               @ MAIN_MENU, NAVIGATE_LEFT, NAVIGATE_DOWN, NAVIGATE_RIGHT, and NAVIGATE_UP.<
+               @ However, you can set up to 32 presets for you {quot}the creator{quot} to use.<
+               @ You decide what presets does what, and you can annotate that by using the {quot}description{quot|space}
+               tag parameter on the {tag}keycode{tag_end} tag.<
+               @ You could even be descriptive by simply using the tags name, making the {quot}description{quot|space}
+               parameter an option.<
+               @ You can even put more than 1 keycode with the same Purpose{slash}InputEvent...<
+               @ Allowing for XVNML2U to accept more than one input.<
+               @ So keep that in mind.{jump_to::"P3-XVNML2U-UnityComponents-Main"}<
+
+               ["P3-XVNML2U-UnityComponents-Stage"]
+               @ {set_text_speed::40}The Stage Component utilizes defined scenes and cast insider your XVNML file.<
+               @ All scenes defined in the {tag}sceneDefinitions{tag_end} tag have a reference to an defined{space}
+               image.<
+               @ Whether the definitions of those Images are within the Proxy file...<
+               @ Or pointing to a Source file.<
+               @ The same logic applies for {tag}castDefinitions{tag_end}.<
+               @ The data contained in a scene's corresponding image is loaded and converted to a tangible{space}
+               Unity Asset at Runtime.<
+               @ Once XVNML2U reads those bytes, it'll cache the final produce until it is needed using the{space}
+               {quot}cue_scene{quot} Macro.<
+               @ At that point, it'll use the information cached, and set the image to be seen in the Game View.<
+               @ {cue_scene::"OutsideOfSchool"}Like so.<
+               @ You may even set a layer in which the scene will be viewed, allow for a scene made with{space}
+               different parts.<
+               @ This is all that the SceneController does, and you would have to create your own macro{space}
+               to do fancy stuff, such as changing the image's RGBA values.<
+               @ {clear_scene}You can unload the scene by using the {quot}clear_scene{quot} macro.<
+               @ Without passing an argument, it'll clear the only or last image that was loaded.<
+               @ Passing in a value, such as which layer to target {paren}a numerical value{paren_end}{space}
+               or by the name of the scene {paren}which the SceneController will find the layer with that image{paren_end}...<
+               @ You can remove those specific scenes, or replace them using the {quot}cue_scene{quot} macro{space}
+               and override a layer with the new image.<
+               @ Again, that's basically the only thing that you can you do with the SceneController.<
+               @ However, there will me more functionalities for it in the later versions of XVNML2U to come.<
+               @ This isn't so much for Casts however.<
+               @ You can cue a cast and set them at a position using the {quot}cue_cast{quot} macro.<
+               @ You can either position them using {quot}Left{quot}, {quot}Right{quot}, and {quot}Center{quot}.<
+               @ Or by a relative shift using a numerical value.<
+               @ You can even specify an offset.<
+               @ {
+                    set_cast_motion::"Interpolation"|
+                    set_cast_motion_duration::0.5f|
+                    cast_enters_from::"Left",
+                    cue_cast::("Hana","Center")
+               } There are many macros that you can use to influence our your target cast enters the stage.<
+               @ You can specify the motion {paren}either Instant or Interpolation{paren_end}...<
+               @ The duration that it takes for her to enter the stage {paren}this is if you set her motion as{space}
+               Interpolation{paren_end}...<
+               @ And you can decide from which side she enters from {paren}Left, Right, or Center{paren}.<
+               @Hana>Happy>Wow {react::"Jump"}That's right!<
+               @* It may seem a lot, but it's really that simple.<
+               @*>Smile So long that you thoroughly read through the documentation...<
+               @*>Happy {react::"Jump"}It shouldn't be a problem at all!<
+               @ {exp::("Hana"|"Smile")}After cuing a cast member on to the stage, you can move her around{space}
+               by using the {quot}move_cast{quot} macro.<
+               @ {move_cast::("Hana", -1000)}We can move her to the left...<
+               @ {move_cast::("Hana", 2000)}Move her to the right...<
+               @ {move_cast::("Hana", -1000)}Put her back in center...<
+               @ And we can do the same thing, but this time with Teleportation...{set_cast_motion::"Instant"|set_cast_motion_duration::0f}<
+               @Hana {move_cast::-1000}I teleport to the left...<
+               @*>Happy {move_cast::2000}I teleport to the right...<
+               @* {move_cast::-1000}And now I'm back at center stage!<
+               @ Pretty mind blowing...{exp::("Hana", "Smile")} We know...<
+               @ We really appreciate{exp::("Hana", "Happy")} the demonstration, Hana!<
+               @Hana {react::"Jump"}Any time, chief!<
+               @ {move_cast::-1325}Basically, the stage is doing exactly what a stage is suppose to do...<
+               @ You set up a scene, and cast members can {quot}walk{quot} on stage.<
+               @ And you can control the timing of that using the prementioned Macros within you Skriptr lines!<
+               @ You would have to memorize some of these macros to get use to them.<
+               @ But once you know them, you're basically writing your own Screenplay!<
+               @ Astonishing is XVNML2U.<
+               @ You can create macros that control both the scenes and cast members if you so wanted to!<
+               @ The sky is the limit with this one, and it's one of the essential tools provided to you{space}
+               with XVNML2U.{jump_to::"P3-XVNML2U-UnityComponents-Main"}<
+
+               ["P3-XVNML2U-UnityComponents-XVNMLPromptControl"]
+               @  <
+               @ {jump_to::"P3-XVNML2U-UnityComponents-Main"}<
+
+               ["P3-XVNML2U-UnityComponents-ResponseControl"]
+               @  <
+               @ {jump_to::"P3-XVNML2U-UnityComponents-Main"}<
+
+               ["P3-XVNML2U-UnityComponents-XVNMLAudioController"]
+               @  <
+               @ {jump_to::"P3-XVNML2U-UnityComponents-Main"}<
+
+               ["P3-XVNML2U-UnityComponents-Complete"]
+               @  <
+               @ {jump_to::"Main"}<
 
           #//endregion
 
           #//Integrate XVNML Manually
 
-               ["P6"]
-               @ Filler Dialogue...
+               ["P4"]
+               @ {set_text_speed::40}Filler Dialogue...
                {jump_to::"Main"}<
           
           #//endregion
 
           #//Some Best Practics
                
-               ["P7"]
-               @ Filler Dialogue...
+               ["P5"]
+               @ {set_text_speed::40}Filler Dialogue...
                {jump_to::"Main"}<
 
           #//endregion
@@ -463,7 +705,7 @@
           #//End Demo
 
                ["CL"]
-               @ We hope that you've enjoyed this demo.<
+               @ {set_text_speed::40}We hope that you've enjoyed this demo.<
                @ Please consider loading the other Unity Scenes to 
                get a more in-depth explanation on the different tools and features
                that XVNML and XVNML2U can provide.<
