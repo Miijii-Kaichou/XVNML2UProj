@@ -1,3 +1,6 @@
+using Codice.CM.SEIDInfo;
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,6 +15,8 @@ namespace XVNML2U.Mono
         [Header("Unity Events")]
         public UnityEvent _onTextChange;
 
+        private List<BaseTextMotion> textMotions = new();
+
         internal string Text
         {
             get
@@ -23,8 +28,15 @@ namespace XVNML2U.Mono
                 var previousText = _target.text;
                 _target.text = value;
                 if (previousText.Equals(value)) return;
-                _onTextChange.Invoke();
+                if (textMotions.Count != 0) textMotions?.DoForEvery(PlayTextMotion);
+                _onTextChange?.Invoke();
             }
+        }
+
+        private object PlayTextMotion(BaseTextMotion motion)
+        {
+            motion.DoTextMotion();
+            return motion;
         }
 
         internal bool IsTextOverflowing
@@ -45,6 +57,21 @@ namespace XVNML2U.Mono
             {
                 _target.pageToDisplay = value;
             }
+        }
+
+        internal void AddNewMotion(BaseTextMotion? newMotion)
+        {
+            if (newMotion == null) return;
+
+            newMotion.TMP_Text = _target;
+            newMotion.DoTextMotion();
+
+            textMotions.Add(newMotion);
+        }
+
+        internal void ClearMotions()
+        {
+            textMotions.Clear();
         }
     }
 }

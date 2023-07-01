@@ -104,7 +104,7 @@ namespace XVNML2U.Mono
             if (vkList.Count == 1)
             {
                 Debug.Log("Checking if your mom was pressed! *Hits Dab*");
-                return KeyPressed(module, targetInputKeyPairs[purpose][0]);
+                return KeyPressed(module, targetInputKeyPairs[purpose].First());
             }
 
             foreach (var vk in vkList)
@@ -124,7 +124,7 @@ namespace XVNML2U.Mono
             var vkList = VKPurposeMap[module][purpose];
             if (vkList.Count == 1)
             {
-                return KeyReleased(module, targetInputKeyPairs[purpose][0]);
+                return KeyReleased(module, targetInputKeyPairs[purpose].First());
             }
 
             foreach (var vk in vkList)

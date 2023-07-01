@@ -1,7 +1,11 @@
 using System;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.Networking;
 using XVNML.Core.Tags;
+using XVNML.Utility.Dialogue;
 using XVNML.XVNMLUtility;
 
 #nullable enable
@@ -10,8 +14,6 @@ namespace XVNML2U.Mono
     [DisallowMultipleComponent]
     public sealed class XVNMLModule : MonoBehaviour
     {
-        private static XVNMLModule? Instance;
-
         [SerializeField, Tooltip("XVNML Entry Path")]
         private XVNMLAsset _main;
 
@@ -21,24 +23,50 @@ namespace XVNML2U.Mono
 
         public void Build()
         {
-            Instance = this;
             ReactionRegistry.BeginRegistrationProcess();
+            TextMotionRegistry.BeginRegistrationProcess();
+
+            Application.quitting += ShutDown;
+            
+            #if UNITY_EDITOR
+            EditorApplication.quitting += ShutDown;
+            EditorApplication.playModeStateChanged += EvaluatePlayModeState;
+            #endif
+
             _main.Build(onModuleBuildProcessComplete);
+        }
+
+        private void EvaluatePlayModeState(PlayModeStateChange change)
+        {
+            if (change == PlayModeStateChange.ExitingPlayMode)
+                DialogueWriter.ShutDown();
+        }
+
+        private void ShutDown()
+        {
+            DialogueWriter.ShutDown();
+
+            Application.quitting -= ShutDown;
+
+            #if UNITY_EDITOR
+            EditorApplication.quitting -= ShutDown;
+            EditorApplication.playModeStateChanged -= EvaluatePlayModeState;
+            #endif
         }
 
         public T? Get<T>(int index) where T : TagBase
         {
-            return _main.top?.Root?.GetElement<T>(index);
+            return Root?.GetElement<T>(index);
         }
 
         public T? Get<T>(string path) where T : TagBase
         {
-            return _main.top?.Root?.GetElement<T>(path);
+            return Root?.GetElement<T>(path);
         }
 
         public T? Get<T>() where T : TagBase
         {
-            return _main.top?.Root?.GetElement<T>();
+            return Root?.GetElement<T>();
         }
 
         public static Texture2D? ProcessTextureData(byte[]? data)

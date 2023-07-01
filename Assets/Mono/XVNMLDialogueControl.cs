@@ -55,12 +55,15 @@ namespace XVNML2U.Mono
         [Header("Unity Events"), Space(4)]
         [SerializeField] private UnityEvent _onPlay;
         [SerializeField] private UnityEvent _onFinish;
-
+        [SerializeField] private UnityEvent _onChannelBlock;
+        [SerializeField] private UnityEvent _onChannelUnblock;
 
         internal XVNMLModule? Module => module;
         internal XVNMLStage? Stage => stageObj;
+
         internal int DOMWidth => module!.Root!["screenWidth"].ToInt();
         internal int DOMHeight => module!.Root!["screenHeight"].ToInt();
+
         internal bool IsHidden
         {
             get
@@ -80,9 +83,12 @@ namespace XVNML2U.Mono
             }
         }
 
+        public bool IsBlocked { get; private set; }
+
         private AudioSource? _voiceAudioSource;
         private CastInfo _castInfo;
         private CanvasGroup? _canvasGroup;
+
         private bool _isHidden = false;
         private bool _isFinished = false;
         private const float InactiveAlpha = 0.0f;
@@ -244,6 +250,9 @@ namespace XVNML2U.Mono
 
             DialogueWriter.OnSceneChange![processChannel] += ManifestCurrentScene;
 
+            DialogueWriter.OnChannelBlock![processChannel] += OnChannelBlock;
+            DialogueWriter.OnChannelUnblock![processChannel] += OnChannelUnblock;
+
             DialogueWriter.OnDialogueFinish![processChannel] += OnFinish;
 
             PrepareActionSchedular();
@@ -280,10 +289,57 @@ namespace XVNML2U.Mono
 
                 DialogueWriter.OnSceneChange![processChannel] -= ManifestCurrentScene;
 
+                DialogueWriter.OnChannelBlock![processChannel] -= OnChannelBlock;
+                DialogueWriter.OnChannelUnblock![processChannel] -= OnChannelUnblock;
+
                 DialogueWriter.OnDialogueFinish![processChannel] -= OnFinish;
 
                 _isFinished = true;
 
+                return WCResult.Ok();
+            });
+        }
+
+        internal void SetTextMotions(params string[] motions)
+        {
+            SendNewAction(() =>
+            {
+                for (int i = 0; i < motions.Length; i++)
+                {
+                    _mainText.AddNewMotion(TextMotionRegistry.GetMotion(motions[i]));
+                }
+
+                return WCResult.Ok();
+            });
+        }
+
+        internal void ClearMotions()
+        {
+            SendNewAction(() =>
+            {
+                _mainText.ClearMotions();
+                return WCResult.Ok();
+            });
+        }
+
+        private void OnChannelUnblock(DialogueWriterProcessor sender)
+        {
+            SendNewAction(() =>
+            {
+                if (sender.ID != processChannel) return WCResult.Unknown();
+                IsBlocked = false;
+                _onChannelUnblock?.Invoke();
+                return WCResult.Ok();
+            });
+        }
+
+        private void OnChannelBlock(DialogueWriterProcessor sender)
+        {
+            SendNewAction(() =>
+            {
+                if (sender.ID != processChannel) return WCResult.Unknown();
+                IsBlocked = true;
+                _onChannelBlock?.Invoke();
                 return WCResult.Ok();
             });
         }

@@ -9,6 +9,10 @@
           <cast name::"Hana" src::"Hana\Hana.cast.xvnml"/>
      </castDefinitions>
 
+     <sceneDefinitions>
+          <scene name::"OutsideOfSchool" src::"School\OutsideOfSchool.scene.xvnml"/>
+     </sceneDefinitions>
+
      <keycodeDefinitions name::"_globalInputDef">
           <keycode name::"_proceedWithMouse"     vkey::LeftMouse      purpose::PROCEED/>
           <keycode name::"_proceedWithEnter"     vkey::Return         purpose::PROCEED/>
@@ -19,7 +23,7 @@
      </keycodeDefinitions>
 
      <dialogue name::"XVNML2U Sample" #textSpeedControlledExternally>
-          @ {set_text_speed::40}Welcome to XVNML2U!<
+          @ {set_text_speed::40}Welcome to XVNML2U!{jump_to::"Test"}<
           @ This package demonstrates the capabilities in which the XVNML 
           Class Library is capable of{delay::500|clr}when used with the Unity Game Engine.<
           @ What you see here{delay::750} is a normal dialogue.<
@@ -429,20 +433,15 @@
                @ And when every line has been said, have the dialogue box fade out on the{space}
                {quot}onFinish{quot} event.<
                @ Another example is when you are using XVNMLTextRenderer component...<
-               @ With the OnTextChange event, you can have it make a noise, or perform wants known as{space}
-               a TextMotion.<
-               @ It's a fancy way of saying you've animated your TextMeshProUGUI component to do something...<
-               @ when you know the text changed.<
-               @ {use_text_motion::"FadeIn"}So you can have the each letter of your text fade in...<
-               @ {use_text_motion::"UpDown"}Or bounce up and down...<
-               @ {use_text_motion::("FadeIn","UpDown")}Or both!<
+               @ With the OnTextChange event, you can have it make a noise, or use the callback to animate{space}
+               TextMeshPro {paren}with whatever TMP effects tool you are using{paren_end}.<
                @ Utilizing these UnityEvents{delay::500}, you can truly give your dialogue personality and PAZZAZ!<
                @ There are other important Unity components that you can benefit from with XVNML2U...<
                @ Such as the XVNMLLogListener, XVNMLActionScheduler, and XVNMLInputManager.<
                ? Would you like to learn more about these components?>>
                (
                     ("Yes")>
-                         @ {jump_to::"P3-XVNML2U-UnityComponents"}<<
+                         @ {jump_to::"P3-XVNML2U-UnityComponents"|pass}<<
                     ("No")>
                          @ That is fine<
                          @ You can always look at the documentation for later.<
@@ -635,10 +634,10 @@
                @ {
                     set_cast_motion::"Interpolation"|
                     set_cast_motion_duration::0.5f|
-                    cast_enters_from::"Left",
+                    cast_enters_from::"Left"|
                     cue_cast::("Hana","Center")
-               } There are many macros that you can use to influence our your target cast enters the stage.<
-               @ You can specify the motion {paren}either Instant or Interpolation{paren_end}...<
+               } There are many macros that you can use to influence how your target cast enters the stage.<
+               @ {sts::100}You can specify the motion {paren}either Instant or Interpolation{paren_end}...<
                @ The duration that it takes for her to enter the stage {paren}this is if you set her motion as{space}
                Interpolation{paren_end}...<
                @ And you can decide from which side she enters from {paren}Left, Right, or Center{paren}.<
@@ -648,17 +647,17 @@
                @*>Happy {react::"Jump"}It shouldn't be a problem at all!<
                @ {exp::("Hana"|"Smile")}After cuing a cast member on to the stage, you can move her around{space}
                by using the {quot}move_cast{quot} macro.<
-               @ {move_cast::("Hana", -1000)}We can move her to the left...<
-               @ {move_cast::("Hana", 2000)}Move her to the right...<
-               @ {move_cast::("Hana", -1000)}Put her back in center...<
+               @ {move_cast::("Hana", -750)}We can move her to the left...<
+               @ {move_cast::("Hana", 750)}Move her to the right...<
+               @ {move_cast::("Hana", 0)}Put her back in center...<
                @ And we can do the same thing, but this time with Teleportation...{set_cast_motion::"Instant"|set_cast_motion_duration::0f}<
-               @Hana {move_cast::-1000}I teleport to the left...<
-               @*>Happy {move_cast::2000}I teleport to the right...<
-               @* {move_cast::-1000}And now I'm back at center stage!<
+               @Hana {move_cast::-750}I teleport to the left...<
+               @*>Happy {move_cast::750}I teleport to the right...<
+               @* {move_cast::0}And now I'm back at center stage!<
                @ Pretty mind blowing...{exp::("Hana", "Smile")} We know...<
                @ We really appreciate{exp::("Hana", "Happy")} the demonstration, Hana!<
                @Hana {react::"Jump"}Any time, chief!<
-               @ {move_cast::-1325}Basically, the stage is doing exactly what a stage is suppose to do...<
+               @ {move_cast::("Hana", -1325)}Basically, the stage is doing exactly what a stage is suppose to do...<
                @ You set up a scene, and cast members can {quot}walk{quot} on stage.<
                @ And you can control the timing of that using the prementioned Macros within you Skriptr lines!<
                @ You would have to memorize some of these macros to get use to them.<
@@ -669,12 +668,36 @@
                with XVNML2U.{jump_to::"P3-XVNML2U-UnityComponents-Main"}<
 
                ["P3-XVNML2U-UnityComponents-XVNMLPromptControl"]
-               @  <
-               @ {jump_to::"P3-XVNML2U-UnityComponents-Main"}<
+               @ The XVNMLPromptControl Componenet makes use of any lines with an Interrogative Role.<
+               @ For every text surrounded by parentheses and followed with a {tag_end}, it'll take the array{space}
+               of data, and turn them into buttons for the player to press on.<
+               @ When you selected a prompt, the response value is the index of that response.<
+               @ XVNML then knows the starting point after answering that prompt, as well as 
+               the ending point after answering the prompt.<
+               @ By default, you can have up to 12 prompts to be viewed simultaneously.<
+               @ I don't know why you would want that much, but it's there for you if you want to have that many.<
+               @ A nice trick to use with Prompts is combining Named Lines with the {paren}jump_to{paren_end}{space}
+               macro.<
+               @ Honestly, this will be a lot easier on the XVNML parser, because it reduces the amount of nesting.<
+               @ The bigger the nesting, the more XVNML will have to work to resolve the starting and ending points{space}
+               of those dialogue.<
+               @ The XVNMLEssentials.main.xvnml file exemplifies this greatly, showing how after selecting a{space}
+               choice, it jumps to whatever label you want that response to go to.<
+               @ It also makes your XVNML document a lot nicer.<
+               @ Of course, you can type out your document however you want.<
+               @ If it's easier branching prompts in, then you can do it.<
+               @ Otherwise, make use of Named Lines and the {paren}jump_to{paren_end} macro for{space}
+               nicer looking mark-up.{jump_to::"P3-XVNML2U-UnityComponents-Main"}<
 
                ["P3-XVNML2U-UnityComponents-ResponseControl"]
-               @  <
-               @ {jump_to::"P3-XVNML2U-UnityComponents-Main"}<
+               @ The ResponseControl Component is a component that must be a child of the gameObject with the{space}
+               XVNMLPromptControl component.<
+               @ This component receives information grabbed from the XVNMLPromptControl component, and displays{space}
+               its content to the user.<
+               @ It also allows the user to response with the prompt given to them.<
+               @ There are 12 gameObjects with this components, and receiving all information from the{space}
+               XVNMLPromptControl componenent.<
+               @ That's about it really.{jump_to::"P3-XVNML2U-UnityComponents-Main"}<
 
                ["P3-XVNML2U-UnityComponents-XVNMLAudioController"]
                @  <

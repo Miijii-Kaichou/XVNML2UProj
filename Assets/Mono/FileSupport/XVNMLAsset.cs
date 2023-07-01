@@ -65,7 +65,7 @@ namespace XVNML2U.Mono
 
         internal void ReadContentFromFile()
         {
-            using StreamReader streamReader = new StreamReader(filePath);
+            using StreamReader streamReader = new(filePath);
             content = streamReader.ReadToEnd();
         }
     } 
