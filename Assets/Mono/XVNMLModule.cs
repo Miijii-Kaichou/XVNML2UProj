@@ -24,7 +24,6 @@ namespace XVNML2U.Mono
         public void Build()
         {
             ReactionRegistry.BeginRegistrationProcess();
-            TextMotionRegistry.BeginRegistrationProcess();
 
             Application.quitting += ShutDown;
             

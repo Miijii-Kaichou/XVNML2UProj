@@ -187,54 +187,6 @@ namespace XVNML2U
             });
         }
 
-        [Macro("utm")]
-        private static void UseTextMotionMacroShortHand(MacroCallInfo info, string textMotion)
-        {
-            UseTextMotionMacro(info, textMotion);
-
-        }
-        [Macro("utm")]
-        private static void UseTextMotionMacroShortHand(MacroCallInfo info, string textMotion1, string textMotion2)
-        {
-            UseTextMotionMacro(info, textMotion1, textMotion2);
-        }
-        [Macro("utm")]
-        private static void UseTextMotionMacroShortHand(MacroCallInfo info, string textMotion1, string textMotion2, string textMotion3)
-        {
-            UseTextMotionMacro(info, textMotion1, textMotion2, textMotion3);
-        }
-
-        [Macro("use_text_motion")]
-        private static void UseTextMotionMacro(MacroCallInfo info, string textMotion)
-        {
-            DialogueProcessAllocator.ProcessReference[info.process.ID].SetTextMotions(textMotion);
-        }
-        [Macro("use_text_motion")]
-        private static void UseTextMotionMacro(MacroCallInfo info, string textMotion1, string textMotion2)
-        {
-
-            DialogueProcessAllocator.ProcessReference[info.process.ID].SetTextMotions(textMotion1, textMotion2);
-        }
-
-        [Macro("use_text_motion")]
-        private static void UseTextMotionMacro(MacroCallInfo info, string textMotion1, string textMotion2, string textMotion3)
-        {
-
-            DialogueProcessAllocator.ProcessReference[info.process.ID].SetTextMotions(textMotion1, textMotion2, textMotion3);
-        }
-
-        [Macro("ctm")]
-        private static void ClearTextMotionMacroShortHand(MacroCallInfo info)
-        {
-            ClearTextMotionMacro(info);
-        }
-
-        [Macro("clear_text_motion")]
-        private static void ClearTextMotionMacro(MacroCallInfo info)
-        {
-            DialogueProcessAllocator.ProcessReference[info.process.ID].ClearMotions();
-        }
-
         [Macro("clear_scene")]
         private static void ClearSceneMacro(MacroCallInfo info)
         {

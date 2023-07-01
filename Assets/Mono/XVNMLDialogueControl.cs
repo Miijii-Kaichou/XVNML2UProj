@@ -300,28 +300,6 @@ namespace XVNML2U.Mono
             });
         }
 
-        internal void SetTextMotions(params string[] motions)
-        {
-            SendNewAction(() =>
-            {
-                for (int i = 0; i < motions.Length; i++)
-                {
-                    _mainText.AddNewMotion(TextMotionRegistry.GetMotion(motions[i]));
-                }
-
-                return WCResult.Ok();
-            });
-        }
-
-        internal void ClearMotions()
-        {
-            SendNewAction(() =>
-            {
-                _mainText.ClearMotions();
-                return WCResult.Ok();
-            });
-        }
-
         private void OnChannelUnblock(DialogueWriterProcessor sender)
         {
             SendNewAction(() =>
