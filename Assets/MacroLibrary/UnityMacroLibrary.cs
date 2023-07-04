@@ -1,8 +1,10 @@
 using System;
 using UnityEngine;
 using XVNML.Utility.Macros;
+using XVNML.Core;
 using XVNML2U.Data;
 using XVNML2U.Mono;
+using XVNML.Core.Macros;
 
 namespace XVNML2U
 {
@@ -190,19 +192,19 @@ namespace XVNML2U
         [Macro("clear_scene")]
         private static void ClearSceneMacro(MacroCallInfo info)
         {
-            throw new NotImplementedException();
+            new MacroNotImplementedException(info.ToString());
         }
 
         [Macro("clear_scene")]
         private static void ClearSceneMacro(MacroCallInfo info, string sceneName)
         {
-            throw new NotImplementedException();
+            new MacroNotImplementedException(info.ToString());
         }
 
         [Macro("clear_scene")]
         private static void ClearSceneMacro(MacroCallInfo info, uint layerID)
         {
-            throw new NotImplementedException();
+            new MacroNotImplementedException(info.ToString());
         }
 
         #region Standard Macro Overrides

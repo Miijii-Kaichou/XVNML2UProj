@@ -1,6 +1,7 @@
 ﻿#nullable enable
 
 using System;
+using UnityEngine;
 
 namespace XVNML2U.Data
 {

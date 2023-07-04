@@ -49,12 +49,22 @@ namespace XVNML2U.Mono
         #endif
         }
 
-        public void Build(Action<XVNMLObj>? onBuildFinished)
+        public void Build(Action<XVNMLObj>? onBuildFinished, bool allowCacheUsageAndGeneration = false)
         {
-            XVNMLObj.Create(filePath!, top =>
+            if (allowCacheUsageAndGeneration == false)
+            {
+                XVNMLObj.Create(filePath!, top =>
+                {
+                    this.top = top;
+                    onBuildFinished?.Invoke(top!);
+                }, allowCacheUsageAndGeneration);
+                return;
+            }
+
+            XVNMLObj.UseOrCreate(filePath!, top =>
             {
                 this.top = top;
-                onBuildFinished?.Invoke(this.top);
+                onBuildFinished?.Invoke(top!);
             });
         }
 

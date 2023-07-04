@@ -27,6 +27,7 @@ namespace XVNML2U.Mono
 
         public string GetName() => Name;
 
+        
         IEnumerator ICastReaction.ReactionCycle()
         {
             var time = 0f;

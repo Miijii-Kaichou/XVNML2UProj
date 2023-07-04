@@ -4448,6 +4448,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _main: {fileID: -2771518378797853016, guid: 52cc82b2d2d6a2f44b26df5ddcddf03f, type: 3}
+  _allowForCacheUsageAndGeneration: 1
 --- !u!114 &888242072
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
-using XVNML2U.Mono.CastReactions;
+﻿using System.Collections;
 
 namespace XVNML2U.Data
 {
@@ -15,7 +12,7 @@ namespace XVNML2U.Data
             }
         }
 
-        void OnReaction();
+        void OnReaction();     
         void OnReactionStart();
         void OnReactionEnd();
 

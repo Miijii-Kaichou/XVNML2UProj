@@ -23,8 +23,8 @@
      </keycodeDefinitions>
 
      <dialogue name::"XVNML2U Sample" #textSpeedControlledExternally>
-          @ {set_text_speed::40}Welcome to XVNML2U!{jump_to::"Test"}<
-          @ This package demonstrates the capabilities in which the XVNML 
+          @ {set_text_speed::40}Welcome to XVNML2U!<
+          @ This package demonstrates the capabilities in which the XVNML{space}
           Class Library is capable of{delay::500|clr}when used with the Unity Game Engine.<
           @ What you see here{delay::750} is a normal dialogue.<
           @ And {insert::"THIS"|delay::1000} is a dialogue with {set_text_speed::60} a 
@@ -637,7 +637,7 @@
                     cast_enters_from::"Left"|
                     cue_cast::("Hana","Center")
                } There are many macros that you can use to influence how your target cast enters the stage.<
-               @ {sts::100}You can specify the motion {paren}either Instant or Interpolation{paren_end}...<
+               @ You can specify the motion {paren}either Instant or Interpolation{paren_end}...<
                @ The duration that it takes for her to enter the stage {paren}this is if you set her motion as{space}
                Interpolation{paren_end}...<
                @ And you can decide from which side she enters from {paren}Left, Right, or Center{paren}.<
@@ -654,7 +654,7 @@
                @Hana {move_cast::-750}I teleport to the left...<
                @*>Happy {move_cast::750}I teleport to the right...<
                @* {move_cast::0}And now I'm back at center stage!<
-               @ Pretty mind blowing...{exp::("Hana", "Smile")} We know...<
+               @ {set_cast_motion::"Interpolation"}Pretty mind blowing...{exp::("Hana", "Smile")} We know...<
                @ We really appreciate{exp::("Hana", "Happy")} the demonstration, Hana!<
                @Hana {react::"Jump"}Any time, chief!<
                @ {move_cast::("Hana", -1325)}Basically, the stage is doing exactly what a stage is suppose to do...<

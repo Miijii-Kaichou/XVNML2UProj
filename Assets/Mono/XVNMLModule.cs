@@ -17,6 +17,11 @@ namespace XVNML2U.Mono
         [SerializeField, Tooltip("XVNML Entry Path")]
         private XVNMLAsset _main;
 
+        [SerializeField, Tooltip("Allow for the module to use existing cache data." +
+            " If it doesn't exist," +
+            " it'll create on upon completion of build process.")]
+        private bool _allowForCacheUsageAndGeneration = false;
+
         internal Action<XVNMLObj> onModuleBuildProcessComplete;
 
         internal TagBase? Root => _main.top!.Root;
@@ -32,14 +37,16 @@ namespace XVNML2U.Mono
             EditorApplication.playModeStateChanged += EvaluatePlayModeState;
             #endif
 
-            _main.Build(onModuleBuildProcessComplete);
+            _main.Build(onModuleBuildProcessComplete, _allowForCacheUsageAndGeneration);
         }
 
+        #if UNITY_EDITOR
         private void EvaluatePlayModeState(PlayModeStateChange change)
         {
             if (change == PlayModeStateChange.ExitingPlayMode)
                 DialogueWriter.ShutDown();
         }
+        #endif 
 
         private void ShutDown()
         {
@@ -53,6 +60,7 @@ namespace XVNML2U.Mono
             #endif
         }
 
+        #region Get Methods
         public T? Get<T>(int index) where T : TagBase
         {
             return Root?.GetElement<T>(index);
@@ -67,7 +75,9 @@ namespace XVNML2U.Mono
         {
             return Root?.GetElement<T>();
         }
+        #endregion
 
+        #region Data Processing and Generation Methods
         public static Texture2D? ProcessTextureData(byte[]? data)
         {
             if (data == null) return null;
@@ -102,7 +112,7 @@ namespace XVNML2U.Mono
             if (extension == "xm") requestedAudioType = AudioType.XM;
             if (extension == "aiff") requestedAudioType = AudioType.AIFF;
             if (extension == "ogg") requestedAudioType = AudioType.OGGVORBIS;
-            
+
             using (UnityWebRequest requestAudio = UnityWebRequestMultimedia.GetAudioClip(path, requestedAudioType))
             {
                 if (requestAudio == null) return null;
@@ -119,7 +129,8 @@ namespace XVNML2U.Mono
 
                 return DownloadHandlerAudioClip.GetContent(requestAudio);
             }
-        }
+        } 
+        #endregion
     }
 }
 #nullable disable
