@@ -1,7 +1,5 @@
-using System;
 using UnityEngine;
 using XVNML.Utility.Macros;
-using XVNML.Core;
 using XVNML2U.Data;
 using XVNML2U.Mono;
 using XVNML.Core.Macros;
@@ -55,6 +53,22 @@ namespace XVNML2U
             Instance.SendNewAction(() =>
             {
                 XVNMLAudioController.SetVolume(info.process.ID, (int)volume);
+                return WCResult.Ok();
+            });
+        }
+
+        [Macro("loop")]
+        private static void SetSoundLoopMacro(MacroCallInfo info, bool loop)
+        {
+            Instance.SendNewAction(() =>
+            {
+                if (loop)
+                {
+                    XVNMLAudioController.EnableLoop(info.process.ID);
+                    return WCResult.Ok();
+                }
+
+                XVNMLAudioController.DisableLoop(info.process.ID);
                 return WCResult.Ok();
             });
         }

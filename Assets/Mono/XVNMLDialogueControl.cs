@@ -28,6 +28,7 @@ namespace XVNML2U.Mono
         [SerializeField] private XVNMLModule? module;
         [SerializeField] private bool runOnAwakeUp = false;
         [SerializeField] private bool dontDetain = false;
+        [SerializeField] private bool textSpeedControlledExternally = false;
         [SerializeField] private int processChannel = 0;
         [SerializeField] private AudioClip tickSound;
         [SerializeField] private XVNMLStage stageObj;
@@ -236,6 +237,7 @@ namespace XVNML2U.Mono
             }
 
             dontDetain = dialogue.DoNotDetain;
+            textSpeedControlledExternally = dialogue.TextSpeedControlledExternally;
 
             DialogueWriter.OnLineStart![processChannel] += ResetCastFlags;
             DialogueWriter.OnLineSubstringChange![processChannel] += UpdateTextOutput;

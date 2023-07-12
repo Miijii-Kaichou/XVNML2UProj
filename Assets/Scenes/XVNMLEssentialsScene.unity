@@ -4518,6 +4518,7 @@ MonoBehaviour:
   module: {fileID: 888242071}
   runOnAwakeUp: 1
   dontDetain: 0
+  textSpeedControlledExternally: 0
   processChannel: 0
   tickSound: {fileID: 0}
   stageObj: {fileID: 28105569}
