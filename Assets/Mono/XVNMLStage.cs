@@ -15,9 +15,24 @@ namespace XVNML2U.Mono
         [SerializeField]
         private CastController castController;
 
+        internal void InitializeCastController(Cast[] castMembers)
+        {
+            castController.Init(castMembers);
+        }
+
+        internal void InitializeSceneController(Scene[] scenes)
+        {
+            sceneController.Init(scenes);
+        }
+
         internal void ChangeScene(SceneInfo currentSceneInfo)
         {
             sceneController.ChangeScene(currentSceneInfo);
+        }
+
+        internal void ClearScene(SceneInfo currentSceneInfo)
+        {
+            sceneController.ClearScene(currentSceneInfo);
         }
         
         internal void ChangeExpression(CastInfo castInfo)
@@ -40,15 +55,6 @@ namespace XVNML2U.Mono
             castController.ChangeVoice(new CastInfo() { name = castName, expression = value});
         }
 
-        internal void InitializeCastController(Cast[] castMembers)
-        {
-            castController.Init(castMembers);
-        }
-
-        internal void InitializeSceneController(Scene[] scenes)
-        {
-            sceneController.Init(scenes);
-        }
 
         internal void PositionCast(MacroCallInfo info, string name, Anchoring anchoring, uint offset)
         {

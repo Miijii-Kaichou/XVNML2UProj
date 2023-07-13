@@ -28,7 +28,7 @@ namespace XVNML2U
             EditorGUILayout.TextArea(xvnmlContent == null ? string.Empty : xvnmlContent.stringValue
                 , GUILayout.ExpandWidth(true)
                 , GUILayout.ExpandHeight(true)
-                , GUILayout.MinHeight(500));
+                , GUILayout.MinHeight(1000));
         }
     }
 #endif

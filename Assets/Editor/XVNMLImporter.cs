@@ -11,6 +11,7 @@ namespace XVNML2U.Mono.Core
     public sealed class XVNMLImporter : ScriptedImporter
     {
         public AssetImportContext StoredContext { get; private set; }
+
         public override void OnImportAsset(AssetImportContext ctx)
         {
             var xvnml = ScriptableObject.CreateInstance<XVNMLAsset>();

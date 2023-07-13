@@ -250,8 +250,6 @@ namespace XVNML2U.Mono
             DialogueWriter.OnCastExpressionChange![processChannel] += SetCastExpression;
             DialogueWriter.OnCastVoiceChange![processChannel] += SetCastVoice;
 
-            DialogueWriter.OnSceneChange![processChannel] += ManifestCurrentScene;
-
             DialogueWriter.OnChannelBlock![processChannel] += OnChannelBlock;
             DialogueWriter.OnChannelUnblock![processChannel] += OnChannelUnblock;
 
@@ -288,8 +286,6 @@ namespace XVNML2U.Mono
                 DialogueWriter.OnCastChange![processChannel] -= SetCastName;
                 DialogueWriter.OnCastExpressionChange![processChannel] -= SetCastExpression;
                 DialogueWriter.OnCastVoiceChange![processChannel] -= SetCastVoice;
-
-                DialogueWriter.OnSceneChange![processChannel] -= ManifestCurrentScene;
 
                 DialogueWriter.OnChannelBlock![processChannel] -= OnChannelBlock;
                 DialogueWriter.OnChannelUnblock![processChannel] -= OnChannelUnblock;
@@ -441,15 +437,6 @@ namespace XVNML2U.Mono
             });
         }
 
-        private void ManifestCurrentScene(DialogueWriterProcessor sender)
-        {
-            SendNewAction(() =>
-            {
-                if (sender.CurrentSceneInfo == null) return WCResult.Ok();
-                stageObj.ChangeScene(sender.CurrentSceneInfo.Value);
-                return WCResult.Ok();
-            });
-        }
         private void ResponseToPromptSelection(DialogueWriterProcessor sender)
         {
             SendNewAction(() =>

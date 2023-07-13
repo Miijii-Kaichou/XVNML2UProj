@@ -41,7 +41,7 @@ namespace XVNML2U.Mono
 
         public string? content;
 
-        private void OnValidate()
+        private void OnEnable()
         {
         #if UNITY_EDITOR
             var icon = AssetDatabase.LoadAssetAtPath<Texture2D>(IconPath);

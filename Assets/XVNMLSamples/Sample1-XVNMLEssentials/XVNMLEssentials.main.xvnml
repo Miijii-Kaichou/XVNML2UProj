@@ -1,4 +1,4 @@
-<proxy name::"XVNMLEssentials.Main.XVNML" lang::"CSharp" engine::"Unity">
+<proxy name::"XVNMLEssentials.Main.XVNML" lang::CSharp engine::Unity>
      <metadata name::"_metadata">
           <title name::"XVNMLEssentials"/>
           <date value::"06/25/2023"/>
@@ -85,12 +85,21 @@
                <macro symbol::"pause"/>
                <macro symbol::"hide_text_box"/>
           </macro>
+          <macro name::"_think">
+               <macro arg::500 symbol::"delay"/>
+               <macro arg::"." symbol::"insert"/>
+               <macro arg::500 symbol::"delay"/>
+               <macro arg::"." symbol::"insert"/>
+               <macro arg::500 symbol::"delay"/>
+               <macro arg::"." symbol::"insert"/>
+               <macro arg::1000 symbol::"delay"/>
+          </macro>
      </macroCache>
 
      <dialogue name::"XVNML2U Sample" #textSpeedControlledExternally>
           @ {$_defaultTextSpeed|pass}<
           @ Welcome to XVNML2U!<
-          @ This package demonstrates the capabilities in which the XVNML 
+          @ This package{$_think} demonstrates the capabilities in which the XVNML 
           Class Library is capable of{delay::500|clr}when used with the Unity Game Engine.<
           @ What you see here{delay::750} is a normal dialogue.<
           @ And {insert::"THIS"|delay::1000} is a dialogue with{set_text_speed::60} a 
@@ -191,7 +200,7 @@
           @ Search up and find a file called {quot}XVNMLEssentials.main.xvnml{quot}.<
           @ Open that in VSCode and go to Line 61.<
           @ You will see that that's the first thing that we started off with.<
-          @ And if you jump to Line 120, you'll exactly what I'm currently saying.<
+          @ And if you jump to Line 194, you'll exactly what I'm currently saying.<
           @ You notice that it's just the {quot|at|quot} symbol when stating a 
           Declarative Role on a Skriptr line.<
           @ However, if you've defined Cast members within your XVNML project...<
@@ -201,7 +210,7 @@
           @??? My name is Hana!<
           @Hana>Happy {react::"Jump"}It's very nice to meet you!<
           @ Anything after and before actual dialogue is known as the Cast Signature.<
-          @ {exp::("Hana", "Smile")|react::("Hana", "Jump")}If you look at Line 194, this is considered a Normal Cast Signature.<
+          @ {exp::("Hana", "Smile")|react::("Hana", "Jump")}If you look at Line 204, this is considered a Normal Cast Signature.<
           @ It's the most common signature that you'll see inside an XVNML document.<
           @ Anything without a name is considered a Narrative Cast Signature.<
           @ As the name suggests, it's meant to denote that the Narrator is speaking.<
@@ -495,7 +504,8 @@
                     @ {jump_to::"P3-XVNML2U-UnityComponents"|pass}<<
                ("No")>
                     @ That is fine<
-                    @ You can always look at the documentation for later.<
+                    @ You can always look at the documentation for later.
+                    {jump_to::"P3-XVNML2U-UnityComponents-Complete"}<<
           )
 
           ["P3-XVNML2U-UnityComponents-Main-FirstTime"]
@@ -656,7 +666,7 @@
           @ Once XVNML2U reads those bytes, it'll cache the final produce until it is needed using the{space}
           {quot}cue_scene{quot} Macro.<
           @ At that point, it'll use the information cached, and set the image to be seen in the Game View.<
-          @ {cue_scene::"OutsideOfSchool"}Like so.<
+          @ {use_scene::"OutsideOfSchool"}Like so.<
           @ You may even set a layer in which the scene will be viewed, allow for a scene made with{space}
           different parts.<
           @ This is all that the SceneController does, and you would have to create your own macro{space}
@@ -748,7 +758,7 @@
           @ Using Unity-Specific macros such as {quot}set_sound{quot}, {quot}set_volume{quot}
           {space}and {quot}play_sound{quot}...<
           @ You can set the mood in combination with the XVNMLStage Component.<
-          @ {cue_scene::"OutsideOfSchool"}Let's cue our scene here...<
+          @ {use_scene::"OutsideOfSchool"}Let's cue our scene here...<
           @ And play some peaceful music...{$_doAudioControllerDemonstration} and there we go.<
           @ This is what the XVNMLAudioController is responsible for.<
           @Hana>Happy>Wow {cue_cast::("Hana","Center")|react::"Jump"} That's right!<
@@ -767,15 +777,172 @@
           {jump_to::"P3-XVNML2U-UnityComponents-Main"}<
 
           ["P3-XVNML2U-UnityComponents-Complete"]
-          @  <
-          @ {$_main}<
+          @ As you see{delay::500}, there are a lot of features and tools at your disposal...<
+          @ that isn't just exclusive to what powers XVNML to work in the first place.<
+          @ XVNML2U will take the different tools provided by the XVNML binary to assure
+          {space}that the development process runs smooth...<
+          @ Smooooooooth like butter!<
+          @ Of course, there are a lot of other components that are provided with XVNML2U.<
+          @ However, you would just have to look at the documentation for that one.<
+          @ We just wanted to mention the more...<
+          @ {quot}significant{quot} components that you'll find within XVNML2U.<
+          @ The information that we gave to you today should be enough for you to get
+          {space}started on your own...<
+          @ and to also have a better understanding of how everything works.<
+          @ Seriously{pause}, I can't stress this enough!<
+          @ XVNML2U is a SUPER POWER for story-tellers of all facets of life.<
+          @ It truly is amazing, and we hope that you find it just as amazing as well.
+          {$_main}<
 
           #//endregion
 
           #//Integrate XVNML Manually
 
           ["P4"]
-          @ {$_defaultTextSpeed}Filler Dialogue...
+          @ Oooooooooooooooooooooo!<
+          @ So you would like to get {quot}hands-onsie{quot} with XVNML?<
+          @ We like your attitude my friend!<
+          @ The XVNML binary that's integrated with XVNML2U gives you all sorts of
+          {space}utilities that allows you to do more with XVNML.<
+          @ In all honesty, despite that this is being ran by the XVNMLDialogueControl
+          {space}component...<
+          @ {paren}which in turn uses the DialogueWriter static class to power it{paren_end}...<
+          @ You actually don't need to use it at all!<
+          @ You can access the elements and their respective data once you've created your
+          {space}XVNMLObj instance.<
+          @ What's the XVNMLObj you may ask?<
+          @ Well my friend, that's the class representation of your XVNML file.<
+          @ And that's exactly what happens with the XVNMLModule component.<
+          @ It take in a file, it undergoes the tokenizing and parsing process of the document...<
+          @ and returns to you an XVNMLObj instance.<
+          @ With it, you can traverse, read, and manipulate data with that object.<
+          @ Treat it exactly how you would with HTML and JavaScript.<
+          @ But instead with XVNML and C#.<
+          @ That's how easy it is.<
+          @ If you think how the XVNMLDialogueControl runs isn't much to your liking...<
+          @ You can always create your own that's more performant, more intuitive, and more
+          {space}convenient for you and your Dev Team!<
+          @ We want to give power to the people, because that how amazing things are created.<
+          @ We would never want to hold you or your Team back from achieving your goals.<
+          @ So we made XVNML and XVNML2U as flexible and customizable as possible.<
+          @ Of course, you'll have to learn a little bit on it, but other than that, you
+          {space}can do whatever you want!<
+          @ Every XVNMLObj will have what's called a Root.<
+          @ This Root can either be a Proxy tag or a Source tag in your XVNML file.<
+          @ And within those tag are all the possible elements that you put inside.<
+          @ To traverse and find those tags, there's a few ways that you can do that.<
+          @ The most common approach is by using the GetElement generic method.<
+          @ All you need to do is specify the tag type you want to find.<
+          @ You have an option to put a name, or an index, and the XVNMLObj will find
+          {space}that specific tag accordingly.<
+          @ So if you have to find a specific set of dialogue within the file...<
+          @ Use the GetElement method, with "Dialogue" as "T"...<
+          @ And pass in the name through the method's parameter.<
+          @ If it finds it, it'll return that type, as well as all of it's data with it for use.<
+          @ If it doesn't, it'll just return to you "null"<
+          @ You can then do some null-checks to make sure that you get the data that you want,
+          {space}and to prevent problems down the line.<
+          @ Of course, we must warn you...<
+          @ XVNML is indeed a "Mark-Up Language"...<
+          @ So you must check that the tag that you are looking for is spelled exactly how it is in
+          {space}the document.<
+          @ Which can be tedious, but you'll get the hang of it.<
+          @ However, if you ever need to add elements to your XVNMLObj...<
+          @ That{$_think}{delay::1000} is a feature that's not avaliable yet...<
+          @ At least at the time of publishing this version of XVNML2U on the Unity
+          {space}Marketplace.<
+          @ In the future, we'll be able to add elements to an already generated XVNMLObj...<
+          @ And even override existing tags within the document.<
+          @ But at this point, we don't see why we would necessarily do that.<
+          @ I could be wrong on that.<
+          @ If anything, we'll put that on the backburner.<
+          @ And if demand ask for it, and is loud enough {paren}in a polite and dignified manner{paren_end}...<
+          @ Then we may consider adding that feature on to XVNML.<
+          @ Then again...{pause} XVNML IS OPEN SOURCE!<
+          @ That means your contribution will matter in the making of XVNML.<
+          @ Don't think we're creating this thing on our own...<
+          @ The more, the merrier!<
+          @ You can look up XVNML on Github, and be a contributer to its development!<
+          @ If we never get to the feature that you want us to implement...<
+          @ Well, come join us, and PROVE US WRONG!<
+          @ That's how we grow and learn as a society...<
+          @ We think...<
+          @ There's one guy typing out all of this dialogue, and he honestly doesn't know.<
+          @ But seriously, consider being a contributer, and make XVNML BETTER THAN EVER!!!<
+          @ For any advance topics on integrating XVNML on your own...<
+          @ It interally depends.<
+          @ If you plan on using the DialogueWriter for anything...<
+          @ then you would need to know about the different callbacks that it has...<
+          @ Like when a line starts, when a substring is updated, when a cast expression or voice changes...<
+          @ You would have to set up whatever you need to get your project up and running.<
+          @ That'll be a lot to cover in a Visual Novel setting, so...<
+          @ We advise to look at the documentation either online, or within the XVNML2U package.<
+          @ Manual set up is easy, and there isn't anything much else.<
+          @ Though there is the static Tokenizer class... We're...{delay::500} sort of debating whether or
+          {space}not to make that an avaiable tool for people who what to do advance stuff...<
+          ? What do you think?>>
+          (
+               ("I saw make it available!")>
+                    @ Hmmmmmmmmmmmmmmmmmmmmmmm...<
+                    @ I suppose.<
+                    @ Though honestly, all it really does is receives a string as an
+                    {space}input, and convert it into a list of Tokens.<
+                    @ With it, you may even be able to create your own scripting language within
+                    {space}XVNML with the custom tag that you created...<
+                    ? However, I think it's best to leave that luxury to the GitHub Contributors.>>
+                    (
+                         ("What?! No way?!")>
+                         @ Yesssss....<
+                         @ {sts::100}WAYYYYYYYYYYYYYYYYYYYYYYY!<<
+                    )
+                    @ {$_defaultTextSpeed} But I digress.<
+                    @ Again, we'll see if demand ask for it.<
+                    @ We'll talk it over and decide whether it's something that
+                    {space}would actually benefit someone using our tool.<
+                    @ Honestly, no one would even think about making a scripting language.<
+                    @ Everything you need is already provided in XVNML2U!<<
+
+               ("It's best to leave it.")>
+                    @ Very smart.<
+                    @ We honestly don't see why we would make it public
+                    {space}in the first place.<
+                    @ However, we feel that it may come as an extra benefit for
+                    {space}people needing to evaluate strings and figure out what to do with them...<
+                    @ Without the need for comparing single characters to determine what to do.<
+                    @ Honestly, it may come it handy for people with a stellar mind.<
+                    @ But until the day that an angry mob come slamming at our door...<
+                    @ We'll just leave it where it is.<<
+                    
+               ("I don't know. What it do?")>
+                    @ All it really does is receives a string as an
+                    {space}input, and convert it into a list of Tokens.<
+                    @ There's not much to it really.<
+                    @ You have an option to read from a file and tokenize it...<
+                    @ Or simply do it locally {paren}a.k.a: within your script{paren_end}<
+                    @ Unless demand asks for something like that, we don't see why we
+                    {space}should make it public.<
+                    @ Again, prove us wrong.<<
+          )
+          @ With that said, there's a couple of things to keep in mind to make sure
+          {space}you have an easier time with integrating XVNML to you project.<
+          @ Firstly, you must include ".xvnml" and ".json" as addition extensions
+          {space}to include into your Unity Project.<
+          @ In fact, that's how the XVNMLAsset is able to manifest into the project,
+          {space}and even work when you create a build of your project.<
+          @ This step is important.<
+          @ Luckily, if the ".xvnml" extension isn't included into the additional extensions
+          {space}for Unity to be mindful of...<
+          @ XVNML2U will actually include it upon detection {paren}or lack there of...{paren_end}.<
+          @ It will also include the ".json" extension so that you can take advantage of
+          {space}XVNMLObj data that's been cached...<
+          @ which will skip the build process and grab the information from your file's
+          {space}corresponding "cache.json" file.<
+          @ Yes. That is a feature.<
+          @ So if you find that your XVNML files or dialogue isn't being ran or accessed...<
+          @ Go to your Project Settings, click on "Editor"...<
+          @ And under "C# Project Generation", add the necessary extension to the
+          {space}"Addition extensions to include" field.<
+          @ That should hopefully do the trick.
           {$_main}<
           
           #//endregion
@@ -783,7 +950,113 @@
           #//Some Best Practics
                
           ["P5"]
-          @ {$_defaultTextSpeed}Filler Dialogue...
+          @ {$_defaultTextSpeed}XVNML is a very, very young mark-up language.<
+          @ So, there isn't any "Official" standardized best practices to be mindful of...<
+          @ The only person that would know that is the person writing all of this dialogue!<
+          @ With that said, here are several best practices to keep in mind...<
+          @ {insert::"1"|paren_end|delay::750} Separate your XVNML files as much as you can.<
+          @ This will just make it so you don't have to deal with a lot of text in one file.<
+          @ Also, it would make it a lot easier for the Tokenizer and Parser if there isn't
+          {space}too much text in one file.<
+          @ This will also help with readability, and if you need to check something...<
+          @ you'll always know where it is.<
+          @ You can even try seperating dialogue into their individual files.<
+          @ Whatever make things a lot easier for your Dev Team...<
+          @ Since we're on the topic of seperating files...<
+          @ {insert::"2"|paren_end|delay::750} Name your files based on its Root tag.<
+          @ This just makes things easier differentiating between what's the "Main" XVNML
+          {space}file...<
+          @ And what are "Source" files.<
+          @ A common naming convention you might see for the file that's being build
+          {space}is ending the file name with ".main.xvnml".<
+          @ You could also have it as ".proxy.xvnml", knowing that there's a Proxy tag
+          {space}as the root tag.<
+          @ However, we've stuck with ".main.xvnml", because everyone know what "main" means.<
+          @ Seeing the word "main", you can create an association with that file being the
+          {space}"Entry Point" of every XVNML source file.<
+          @ For example, we named this file "XVNMLEssentials.main.xvnml", because this
+          {space}file will be the one to be build first.<
+          @ Any other file that needs to be build {paren}that being XVNML source files{paren_end}
+          {space}everything will be built and resolved accordingly.<
+          @ As for the naming conventions of source files, there's a list of what you can name them.<
+          @ You may want to have the name end with ".source.xvnml" or ".src.xvnml"...<
+          @ But how would you know what it's a source of?<
+          @ That's why we recommend substituting ".source" or ".src" with the tag your are
+          {source}sourcing from.<
+          @ For example, if you want to source a cast from within your Main XVNML file...<
+          @ The file name may be seen as "Cassie.cast.xvnml"...<
+          @ Or "Roger.cast.xvnml".<
+          @ Same goes for sourcing and embedding dialogue to your Main XVNML File.<
+          @ You may see it as "MyFirstDialogue.dialogue.xvnml".<
+          @ This way, you know exactly what kind of source file it is.<
+          @ A very important note to add...<
+          @ You may had noticed some other directories relative to this file...<
+          @ Such as "Audio", "Casts", "Images", and "Scenes"...<
+          @ This is because when finding a source, it's mapped to the directory of the same
+          {space}kind of source that's relative to the Main XVNML file.<
+          @ It's a little extra, but you can configure how everything is mapped out
+          {space}though I wouldn't recommend it.<
+          @ This is because it helps organizes your files, as well as limit the amount of
+          {space}times you have to put in an Absolute path.<
+          @ By default, by assigning the "src" parameter of a tag to a file path...<
+          @ The path mode is Relative by default.<
+          @ If you want to state specifically where to find it, you can change the
+          {space}path mode to Absolute by typing "pathMode::Absolute".<
+          @ Pretty simple.<
+          @ And if you don't want it to look into directories relative to your main
+          {space}let the Proxy root known by setting the "enableFlatReferencing" flag.<
+          @ To do that, within your tag, type in "{hash}enableFlatReferencing"<
+          @ The Proxy will know not to look into any directories for enableFlatReferencing
+          {space}things like Casts, Images, Scenes, Audio, etc.<
+          @ Again, I wouldn't recommend it, as it may require some extra typing.<
+          @ However, for starting off with XVNML, you can set this flag and not
+          {space}worry about file structure.<
+          @ With XVNML, a modular approach to building your XVNML "front-end"
+          {space|paren}I guess you could call it{paren_end}...<
+          @ Is amoung the most important best practices for not just XVNML...<
+          @ but for C{hash} as well.<
+          @ {insert::"3"|paren_end|delay::750} If you can, limit as much macros as you can.<
+          @ Macros is one of XVNML's coolest features.<
+          @ However, the unnecessary use of them may lead to the Tokenizer and Parser struggling.<
+          @ As of typing this, we haven't had any performance issues with the process.<
+          @ In fact, we did, and we fixed it because it was something we didn't want in the final product.<
+          @ Image waiting 27 seconds upon clicking on the "Play Mode" button for Unity to actually start playing...<
+          @ Yeah{$_think} Unbelievable.{delay::500} We know.<
+          @ This is because the Tokenizer has a list of all tokens that makes up a file.<
+          @ Other parts of the building process uses it, and even borrows some tokens...<
+          @ from other parts of the process.<
+          @ However, analyzing a Skriptr line {paren}as of releasing this version of XVNML2U{paren_end}, 
+          needs to be very specific with the tokens that it gets.<
+          @ By default, a Skriptr Line is tokenized as the full line!<
+          @ This helps limit the count of defined tokens from being above{$_think}<
+          @ I don't know...<
+          @ 18000{plus} tokens that needs to be iterated over.<
+          @ And that takes up a lot of performance.<
+          @ So the Tokenizer has the option to "simplify", or to "complicate".<
+          @ And for parsing the actual Skriptr Line to further figure out what it's suppose to do...<
+          @ the tokenizer is then "complicated".<
+          @ By doing this, we made the building process of the XVNMLObj almost instantaneous.<
+          @ But we also advised seperating files so that it doesn't iterate through 18000{plus} tokens.<
+          @ It's basically chopped up and borrowed from other parts of the process, making it 
+          far more effecient.<
+          @ You honestly don't have to worry about it too much.<
+          @ Just be sure you keep all this in mind when creating your story.<
+          @ And{$_think}<
+          @ I think that's about it for best practices...{pause} at least for now.<
+          @ OH! Here's a trick you can do to limit the total amount of lines inside a XVNML file...<
+          @ just from using macros alone!<
+          @ And that requires doing {curly}pause{pipe}clr{curly_end}<
+          @ This behaves EXACTLY how it would when ending your line with {tag}.<
+          @ That will also help optimize the building time of the XVNML file.<
+          @ And there's even a short hand for it too.<
+          @ Though we prefer the {curly}pause{pipe}clr{curly_end} example.<
+          @ But if you were curious on what it was anyway...<
+          @ Just type "{tag_end} {curly}clr{curly_end}"<
+          @ And that's it.{pause} The "{tag_end}" is automatically converted into a "pause" macro.<
+          @ Though it's special, because you can change your character's expression or voice 
+          from that point on!<
+          @ And it was entirely made to do that...<
+          @ Which is why we just going for the {curly}pause{pipe}clr{curly_end} instead.
           {$_main}<
 
           #//endregion

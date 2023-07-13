@@ -1,4 +1,6 @@
+#nullable enable
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 using XVNML.Core.Dialogue.Structs;
@@ -8,34 +10,77 @@ namespace XVNML2U.Mono
 {
     public sealed class SceneController : MonoBehaviour
     {
-        public UnityEngine.UI.Image mainScene;
+        public UnityEngine.UI.Image[] sceneRenderers;
 
-        private SortedDictionary<string, Sprite> sceneMap = new();
-
-        //Data
+        private Sprite _nullImage;
+        private SortedDictionary<string, Sprite> _sceneMap = new();
         private List<Scene> _scenes;
 
         // Start is called before the first frame update
         void Awake()
         {
-            mainScene = GetComponent<UnityEngine.UI.Image>();
+            var sceneLayers = GetComponentsInChildren<UnityEngine.UI.Image>();
+            sceneRenderers = new UnityEngine.UI.Image[sceneLayers.Length];
+            sceneRenderers = sceneLayers;
+
+            _nullImage = Resources.Load<Sprite>("Images/NullImage");
             _scenes = new List<Scene>();
         }
 
         internal void ChangeScene(SceneInfo sceneInfo)
         {
-            string sceneName = sceneInfo.name;
-            string transition = sceneInfo.transition;
+            string? sceneName = sceneInfo.name;
+            string? transition = sceneInfo.transition;
+            int layer = sceneInfo.layer;
 
-            if (sceneMap.ContainsKey(sceneName) == false) return;
-            var target = sceneMap[sceneName];
+            if (_sceneMap.ContainsKey(sceneName!) == false) return;
+            var target = _sceneMap[sceneName!];
 
-            mainScene.sprite = target;
+            sceneRenderers[layer].sprite = target;
+        }
+
+        internal void ClearScene(SceneInfo sceneInfo)
+        {
+            string? sceneName = sceneInfo.name;
+            int layer = sceneInfo.layer;
+
+            if (sceneName == "{all_active}")
+            {
+                sceneRenderers
+                    .Where(sr => sr.sprite != _nullImage)
+                    .DoForEvery(sr => sr.sprite = _nullImage);
+                return;
+            }
+
+            if (sceneName == "{active}")
+            {
+                sceneRenderers
+                    .Where(sr => sr.sprite != _nullImage)
+                    .FirstOrDefault(sr => sr.sprite = _nullImage);
+
+                return;
+            }
+
+            if (layer > sceneRenderers.Length - 1) layer = sceneRenderers.Length - 1;
+            if (_sceneMap.ContainsKey(sceneName ?? string.Empty) == false)
+            {
+                sceneRenderers[layer].sprite = _nullImage;
+                return;
+            }
+
+            if (sceneName != null)
+            {
+                var target = _sceneMap[sceneName];
+                sceneRenderers
+                    .Where(sr => sr.sprite == target)
+                    .ToArray()[layer].sprite = _nullImage;
+                return;
+            }
         }
 
         internal void Init(Scene[] scenes)
         {
-            for(int i = 0; i < scenes.Length; i++)
+            for (int i = 0; i < scenes.Length; i++)
             {
                 GenerateSceneImageAndAddToMap(scenes[i]);
             }
@@ -45,9 +90,10 @@ namespace XVNML2U.Mono
         {
             if (scene == null) return;
             if (scene.imageTarget == null || scene.imageTarget.GetImageTargetPath() == string.Empty) return;
-            Texture2D tex2D = XVNMLModule.ProcessTextureData(scene.imageTarget.GetImageData());
+            Texture2D? tex2D = XVNMLModule.ProcessTextureData(scene.imageTarget.GetImageData());
             _scenes.Add(scene);
-            sceneMap.Add(scene.TagName, Sprite.Create(tex2D, new Rect(0, 0, tex2D.width, tex2D.height), new Vector2(0.5f, 0.5f)));
-        } 
+            _sceneMap.Add(scene?.TagName!, Sprite.Create(tex2D, new Rect(0, 0, tex2D!.width, tex2D.height), new Vector2(0.5f, 0.5f)));
+        }
+
     }
 }

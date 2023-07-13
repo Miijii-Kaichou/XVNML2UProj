@@ -3,6 +3,7 @@ using XVNML.Utility.Macros;
 using XVNML2U.Data;
 using XVNML2U.Mono;
 using XVNML.Core.Macros;
+using XVNML.Core.Dialogue.Structs;
 
 namespace XVNML2U
 {
@@ -203,22 +204,57 @@ namespace XVNML2U
             });
         }
 
+        [Macro("use_scene")]
+        private static void UseSceneMacro(MacroCallInfo info, string sceneName)
+        {
+            UseSceneMacro(info, sceneName, 0);
+        }
+
+        [Macro("use_scene")]
+        private static void UseSceneMacro(MacroCallInfo info, string sceneName, int layer)
+        {
+            Instance.SendNewAction(() =>
+            {
+                SceneInfo newSceneInfo = new() { name = sceneName, layer = layer };
+                DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.ChangeScene(newSceneInfo);
+                return WCResult.Ok();
+            });
+        }
+
+        [Macro("clear_all_scenes")]
+        private static void ClearAllScenesMacro(MacroCallInfo info)
+        {
+            ClearSceneMacro(info, "{all_active}", 0);
+        }
+
         [Macro("clear_scene")]
         private static void ClearSceneMacro(MacroCallInfo info)
         {
-            new MacroNotImplementedException(info.ToString());
+            ClearSceneMacro(info, "{active}", 0);
         }
 
         [Macro("clear_scene")]
         private static void ClearSceneMacro(MacroCallInfo info, string sceneName)
         {
-            new MacroNotImplementedException(info.ToString());
+            Debug.Log("USE ME BEBE!!!!");
+            ClearSceneMacro(info, sceneName, 0);
         }
 
         [Macro("clear_scene")]
         private static void ClearSceneMacro(MacroCallInfo info, uint layerID)
         {
-            new MacroNotImplementedException(info.ToString());
+            ClearSceneMacro(info, null, layerID);
+        }
+
+        [Macro("clear_scene")]
+        private static void ClearSceneMacro(MacroCallInfo info, string sceneName, uint layerID)
+        {
+            Instance.SendNewAction(() =>
+            {
+                SceneInfo newScene = new() { name = sceneName, layer = (int)layerID };
+                DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.ClearScene(newScene);
+                return WCResult.Ok();
+            });
         }
 
         #region Standard Macro Overrides
