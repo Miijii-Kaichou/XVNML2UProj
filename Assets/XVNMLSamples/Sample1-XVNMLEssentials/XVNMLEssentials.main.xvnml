@@ -1056,7 +1056,10 @@
           @ Though it's special, because you can change your character's expression or voice 
           from that point on!<
           @ And it was entirely made to do that...<
-          @ Which is why we just going for the {curly}pause{pipe}clr{curly_end} instead.
+          @ Which is why we just going for the {curly}pause{pipe}clr{curly_end} instead.<
+          @ Be sure the balance the amount of macros used verses the amount of Skriptr lines that
+          needs to be parsed.<
+          @ And hopefully your XVNML file will become a lot more optimized.
           {$_main}<
 
           #//endregion
