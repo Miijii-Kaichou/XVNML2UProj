@@ -982,7 +982,7 @@
           @ You may want to have the name end with ".source.xvnml" or ".src.xvnml"...<
           @ But how would you know what it's a source of?<
           @ That's why we recommend substituting ".source" or ".src" with the tag your are
-          {source}sourcing from.<
+          {space}sourcing from.<
           @ For example, if you want to source a cast from within your Main XVNML file...<
           @ The file name may be seen as "Cassie.cast.xvnml"...<
           @ Or "Roger.cast.xvnml".<
