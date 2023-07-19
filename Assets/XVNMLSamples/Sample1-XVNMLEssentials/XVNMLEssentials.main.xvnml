@@ -96,7 +96,7 @@
           </macro>
      </macroCache>
 
-     <dialogue name::"XVNML2U Sample" #textSpeedControlledExternally>
+     <dialogue name::"XVNML2U Sample">
           @ {$_defaultTextSpeed|pass}<
           @ Welcome to XVNML2U!<
           @ This package{$_think} demonstrates the capabilities in which the XVNML

@@ -54,5 +54,10 @@ namespace XVNML2U.Mono
             responseControl.AssignIndex(index);
             responseControl.onClick += onClick;
         }
+
+        internal void SetContent(VerticalLayoutGroup vlg)
+        {
+            content = vlg;
+        }
     }
 }

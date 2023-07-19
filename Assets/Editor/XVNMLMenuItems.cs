@@ -4,13 +4,16 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using XVNML2U.Mono;
-using static Codice.CM.WorkspaceServer.WorkspaceTreeDataStore;
 
 namespace XVNML2U
 {
+#if UNITY_EDITOR
     public sealed class XVNMLMenuItems : Editor
     {
-
+        private const string HierarchyMenuItemPath = "Window/General/Hierarchy";
+        private const string NullImageResourcePath = "Images/NullImage";
+        private const string BasicModuleKitPrefabResourcePath = "Assets/Resources/Kits/BasicModuleKit.prefab";
+        private const string VNModuleKitPrefabResourcePath = "Assets/Resources/Kits/VNModuleKit.prefab";
         static readonly ColorBlock DefaultResponseControlButtonColorBlock = new()
         {
             normalColor = Color.black + new Color(0, 0, 0, 0.5f),
@@ -24,7 +27,7 @@ namespace XVNML2U
         static readonly Color WhiteSemiTransparentColor = new Color(1, 1, 1, 0.5f);
 
 
-        [MenuItem("GameObject/XVNML2U/Stage/Stage (Empty)")]
+        [MenuItem("GameObject/XVNML2U/Stage/Stage (Empty)", priority = 81)]
         static void AddNewEmptyXVNMLStageObject()
         {
             GameObject newStageObject = new();
@@ -35,7 +38,7 @@ namespace XVNML2U
         }
 
 
-        [MenuItem("GameObject/XVNML2U/Stage/Stage")]
+        [MenuItem("GameObject/XVNML2U/Stage/Stage", priority = 81)]
         static void AddNewXVNMLStageObject()
         {
             GameObject newStageObject = new();
@@ -58,7 +61,7 @@ namespace XVNML2U
             FinalizeObjectCreation(ref newStageObject);
         }
 
-        [MenuItem("GameObject/XVNML2U/XVNML Module")]
+        [MenuItem("GameObject/XVNML2U/XVNML Module", priority = 81)]
         static void AddNewXVNMLModuleObject()
         {
             GameObject newXVNMLModuleObject = new();
@@ -70,7 +73,7 @@ namespace XVNML2U
             FinalizeObjectCreation(ref newXVNMLModuleObject);
         }
 
-        [MenuItem("GameObject/XVNML2U/UI/Text Renderer")]
+        [MenuItem("GameObject/XVNML2U/UI/Text Renderer", priority = 81)]
         static void AddNewXVNMLTextRendererObject()
         {
             GameObject newXVNMLTextRendererObject = new();
@@ -89,7 +92,7 @@ namespace XVNML2U
             FinalizeObjectCreation(ref newXVNMLTextRendererObject);
         }
 
-        [MenuItem("GameObject/XVNML2U/Audio/AudioController")]
+        [MenuItem("GameObject/XVNML2U/Audio/AudioController", priority = 81)]
         static void AddNewAudioControllerObject()
         {
             GameObject newXVNMLAudioControllerObject = new();
@@ -100,7 +103,7 @@ namespace XVNML2U
             FinalizeObjectCreation(ref newXVNMLAudioControllerObject);
         }
 
-        [MenuItem("GameObject/XVNML2U/Singleton/Input Manager")]
+        [MenuItem("GameObject/XVNML2U/Singleton/Input Manager", priority = 81)]
         static void AddNewInputManagerObject()
         {
             GameObject newXVNMLInputManagerObject = new();
@@ -111,7 +114,7 @@ namespace XVNML2U
             FinalizeObjectCreation(ref newXVNMLInputManagerObject);
         }
 
-        [MenuItem("GameObject/XVNML2U/Singleton/XVNML Log Listener")]
+        [MenuItem("GameObject/XVNML2U/Singleton/XVNML Log Listener", priority = 81)]
         static void AddNewXVNMLogListenerObject()
         {
             GameObject newXVNMLLogListenerObject = new();
@@ -123,7 +126,7 @@ namespace XVNML2U
             
         }
 
-        [MenuItem("GameObject/XVNML2U/Dialogue/Dialogue Control")]
+        [MenuItem("GameObject/XVNML2U/Dialogue/Dialogue Control", priority = 81)]
         static void AddNewXVNMLDialogueControl()
         {
             GameObject newXVNMLDialogueControlObject = new();
@@ -135,7 +138,7 @@ namespace XVNML2U
             
         }
 
-        [MenuItem("GameObject/XVNML2U/Singleton/XVNML Action Scheduler")]
+        [MenuItem("GameObject/XVNML2U/Singleton/XVNML Action Scheduler", priority = 81)]
         static void AddNewXVNMLActionScheduler()
         {
             GameObject newXVNMLActionSchedulerObject = new();
@@ -146,11 +149,13 @@ namespace XVNML2U
             FinalizeObjectCreation(ref newXVNMLActionSchedulerObject);
         }
 
-        [MenuItem("GameObject/XVNML2U/Singleton/Dialogue Writer Allocator")]
+        [MenuItem("GameObject/XVNML2U/Singleton/Dialogue Writer Allocator", priority = 81)]
         static void AddNewXVNMLDialogueWriterAllocator()
         {
             GameObject newDialogueWriterAllocator = new();
-            newDialogueWriterAllocator.AddComponent<DialogueProcessAllocator>();
+            DialogueProcessAllocator dialogueProcessAllocatorComponent = newDialogueWriterAllocator.AddComponent<DialogueProcessAllocator>();
+
+            dialogueProcessAllocatorComponent.channelSize = 1;
 
             newDialogueWriterAllocator.name = "XVNMLDialogueWriterAllocator";
 
@@ -158,7 +163,7 @@ namespace XVNML2U
             
         }
 
-        [MenuItem("GameObject/XVNML2U/Prompts/Prompt Control (Empty)")]
+        [MenuItem("GameObject/XVNML2U/Prompts/Prompt Control (Empty)", priority = 81)]
         static void AddNewEmptyXVNMLPromptControl()
         {
             GameObject newEmptyPromptControlObject = new();
@@ -169,7 +174,7 @@ namespace XVNML2U
             FinalizeObjectCreation(ref newEmptyPromptControlObject);
         }
 
-        [MenuItem("GameObject/XVNML2U/Prompts/Prompt Control")]
+        [MenuItem("GameObject/XVNML2U/Prompts/Prompt Control", priority = 81)]
         static void AddNewXVNMLPromptControl()
         {
             GameObject newPromptControlObject = new();
@@ -234,18 +239,18 @@ namespace XVNML2U
             FinalizeObjectCreation(ref newPromptControlObject);
         }
 
-        [MenuItem("GameObject/XVNML2U/Prompts/Response Control (Empty)")]
+        [MenuItem("GameObject/XVNML2U/Prompts/Response Control (Empty)", priority = 81)]
         static void AddNewEmptyResponseControl()
         {
             GameObject newEmptyResponseControl = new();
             newEmptyResponseControl.AddComponent<ResponseControl>();
 
-            newEmptyResponseControl.name = "ResponseControl (Empyt)";
+            newEmptyResponseControl.name = "ResponseControl (Empty)";
 
             FinalizeObjectCreation(ref newEmptyResponseControl);
         }
 
-        [MenuItem("GameObject/XVNML2U/Prompts/Response Control")]
+        [MenuItem("GameObject/XVNML2U/Prompts/Response Control", priority = 81)]
         static void AddNewResponseControl()
         {
             GameObject responseControlObject = new();
@@ -277,46 +282,155 @@ namespace XVNML2U
             FinalizeObjectCreation(ref responseControlObject);
         }
 
-        [MenuItem("GameObject/XVNML2U/UI/Confirm Marker")]
+        [MenuItem("GameObject/XVNML2U/UI/Confirm Marker", priority = 81)]
         static void AddNewConfirmMarker()
         {
+            GameObject newConfirmMarkerObject = new();
+            ConfirmMarker confirmMarkerComponent = newConfirmMarkerObject.AddComponent<ConfirmMarker>();
+            Image graphic = newConfirmMarkerObject.AddComponent<Image>();
 
-            
+            confirmMarkerComponent.SetGraphic(graphic);
+
+            newConfirmMarkerObject.name = "ConfirmMarker";
+
+            FinalizeObjectCreation(ref  newConfirmMarkerObject);
         }
 
-        [MenuItem("GameObject/XVNML2U/Scene/SceneController")]
+        [MenuItem("GameObject/XVNML2U/Scene/SceneController", priority = 81)]
         static void AddNewSceneController()
         {
+            GameObject newSceneControllerObject = new();
+            newSceneControllerObject.AddComponent<SceneController>();
 
-            
+            int layerCount = 5;
+
+            for(int i = 0; i < layerCount; i++)
+            {
+                GameObject layerObject = new();
+                Image imageComponent = layerObject.AddComponent<Image>();
+                imageComponent.sprite = Resources.Load<Sprite>(NullImageResourcePath);
+                imageComponent.raycastTarget = false;
+                imageComponent.maskable = false;
+                imageComponent.type = Image.Type.Simple;
+                imageComponent.useSpriteMesh = false;
+                imageComponent.preserveAspect = false;
+                imageComponent.color = Color.white;
+
+                imageComponent.transform.parent = newSceneControllerObject.transform;
+            }
+
+            newSceneControllerObject.name = "SceneController";
+
+            FinalizeObjectCreation(ref newSceneControllerObject);
         }
 
-        [MenuItem("GameObject/XVNML2U/Cast/CastController")]
+        [MenuItem("GameObject/XVNML2U/Cast/CastController", priority = 81)]
+        static void AddNewEmptyCastController()
+        {
+            GameObject newEmptyCastControllerObject = new();
+            newEmptyCastControllerObject.AddComponent<CastController>();
+
+            newEmptyCastControllerObject.name = "CastController";
+
+            FinalizeObjectCreation(ref newEmptyCastControllerObject);
+        }
+
+        [MenuItem("GameObject/XVNML2U/Cast/CastController", priority = 81)]
         static void AddNewCastController()
         {
+            int castCount = 12;
 
-            
+            GameObject newCastControllerObject = new();
+            newCastControllerObject.AddComponent<CastController>();
+
+            StringBuilder sb = new StringBuilder();
+
+            for(int i = 0; i < castCount; i++)
+            {
+                GameObject castEntityObject = new();
+                AudioSource castEntityVoiceBox = castEntityObject.AddComponent<AudioSource>();
+                Image castEntityImage = castEntityObject.AddComponent<Image>();
+                RectTransform castEntityTransform = castEntityObject.AddComponent<RectTransform>();
+
+                castEntityImage.sprite = Resources.Load<Sprite>(NullImageResourcePath);
+                castEntityImage.raycastTarget = false;
+                castEntityImage.maskable = false;
+                castEntityImage.type = Image.Type.Simple;
+                castEntityImage.color = Color.white;
+                castEntityImage.useSpriteMesh = false;
+                castEntityImage.preserveAspect = true;
+
+                castEntityTransform.localPosition = new Vector3(-1325, 0);
+                castEntityTransform.sizeDelta = new Vector2(700, 2300);
+
+                CastEntity castEntityComponent = castEntityObject.AddComponent<CastEntity>();
+                castEntityComponent.loadingMode = LoadingMode.External;
+                castEntityComponent.graphicMode = CastGraphicMode.Image;
+                castEntityComponent.SetVoiceBox(castEntityVoiceBox);
+
+                var newName = sb.Append("Cast")
+                    .Append("[")
+                    .Append(i)
+                    .Append("]")
+                    .ToString();
+
+                castEntityObject.name = newName;
+
+                sb.Clear();
+
+                castEntityObject.transform.parent = newCastControllerObject.transform;
+            }
+
+            newCastControllerObject.name = "CastController";
+
+            FinalizeObjectCreation(ref newCastControllerObject);
         }
 
-        [MenuItem("GameObject/XVNML2U/Cast/Cast Entity")]
+        [MenuItem("GameObject/XVNML2U/Cast/Cast Entity", priority = 81)]
         static void AddNewCastEntity()
         {
+            GameObject newCastEntityObject = new();
+            AudioSource castEntityVoiceBox = newCastEntityObject.AddComponent<AudioSource>();
+            Image castEntityImage = newCastEntityObject.AddComponent<Image>();
+            RectTransform castEntityTransform = newCastEntityObject.AddComponent<RectTransform>();
 
-            
+            castEntityImage.sprite = Resources.Load<Sprite>(NullImageResourcePath);
+            castEntityImage.raycastTarget = false;
+            castEntityImage.maskable = false;
+            castEntityImage.type = Image.Type.Simple;
+            castEntityImage.color = Color.white;
+            castEntityImage.useSpriteMesh = false;
+            castEntityImage.preserveAspect = true;
+
+            castEntityTransform.localPosition = new Vector3(-1325, 0);
+            castEntityTransform.sizeDelta = new Vector2(700, 2300);
+
+            CastEntity castEntityComponent = newCastEntityObject.AddComponent<CastEntity>();
+            castEntityComponent.loadingMode = LoadingMode.External;
+            castEntityComponent.graphicMode = CastGraphicMode.Image;
+            castEntityComponent.SetVoiceBox(castEntityVoiceBox);
+
+            newCastEntityObject.name = "CastEntity";
+
+            FinalizeObjectCreation(ref newCastEntityObject);
         }
 
-        [MenuItem("GameObject/XVNML2U/Kits/Basic Module Kit")]
+        [MenuItem("GameObject/XVNML2U/Kits/Basic Module Kit", priority = 81)]
         static void AddNewBasicModuleKit()
         {
-
-            
+            GameObject newBasicModuleKitObject = PrefabUtility.LoadPrefabContents(BasicModuleKitPrefabResourcePath);
+            newBasicModuleKitObject = Instantiate(newBasicModuleKitObject);
+            newBasicModuleKitObject.name = "BasicModuleKit";
+            FinalizeObjectCreation(ref newBasicModuleKitObject);
         }
 
-        [MenuItem("GameObject/XVNML2U/Kits/VN Module Kit")]
+        [MenuItem("GameObject/XVNML2U/Kits/VN Module Kit", priority = 81)]
         static void AddNewVNModuleKit()
         {
-
-            
+            GameObject newVNModuleKitObject = PrefabUtility.LoadPrefabContents(VNModuleKitPrefabResourcePath);
+            newVNModuleKitObject = Instantiate(newVNModuleKitObject);
+            newVNModuleKitObject.name = "VNModuleKit";
+            FinalizeObjectCreation(ref newVNModuleKitObject);
         }
 
         private static void FinalizeObjectCreation(ref GameObject obj)
@@ -332,9 +446,10 @@ namespace XVNML2U
         {
             EditorApplication.delayCall += () =>
             {
-                EditorApplication.ExecuteMenuItem("Window/General/Hierarchy");
+                EditorApplication.ExecuteMenuItem(HierarchyMenuItemPath);
                 EditorWindow.focusedWindow.SendEvent(new Event { keyCode = KeyCode.F2, type = EventType.KeyDown });
             };
         }
     }
+#endif
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -26,5 +27,11 @@ namespace XVNML2U.Mono
         internal void OnPending() => _onShow?.Invoke();
 
         internal void OnAccept() => _onHide?.Invoke();
+
+        [ExecuteInEditMode]
+        internal void SetGraphic(Image graphic)
+        {
+            confirmMarkerRenderer = graphic;
+        }
     }
 }

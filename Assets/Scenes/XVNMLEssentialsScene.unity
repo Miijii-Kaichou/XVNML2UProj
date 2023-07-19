@@ -4792,8 +4792,8 @@ MonoBehaviour:
   processChannel: 0
   tickSound: {fileID: 0}
   stageObj: {fileID: 28105569}
-  dialogueReferenceValue: 
-  dialogueReferenceType: 0
+  dialogueReferenceValue: XVNML2U Sample
+  dialogueReferenceType: 1
   dialogueGroupReferenceValue: 
   dialogueGroupReferenceType: 0
   _castNameText: {fileID: 1062401940}
@@ -5288,7 +5288,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: This is just example text.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8c4a0bd778d2bca42baf263a897b0c89, type: 2}
   m_sharedMaterial: {fileID: -1412605181148732798, guid: 8c4a0bd778d2bca42baf263a897b0c89, type: 2}
@@ -5351,7 +5351,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 50, y: 86, z: 50, w: 0}
+  m_margin: {x: 50, y: 80, z: 50, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

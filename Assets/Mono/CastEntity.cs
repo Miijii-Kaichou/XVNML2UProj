@@ -6,10 +6,10 @@ namespace XVNML2U.Mono
 {
     public sealed class CastEntity : MonoBehaviour
     {
-        [SerializeField, Header("Graphics")]
-        CastGraphicMode graphicMode;
+        [Header("Graphics")]
+        public CastGraphicMode graphicMode;
 
-        [SerializeField, Header("Loading Mode")]
+        [Header("Loading Mode")]
         public LoadingMode loadingMode = LoadingMode.External;
 
         //We'll have the UI change based on the mode in the future
@@ -129,6 +129,12 @@ namespace XVNML2U.Mono
             {
                 GenerateAndAddToPortraitLibrary(portraits[i].TagID.Value, portraits[i].TagName, portraits[i].imageTarget.GetImageData());
             }
+        }
+
+        [ExecuteInEditMode]
+        internal void SetVoiceBox(AudioSource castEntityVoiceBox)
+        {
+            voiceBox = castEntityVoiceBox;
         }
     }
 }
