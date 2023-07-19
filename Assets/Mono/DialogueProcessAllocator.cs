@@ -1,5 +1,5 @@
 using UnityEngine;
-using XVNML.Utility.Dialogue;
+using XVNML.Utilities.Dialogue;
 
 namespace XVNML2U.Mono
 {

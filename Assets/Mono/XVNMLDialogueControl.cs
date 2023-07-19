@@ -7,7 +7,7 @@ using UnityEngine.Events;
 using XVNML.Core.Dialogue;
 using XVNML.Core.Dialogue.Structs;
 using XVNML.Input.Enums;
-using XVNML.Utility.Dialogue;
+using XVNML.Utilities.Dialogue;
 using XVNML.XVNMLUtility;
 using XVNML.XVNMLUtility.Tags;
 using XVNML2U.Data;

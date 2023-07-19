@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using XVNML.Core.Dialogue.Structs;
-using XVNML.Utility.Macros;
+using XVNML.Utilities.Macros;
 using XVNML.XVNMLUtility.Tags;
 
 namespace XVNML2U.Mono
@@ -79,6 +79,18 @@ namespace XVNML2U.Mono
         internal void HaveCastEnterFrom(EnterSide side)
         {
             castController.HaveCastEnterFrom(side);
+        }
+
+        [ExecuteInEditMode]
+        internal void SetCastController(CastController castControllerComponent)
+        {
+            castController = castControllerComponent;
+        }
+
+        [ExecuteInEditMode]
+        internal void SetSceneController(SceneController sceneControllerComponent)
+        {
+            sceneController = sceneControllerComponent;
         }
     }
 }

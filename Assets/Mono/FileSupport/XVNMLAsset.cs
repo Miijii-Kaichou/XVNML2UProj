@@ -29,7 +29,6 @@ namespace XVNML2U.Mono
         /// <summary>
         /// HashCode based on the name of the asset.
         /// </summary>
-        private int _hashCode;
         public int HashCode => (m_InstanceID + filePath).GetHashCode();
 
         /// <summary>
@@ -43,10 +42,16 @@ namespace XVNML2U.Mono
 
         private void OnEnable()
         {
-        #if UNITY_EDITOR
+            OnValidate();
+        }
+
+        private void OnValidate()
+        {
+#if UNITY_EDITOR
             var icon = AssetDatabase.LoadAssetAtPath<Texture2D>(IconPath);
             EditorGUIUtility.SetIconForObject(this, icon);
-        #endif
+            filePath = AssetDatabase.GetAssetPath(this);
+#endif
         }
 
         public void Build(Action<XVNMLObj>? onBuildFinished, bool allowCacheUsageAndGeneration = false)

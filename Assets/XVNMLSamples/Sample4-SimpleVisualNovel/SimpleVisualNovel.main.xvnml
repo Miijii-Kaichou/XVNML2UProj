@@ -14,20 +14,33 @@
 		<audio name::"TestMusic" src::"BGM/SpitFireLabsTes1t.wav"/>
 	</audioDefinitions>
 
-	<dialogue name::"BasicXVNMLTutorial-Prompts">
-		@Hana {
-			cue_scene::"OutsideOfSchool"
-			|set_cast_motion::"Interpolation"
-			|set_cast_motion_duration::0.5f
-			|set_text_speed::45
-			|set_sound::"TestMusic"
-			|enable_sound_loop
-			|set_volume::100
-			|play_sound
-			|cast_enters_from::"Left"
-			|cue_cast::("Hana","Center",0)
-			|pass
-		}<
+	<keycodeDefinitions>
+		<keycode name::"_proceedWithReturn" 	vkey::Return 	purpose::PROCEED/>
+		<keycode name::"_proceedWithMouseClick" vkey::LeftMouse purpose::PROCEED/>
+	</keycodeDefinitions>
+
+	<macroCache>
+		<macro name::"_initializeStage">
+			<macro arg::"OutsideOfSchool" symbol::"use_scene"/>
+			<macro arg::Interpolation symbol::"set_cast_motion"/>
+			<macro arg::0.5f symbol::"set_cast_motion_duration"/>
+			<macro arg::45 symbol::"set_text_speed"/>
+			<macro arg::"TestMusic" symbol::"set_sound"/>
+			<macro arg::true symbol::"loop_sound"/>
+			<macro arg::100 symbol::"set_sound_volume"/>
+			<macro symbol::"play_sound"/>
+			<macro arg::Left symbol::"cast_enters_from"/>
+			<macro symbol::"cue_cast">
+				<arg value::"Hana"/>
+				<arg value::Center/>
+				<arg value::0/>
+			</macro>
+			<macro symbol::"pass"/>
+		</macro>
+	</macroCache>
+
+	<dialogue name::"VisualNovelSample">
+		@Hana {$_initializeStage}<
 		@*>Smile I've just received some great news!<
 		@*>Happy>Wow You definitely want to hear this.> 
 		Because this will change the way how we use XVNML2U from here on.<

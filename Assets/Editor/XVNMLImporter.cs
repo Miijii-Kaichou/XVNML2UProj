@@ -1,6 +1,8 @@
 #if UNITY_EDITOR
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.AssetImporters;
 using UnityEngine;
@@ -24,6 +26,28 @@ namespace XVNML2U.Mono.Core
             ctx.AddObjectToAsset(name, xvnml);
             ctx.SetMainObject(xvnml);
             StoredContext = ctx;
+
+            IncludeNecessaryExtensions();
+        }
+
+        private void IncludeNecessaryExtensions()
+        {
+            var necessaryExt = new[]
+            {
+                ".xvnml",
+                ".json",
+                ".ha"
+            };
+
+            var extensionsList = EditorSettings.projectGenerationUserExtensions.ToList();
+
+            foreach (var ext in necessaryExt)
+            {
+                if (EditorSettings.projectGenerationUserExtensions.Contains(ext)) continue;
+                extensionsList.Add(ext);
+            }
+
+            EditorSettings.projectGenerationUserExtensions = extensionsList.ToArray();
         }
     }
 }

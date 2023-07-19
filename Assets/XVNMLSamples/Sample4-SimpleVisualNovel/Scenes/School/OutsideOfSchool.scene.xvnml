@@ -1,0 +1,8 @@
+<source name::"OutsideOfSchool.Scene.XVNML">
+    <imageDefinitions>
+        <image name::"OutsideOfSchoolImg" src::"/OutsideOfSchool.png" pathMode::Relative/>
+    </imageDefinitions>
+    <sceneDefinitions>
+        <scene name::"OutsideOfSchool" img::$OutsideOfSchoolImg/>
+    </sceneDefinitions>
+</source>

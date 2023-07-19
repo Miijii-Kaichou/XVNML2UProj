@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 using XVNML.Core.Tags;
-using XVNML.Utility.Dialogue;
+using XVNML.Utilities.Dialogue;
 using XVNML.XVNMLUtility;
 
 #nullable enable

@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -45,6 +46,12 @@ namespace XVNML2U.Mono
             {
                 _target.pageToDisplay = value;
             }
+        }
+
+        [ExecuteInEditMode]
+        internal void SetTarget(TextMeshProUGUI tmpText)
+        {
+            _target = tmpText;
         }
     }
 }

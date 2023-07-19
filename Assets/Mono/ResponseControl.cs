@@ -52,5 +52,11 @@ namespace XVNML2U.Mono
             onClick?.Invoke();
             Clear();
         }
+
+        [ExecuteInEditMode]
+        internal void SetButton(Button buttonComponent)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

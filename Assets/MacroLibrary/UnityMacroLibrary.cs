@@ -1,8 +1,7 @@
 using UnityEngine;
-using XVNML.Utility.Macros;
+using XVNML.Utilities.Macros;
 using XVNML2U.Data;
 using XVNML2U.Mono;
-using XVNML.Core.Macros;
 using XVNML.Core.Dialogue.Structs;
 
 namespace XVNML2U
@@ -19,6 +18,7 @@ namespace XVNML2U
         }
 
         [Macro("play_sound")]
+        [Macro("plsnd")]
         private static void PlayMacro(MacroCallInfo info)
         {
             Instance.SendNewAction(() =>
@@ -29,6 +29,7 @@ namespace XVNML2U
         }
 
         [Macro("pause_sound")]
+        [Macro("pssnd")]
         private static void PauseMacro(MacroCallInfo info)
         {
             Instance.SendNewAction(() =>
@@ -39,6 +40,7 @@ namespace XVNML2U
         }
 
         [Macro("set_sound")]
+        [Macro("ssnd")]
         private static void SetMusicMacro(MacroCallInfo info, string audioName)
         {
             Instance.SendNewAction(() =>
@@ -48,7 +50,8 @@ namespace XVNML2U
             });
         }
 
-        [Macro("set_volume")]
+        [Macro("set_sound_volume")]
+        [Macro("ssndv")]
         private static void SetMusicVolumeMacro(MacroCallInfo info, uint volume)
         {
             Instance.SendNewAction(() =>
@@ -58,6 +61,7 @@ namespace XVNML2U
             });
         }
 
+        [Macro("loop_sound")]
         [Macro("loop")]
         private static void SetSoundLoopMacro(MacroCallInfo info, bool loop)
         {
@@ -75,6 +79,7 @@ namespace XVNML2U
         }
 
         [Macro("enable_sound_loop")]
+        [Macro("esndl")]
         private static void EnableLoopMacro(MacroCallInfo info)
         {
             Instance.SendNewAction(() =>
@@ -85,6 +90,7 @@ namespace XVNML2U
         }
 
         [Macro("disable_sound_loop")]
+        [Macro("dsndl")]
         private static void DisableLoopMacro(MacroCallInfo info)
         {
             Instance.SendNewAction(() =>
@@ -94,7 +100,9 @@ namespace XVNML2U
             });
         }
 
+        [Macro("play_sound_effect")]
         [Macro("play_sfx")]
+        [Macro("psfx")]
         private static void OneShotMacro(MacroCallInfo info, string audioName, uint volume)
         {
             DialogueProcessAllocator.ProcessReference[info.process.ID].SendNewAction(() =>
@@ -105,11 +113,6 @@ namespace XVNML2U
         }
 
         [Macro("htb")]
-        private static void HideTextBoxShortHand(MacroCallInfo info)
-        {
-            HideTextBox(info);
-        }
-
         [Macro("hide_text_box")]
         private static void HideTextBox(MacroCallInfo info)
         {
@@ -118,11 +121,6 @@ namespace XVNML2U
         }
 
         [Macro("stb")]
-        private static void ShowTextBoxShortHand(MacroCallInfo info)
-        {
-            ShowTextBox(info);
-        }
-
         [Macro("show_text_box")]
         private static void ShowTextBox(MacroCallInfo info)
         {
@@ -131,6 +129,7 @@ namespace XVNML2U
         }
 
         [Macro("cue_cast")]
+        [Macro("cast")]
         private static void CueCastMacro(MacroCallInfo info, string anchoring)
         {
             var name = info.process.CurrentCastInfo.Value.name;
@@ -138,6 +137,7 @@ namespace XVNML2U
         }
 
         [Macro("cue_cast")]
+        [Macro("cast")]
         private static void CueCastMacro(MacroCallInfo info, string anchoring, uint offset)
         {
             var name = info.process.CurrentCastInfo.Value.name;
@@ -145,18 +145,21 @@ namespace XVNML2U
         }
 
         [Macro("cue_cast")]
+        [Macro("cast")]
         private static void CueCastMacro(MacroCallInfo info, string name, string anchoring)
         {
             CueCastMacro(info, name, anchoring, 0);
         }
 
         [Macro("cue_cast")]
+        [Macro("cast")]
         private static void CueCastMacro(MacroCallInfo info, string name, string anchoring, uint offset)
         {
             DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.PositionCast(info, name, anchoring.Parse<Anchoring>(), offset);
         }
 
         [Macro("move_cast")]
+        [Macro("mcst")]
         private static void MoveCastMacro(MacroCallInfo info, int units)
         {
             var name = info.process.CurrentCastInfo?.name;
@@ -164,24 +167,28 @@ namespace XVNML2U
         }
 
         [Macro("move_cast")]
+        [Macro("mcst")]
         private static void MoveCastMacro(MacroCallInfo info, string name, int units)
         {
             DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.MoveCast(info, name, units);
         }
 
         [Macro("set_cast_motion")]
+        [Macro("scstm")]
         private static void SetCastMotionMacro(MacroCallInfo info, string motionType)
         {
             DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.SetCastMotion(motionType.Parse<CastMotionType>());
         }
 
         [Macro("set_cast_motion_duration")]
+        [Macro("scstmd")]
         private static void SetCastMotionDurationMacro(MacroCallInfo info, float motionDuration)
         {
             DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.SetCastMotionDuration(motionDuration);
         }
 
         [Macro("cast_enters_from")]
+        [Macro("cstef")]
         private static void CastEntersFromMacro(MacroCallInfo info, string side)
         {
             DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.HaveCastEnterFrom(side.Parse<EnterSide>());
@@ -205,12 +212,14 @@ namespace XVNML2U
         }
 
         [Macro("use_scene")]
+        [Macro("scene")]
         private static void UseSceneMacro(MacroCallInfo info, string sceneName)
         {
             UseSceneMacro(info, sceneName, 0);
         }
 
         [Macro("use_scene")]
+        [Macro("scene")]
         private static void UseSceneMacro(MacroCallInfo info, string sceneName, int layer)
         {
             Instance.SendNewAction(() =>
@@ -222,18 +231,21 @@ namespace XVNML2U
         }
 
         [Macro("clear_all_scenes")]
+        [Macro("clrascn")]
         private static void ClearAllScenesMacro(MacroCallInfo info)
         {
             ClearSceneMacro(info, "{all_active}", 0);
         }
 
         [Macro("clear_scene")]
+        [Macro("clrscn")]
         private static void ClearSceneMacro(MacroCallInfo info)
         {
             ClearSceneMacro(info, "{active}", 0);
         }
 
         [Macro("clear_scene")]
+        [Macro("clrscn")]
         private static void ClearSceneMacro(MacroCallInfo info, string sceneName)
         {
             Debug.Log("USE ME BEBE!!!!");
@@ -241,12 +253,14 @@ namespace XVNML2U
         }
 
         [Macro("clear_scene")]
+        [Macro("clrscn")]
         private static void ClearSceneMacro(MacroCallInfo info, uint layerID)
         {
             ClearSceneMacro(info, null, layerID);
         }
 
         [Macro("clear_scene")]
+        [Macro("clrscn")]
         private static void ClearSceneMacro(MacroCallInfo info, string sceneName, uint layerID)
         {
             Instance.SendNewAction(() =>
@@ -258,19 +272,10 @@ namespace XVNML2U
         }
 
         #region Standard Macro Overrides
-        [Macro("exp")]
-        internal static void SetCastExpressionMacroShortHand(MacroCallInfo info, string castName, string value)
-        {
-            SetCastExpressionMacro(info, castName, value);
-        }
-
-        [Macro("exp")]
-        internal static void SetCastExpressionMacroShortHand(MacroCallInfo info, string castName, int value)
-        {
-            SetCastExpressionMacro(info, castName, value);
-        }
-
         [Macro("expression")]
+        [Macro("portrait")]
+        [Macro("exp")]
+        [Macro("port")]
         internal static void SetCastExpressionMacro(MacroCallInfo info, string castName, string value)
         {
             var stage = DialogueProcessAllocator.ProcessReference[info.process.ID].Stage;
@@ -282,24 +287,16 @@ namespace XVNML2U
         }
 
         [Macro("expression")]
+        [Macro("portrait")]
+        [Macro("exp")]
+        [Macro("port")]
         internal static void SetCastExpressionMacro(MacroCallInfo info, string castName, int value)
         {
             SetCastExpressionMacro(info, castName, value.ToString());
         }
 
-        [Macro("vo")]
-        internal static void SetCastVoiceShortHand(MacroCallInfo info, string castName, string value)
-        {
-            SetCastVoice(info, castName, value);
-        }
-
-        [Macro("vo")]
-        internal static void SetCastVoiceShortHand(MacroCallInfo info, string castName, int value)
-        {
-            SetCastVoice(info, castName, value);
-        }
-
         [Macro("voice")]
+        [Macro("vo")]
         internal static void SetCastVoice(MacroCallInfo info, string castName, string value)
         {
             var processRef = DialogueProcessAllocator.ProcessReference[info.process.ID];
@@ -312,6 +309,7 @@ namespace XVNML2U
         }
 
         [Macro("voice")]
+        [Macro("vo")]
         internal static void SetCastVoice(MacroCallInfo info, string castName, int value)
         {
             SetCastVoice(info, castName, value.ToString());

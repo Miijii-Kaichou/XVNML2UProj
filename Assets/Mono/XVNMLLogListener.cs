@@ -4,7 +4,7 @@ using System.Collections;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using XVNML.Utility.Diagnostics;
+using XVNML.Utilities.Diagnostics;
 
 namespace XVNML2U.Mono
 {

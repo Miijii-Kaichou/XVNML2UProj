@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using XVNML.Input.Enums;
+using XVNML.Utilities.Diagnostics;
 using XVNML.XVNMLUtility.Tags;
 
 namespace XVNML2U.Mono
@@ -16,10 +17,18 @@ namespace XVNML2U.Mono
             var root = module.Root;
 
             KeycodeDefinitions def = root.GetElement<KeycodeDefinitions>();
-            if (def == null) return;
+            if (def == null)
+            {
+                Debug.LogWarning("There are now <keycodeDefinitions> element");
+                return;
+            }
 
             Keycode[] keycodes = root?.GetElement<KeycodeDefinitions>().KeyCodes;
-            if (keycodes.Length == 0) return;
+            if (keycodes.Length == 0)
+            {
+                Debug.LogWarning("There are no <keycode> elements defined.");
+                return;
+            }
 
             AttachedKeycodeDefinitions[module] = def;
 
@@ -43,39 +52,46 @@ namespace XVNML2U.Mono
 
         public static bool KeyPressed(XVNMLModule module, VirtualKey key)
         {
+            if (VKPurposeMap.ContainsKey(module) == false) return false;
             var modulesWithKey = VKPurposeMap[module].Where(ivp => ivp.Value.Contains(key));
             return modulesWithKey.Any() && Input.GetKeyDown((KeyCode)key);
         }
 
         public static bool KeyHold(XVNMLModule module, VirtualKey key)
         {
+            if (VKPurposeMap.ContainsKey(module) == false) return false;
             var modulesWithKey = VKPurposeMap[module].Where(ivp => ivp.Value.Contains(key));
             return modulesWithKey.Any() && Input.GetKey((KeyCode)key);
         }
 
         public static bool KeyReleased(XVNMLModule module, VirtualKey key)
         {
+            if (VKPurposeMap.ContainsKey(module) == false) return false;
             var modulesWithKey = VKPurposeMap[module].Where(ivp => ivp.Value.Contains(key));
             return modulesWithKey.Any() && Input.GetKeyUp((KeyCode)key);
         }
 
         public static bool KeyPressed(XVNMLModule module, string key)
         {
+            if (VKPurposeMap.ContainsKey(module) == false) return false;
             return Input.GetKeyDown((KeyCode)AttachedKeycodeDefinitions[module].GetElement<Keycode>(key).vkey);
         }
 
         public static bool KeyHold(XVNMLModule module, string key)
         {
+            if (VKPurposeMap.ContainsKey(module) == false) return false;
             return Input.GetKey((KeyCode)AttachedKeycodeDefinitions[module].GetElement<Keycode>(key).vkey);
         }
 
         public static bool KeyReleased(XVNMLModule module, string key)
         {
+            if (VKPurposeMap.ContainsKey(module) == false) return false;
             return Input.GetKeyUp((KeyCode)AttachedKeycodeDefinitions[module].GetElement<Keycode>(key).vkey);
         }
 
         public static bool OnInput(XVNMLModule module, InputEvent purpose)
         {
+            if (VKPurposeMap.ContainsKey(module) == false) return false;
             SortedDictionary<InputEvent, List<VirtualKey>> targetInputKeyPairs = VKPurposeMap[module];
             var validInput = VKPurposeMap[module].ContainsKey(purpose);
             if (validInput == false) return validInput;
@@ -96,6 +112,7 @@ namespace XVNML2U.Mono
 
         public static bool OnInputActive(XVNMLModule module, InputEvent purpose)
         {
+            if (VKPurposeMap.ContainsKey(module) == false) return false;
             SortedDictionary<InputEvent, List<VirtualKey>> targetInputKeyPairs = VKPurposeMap[module];
             var validInput = VKPurposeMap[module].ContainsKey(purpose);
             if (validInput == false) return validInput;
@@ -117,6 +134,7 @@ namespace XVNML2U.Mono
 
         public static bool OnInputRelease(XVNMLModule module, InputEvent purpose)
         {
+            if (VKPurposeMap.ContainsKey(module) == false) return false;
             SortedDictionary<InputEvent, List<VirtualKey>> targetInputKeyPairs = VKPurposeMap[module];
             var validInput = VKPurposeMap[module].ContainsKey(purpose);
             if (validInput == false) return validInput;
