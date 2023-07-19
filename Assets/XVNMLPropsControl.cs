@@ -26,9 +26,12 @@ namespace XVNML2U
         private static SortedDictionary<string, Sprite> ImageMapping = new();
         private static List<PropEntity> CachedProps = new();
         private static Vector3 SetScale = new Vector3(1, 1, 1);
-
+        private static int ModuleWidth = 0;
+        private static int ModuleHeight = 0;
 
         static int PoolIndex = 0;
+
+        public static TransitionMode PropTransitionMode { get; private set; }
 
         internal static void Init(XVNMLModule module)
         {
@@ -37,10 +40,10 @@ namespace XVNML2U
             if (Instance._enablePooling) SetPropEntities();
 
             Instance._rectTransform ??= Instance.GetComponent<RectTransform>();
-            var moduleWidth = module.Root.GetParameterValue<int>("screenWidth");
-            var moduleHeight = module.Root.GetParameterValue<int>("screenHeight");
+            ModuleWidth = module.Root.GetParameterValue<int>("screenWidth");
+            ModuleHeight = module.Root.GetParameterValue<int>("screenHeight");
 
-            Instance._rectTransform.sizeDelta = new Vector2(moduleWidth, moduleHeight);
+            Instance._rectTransform.sizeDelta = new Vector2(ModuleWidth, ModuleHeight);
 
             ImageDefinitions imageDefinitions = module.Get<ImageDefinitions>();
 
@@ -75,6 +78,47 @@ namespace XVNML2U
                 Sprite imageSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100);
                 ImageMapping.Add(image.TagName, imageSprite);
             }
+        }
+
+        internal static void LoadImage(string imageName, Anchoring horizontalAnchoring, Anchoring verticalAnchoring, int xOffset = 0, int yOffset = 0)
+        {
+            int xPos = 0;
+            int yPos = 0;
+
+            switch (horizontalAnchoring)
+            {
+                case Anchoring.Left:
+                    xPos = 0;
+                    break;
+                case Anchoring.Center:
+                    xPos = ModuleWidth / 2;
+                    break;
+                case Anchoring.Right:
+                    xPos = ModuleWidth;
+                    break;
+                default:
+                    break;
+            }
+
+            switch (verticalAnchoring)
+            {
+                case Anchoring.Left:
+                    yPos = 0;
+                    break;
+                case Anchoring.Center:
+                    yPos = (ModuleHeight / 2) * -1;
+                    break;
+                case Anchoring.Right:
+                    yPos = ModuleHeight * -1;
+                    break;
+                default:
+                    break;
+            }
+
+            xPos += xOffset;
+            yPos += yOffset;
+
+            LoadImage(imageName, xPos, yPos);
         }
 
         internal static void LoadImage(string imageName, int x, int y)
@@ -166,6 +210,11 @@ namespace XVNML2U
         internal static void SetPropScale(int xScale, int yScale, int v)
         {
             SetScale = new Vector3(xScale, yScale, 1);
+        }
+
+        internal static void SetPropTransitionMode(TransitionMode transitionMode)
+        {
+            PropTransitionMode = transitionMode;
         }
     }
 }

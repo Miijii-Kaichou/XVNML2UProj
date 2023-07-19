@@ -282,6 +282,24 @@ namespace XVNML2U
             });
         }
 
+        [Macro("load_prop")]
+        [Macro("prop")]
+        private static void LoadPropImageMacro(MacroCallInfo info, string imageName, string horizontalAnchoring, string verticalAnchoring)
+        {
+            LoadPropImageMacro(info, imageName, horizontalAnchoring, verticalAnchoring, 0, 0);
+        }
+
+        [Macro("load_prop")]
+        [Macro("prop")]
+        private static void LoadPropImageMacro(MacroCallInfo info, string imageName, string horizontalAnchoring, string verticalAnchoring, int xOffset, int yOffset)
+        {
+            Instance.SendNewAction(() =>
+            {
+                XVNMLPropsControl.LoadImage(imageName, horizontalAnchoring.Parse<Anchoring>(), verticalAnchoring.Parse<Anchoring>(), xOffset, yOffset);
+                return WCResult.Ok();
+            });
+        }
+
         [Macro("set_prop_scale")]
         [Macro("spscl")]
         private static void SetPropImageScaleMacro(MacroCallInfo info, int xScale, int yScale)
@@ -300,6 +318,18 @@ namespace XVNML2U
             Instance.SendNewAction(() =>
             {
                 XVNMLPropsControl.UnloadImage(imageName); 
+                return WCResult.Ok();
+            });
+        }
+
+        [Macro("set_prop_loading_mode")]
+        [Macro("spldm")]
+        private static void SetPropLoadingModeMacro(MacroCallInfo info, string mode)
+        {
+            TransitionMode transitionMode = mode.Parse<TransitionMode>();
+            Instance.SendNewAction(() =>
+            {
+                XVNMLPropsControl.SetPropTransitionMode(transitionMode);
                 return WCResult.Ok();
             });
         }

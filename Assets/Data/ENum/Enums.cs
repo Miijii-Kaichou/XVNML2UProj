@@ -32,4 +32,18 @@
         Left,
         Right
     }
+
+    public enum TransitionMode
+    {
+        Instant,
+        FadeIn,
+        FadeInFromLeft,
+        FadeInFromRight,
+        FadeInFromTop,
+        FadeInFromBottom,
+        FadeOutToLeft,
+        FadeOutToRight,
+        FadeOutToTop,
+        FadeOutToBottom
+    }
 }
