@@ -1,6 +1,0 @@
-<proxy	name::"SimpleVisualNovel.main"
-		engine::"UnityEngine"
-		target::".."
-		lang::"CSharp">
-
-</proxy>

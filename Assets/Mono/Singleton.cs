@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 
-namespace XVNML2U.Mono.Singleton
+namespace XVNML2U.Mono
 {
     public class Singleton<T> : MonoBehaviour
     {
         protected static T Instance;
+
         public void Awake()
         {
             if (Instance == null)
@@ -13,12 +14,12 @@ namespace XVNML2U.Mono.Singleton
 
                 if (!transform.parent)
                     DontDestroyOnLoad(this);
+
+                return;
             }
-            else
-            {
-                if (!transform.parent)
-                    Destroy(gameObject);
-            }
+
+            if (!transform.parent)
+                Destroy(gameObject);
         }
 
         public static bool IsNull => Instance == null;

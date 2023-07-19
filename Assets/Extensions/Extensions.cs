@@ -1,10 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace XVNML2U.Assets.Extensions
+namespace XVNML2U 
 {
     internal static class Extensions
     {
@@ -26,6 +25,54 @@ namespace XVNML2U.Assets.Extensions
         internal static E Parse<E>(this string target)
         {
             return (E)Enum.Parse(typeof(E), target);
+        }
+
+        internal static string TakeOff(this string target, string matching)
+        {
+            var word = target;
+
+            int startPoint, endPoint = 0;
+
+            for(int i = 0; i < word.Length; i++)
+            {
+                var character = target[i];
+                if (character == matching[0])
+                {
+                    startPoint = i;
+                    endPoint = i;
+                    while(endPoint < matching.Length)
+                    {
+                        endPoint++;
+                    }
+
+                    var result = word.Substring(startPoint, endPoint);
+
+                    if (matching.Equals(result))
+                    {
+                        return word.Remove(startPoint, endPoint);
+                    }
+                }
+            }
+
+            return string.Empty;
+        }
+
+        internal static void DoForEvery<T,K>(this IEnumerable<T> objects, Func<T, K> method)
+        {
+            foreach(var obj in objects)
+            {
+                method(obj);
+            }
+        }
+
+        internal static void DoForEvery<T>(this T[] objects, Action<T> method)
+        {
+            var array = objects.AsEnumerable();
+            array.DoForEvery(o =>
+            {
+                method(o);
+                return (T)default;
+            });
         }
     }
 }

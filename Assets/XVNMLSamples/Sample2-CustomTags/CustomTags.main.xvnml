@@ -1,8 +1,0 @@
-<proxy	name::"CustomTags.main"
-		engine::"UnityEngine"
-		target::".."
-		lang::"CSharp">
-		<dialogue name::"Advanced XVNML: Custom Tags">
-			@ {set_text_speed::100}Welcome to the "Advanced XVNML: Custom Tags" lesson!<
-		</dialogue>
-</proxy>

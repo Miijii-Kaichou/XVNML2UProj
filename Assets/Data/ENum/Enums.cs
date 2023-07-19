@@ -12,4 +12,24 @@
         Center,
         Right
     }
+
+    public enum LoadingMode
+    {
+        Internal,
+        External
+    }
+
+    public enum CastGraphicMode
+    {
+        Image,
+        Sprite,
+        Live2D,
+        Other
+    }
+
+    public enum EnterSide
+    {
+        Left,
+        Right
+    }
 }

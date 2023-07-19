@@ -1,14 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using XVNML.Core.Dialogue;
-using XVNML.XVNMLUtility.Tags;
 
 namespace XVNML2U.Mono
 {
+    [DisallowMultipleComponent]
     public class XVNMLPromptControl : MonoBehaviour
     {
         [SerializeField]
@@ -35,7 +33,6 @@ namespace XVNML2U.Mono
                 if (button.gameObject.activeInHierarchy == false)
                 {
                     button.gameObject.SetActive(true);
-
                     SetButton(button, response, i, () => { sender.JumpToStartingLineFromResponse(response); });
                 }
             }
@@ -56,6 +53,11 @@ namespace XVNML2U.Mono
             responseControl.SetText(response);
             responseControl.AssignIndex(index);
             responseControl.onClick += onClick;
+        }
+
+        internal void SetContent(VerticalLayoutGroup vlg)
+        {
+            content = vlg;
         }
     }
 }

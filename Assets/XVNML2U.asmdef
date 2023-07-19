@@ -28,7 +28,6 @@
     "precompiledReferences": [
         "XVNML.dll",
         "unityplastic.dll",
-        "XVNMLStd.dll",
         "DOTween.dll"
     ],
     "autoReferenced": true,

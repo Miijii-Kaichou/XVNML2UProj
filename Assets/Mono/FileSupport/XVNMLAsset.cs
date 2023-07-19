@@ -7,7 +7,6 @@ using XVNML.XVNMLUtility;
 #nullable enable
 namespace XVNML2U.Mono
 {
-
     public sealed class XVNMLAsset : ScriptableObject
     {
         /// <summary>
@@ -30,7 +29,6 @@ namespace XVNML2U.Mono
         /// <summary>
         /// HashCode based on the name of the asset.
         /// </summary>
-        private int _hashCode;
         public int HashCode => (m_InstanceID + filePath).GetHashCode();
 
         /// <summary>
@@ -42,20 +40,36 @@ namespace XVNML2U.Mono
 
         public string? content;
 
-        private void OnValidate()
+        private void OnEnable()
         {
-        #if UNITY_EDITOR
-            var icon = AssetDatabase.LoadAssetAtPath<Texture2D>(IconPath);
-            EditorGUIUtility.SetIconForObject(this, icon);
-        #endif
+            OnValidate();
         }
 
-        public void Build(Action<XVNMLObj>? onBuildFinished)
+        private void OnValidate()
         {
-            XVNMLObj.Create(filePath!, top =>
+#if UNITY_EDITOR
+            var icon = AssetDatabase.LoadAssetAtPath<Texture2D>(IconPath);
+            EditorGUIUtility.SetIconForObject(this, icon);
+            filePath = AssetDatabase.GetAssetPath(this);
+#endif
+        }
+
+        public void Build(Action<XVNMLObj>? onBuildFinished, bool allowCacheUsageAndGeneration = false)
+        {
+            if (allowCacheUsageAndGeneration == false)
+            {
+                XVNMLObj.Create(filePath!, top =>
+                {
+                    this.top = top;
+                    onBuildFinished?.Invoke(top!);
+                }, allowCacheUsageAndGeneration);
+                return;
+            }
+
+            XVNMLObj.UseOrCreate(filePath!, top =>
             {
                 this.top = top;
-                onBuildFinished?.Invoke(this.top);
+                onBuildFinished?.Invoke(top!);
             });
         }
 
@@ -66,7 +80,7 @@ namespace XVNML2U.Mono
 
         internal void ReadContentFromFile()
         {
-            using StreamReader streamReader = new StreamReader(filePath);
+            using StreamReader streamReader = new(filePath);
             content = streamReader.ReadToEnd();
         }
     } 

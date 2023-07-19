@@ -1,66 +1,83 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.Networking;
 using XVNML.Core.Tags;
-using XVNML.Utility.Diagnostics;
+using XVNML.Utilities.Dialogue;
 using XVNML.XVNMLUtility;
-using XVNML2U.Data;
-using XVNML2U.Mono;
 
 #nullable enable
-namespace XVNML2U
+namespace XVNML2U.Mono
 {
+    [DisallowMultipleComponent]
     public sealed class XVNMLModule : MonoBehaviour
     {
-        private static XVNMLModule? Instance;
-
         [SerializeField, Tooltip("XVNML Entry Path")]
         private XVNMLAsset _main;
 
-        [SerializeField]
-        private bool _receiveLogs = false;
-        private static bool ReceiveLogs
-        {
-            get
-            {
-                return Instance!._receiveLogs;
-            }
+        [SerializeField, Tooltip("Allow for the module to use existing cache data." +
+            " If it doesn't exist," +
+            " it'll create on upon completion of build process.")]
+        private bool _allowForCacheUsageAndGeneration = false;
 
-            set
-            {
-                Instance!._receiveLogs = value;
-            }
-        }
+        internal Action<XVNMLObj> onModuleBuildProcessComplete;
 
-        public Action<XVNMLObj> onModuleBuildProcessComplete;
-
-        internal XVNMLAsset Main => _main;
+        internal TagBase? Root => _main.top!.Root;
 
         public void Build()
         {
-            Instance = this;
-            _main.Build(onModuleBuildProcessComplete);
-            StartLoggerListener();
+            ReactionRegistry.BeginRegistrationProcess();
+
+            Application.quitting += ShutDown;
+            
+            #if UNITY_EDITOR
+            EditorApplication.quitting += ShutDown;
+            EditorApplication.playModeStateChanged += EvaluatePlayModeState;
+            #endif
+
+            _main.Build(onModuleBuildProcessComplete, _allowForCacheUsageAndGeneration);
         }
 
+        #if UNITY_EDITOR
+        private void EvaluatePlayModeState(PlayModeStateChange change)
+        {
+            if (change == PlayModeStateChange.ExitingPlayMode)
+                DialogueWriter.ShutDown();
+        }
+        #endif 
+
+        private void ShutDown()
+        {
+            DialogueWriter.ShutDown();
+
+            Application.quitting -= ShutDown;
+
+            #if UNITY_EDITOR
+            EditorApplication.quitting -= ShutDown;
+            EditorApplication.playModeStateChanged -= EvaluatePlayModeState;
+            #endif
+        }
+
+        #region Get Methods
         public T? Get<T>(int index) where T : TagBase
         {
-            return _main.top?.Root?.GetElement<T>(index);
+            return Root?.GetElement<T>(index);
         }
 
         public T? Get<T>(string path) where T : TagBase
         {
-            return _main.top?.Root?.GetElement<T>(path);
+            return Root?.GetElement<T>(path);
         }
 
         public T? Get<T>() where T : TagBase
         {
-            return _main.top?.Root?.GetElement<T>();
+            return Root?.GetElement<T>();
         }
+        #endregion
 
+        #region Data Processing and Generation Methods
         public static Texture2D? ProcessTextureData(byte[]? data)
         {
             if (data == null) return null;
@@ -95,7 +112,7 @@ namespace XVNML2U
             if (extension == "xm") requestedAudioType = AudioType.XM;
             if (extension == "aiff") requestedAudioType = AudioType.AIFF;
             if (extension == "ogg") requestedAudioType = AudioType.OGGVORBIS;
-            
+
             using (UnityWebRequest requestAudio = UnityWebRequestMultimedia.GetAudioClip(path, requestedAudioType))
             {
                 if (requestAudio == null) return null;
@@ -112,43 +129,8 @@ namespace XVNML2U
 
                 return DownloadHandlerAudioClip.GetContent(requestAudio);
             }
-        }
-
-        private static void StartLoggerListener()
-        {
-            if (ReceiveLogs == false) return;
-            if (Instance == null) return;
-
-            Instance.StartCoroutine(LoggerListenerCycle());
-        }
-
-        private static IEnumerator LoggerListenerCycle()
-        {
-            while(true)
-            {
-                XVNMLLogger.CollectLog(out XVNMLLogMessage? msg);
-                if (msg == null)
-                {
-                    yield return null;
-                    continue;
-                }
-                switch (msg.Level)
-                {
-                    case XVNMLLogLevel.Standard:
-                        Debug.Log(msg.Message);
-                        break;
-                    case XVNMLLogLevel.Warning:
-                        Debug.LogWarning(msg.Message);
-                        break;
-                    case XVNMLLogLevel.Error:
-                        Debug.LogError(msg.Message);
-                        break;
-                    default:
-                        break;
-                }
-                yield return null;
-            }
-        }
+        } 
+        #endregion
     }
 }
 #nullable disable
