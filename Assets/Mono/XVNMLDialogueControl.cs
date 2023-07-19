@@ -8,8 +8,8 @@ using XVNML.Core.Dialogue;
 using XVNML.Core.Dialogue.Structs;
 using XVNML.Input.Enums;
 using XVNML.Utilities.Dialogue;
-using XVNML.XVNMLUtility;
-using XVNML.XVNMLUtility.Tags;
+using XVNML.Utilities;
+using XVNML.Utilities.Tags;
 using XVNML2U.Data;
 
 namespace XVNML2U.Mono
@@ -260,6 +260,7 @@ namespace XVNML2U.Mono
             PrepareCasts();
             PrepareAudioPool();
             PrepareScenes();
+            PreparePropController();
 
             DialogueWriter.Write(dialogue.dialogueOutput!, channel);
 
@@ -507,6 +508,12 @@ namespace XVNML2U.Mono
         {
             if (module == null) return;
             XVNMLActionScheduler.Init();
+        }
+
+        private void PreparePropController()
+        {
+            if (module == null) return;
+            XVNMLPropsControl.Init(module);
         }
 
         private void RunDialogueInGroup(DialogueGroup group)

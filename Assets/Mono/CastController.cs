@@ -5,7 +5,7 @@ using UnityEngine;
 
 using XVNML.Core.Dialogue;
 using XVNML.Core.Dialogue.Structs;
-using XVNML.XVNMLUtility.Tags;
+using XVNML.Utilities.Tags;
 using XVNML2U.Data;
 using XVNML2U.Mono;
 

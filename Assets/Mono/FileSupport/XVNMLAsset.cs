@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using XVNML.XVNMLUtility;
+using XVNML.Utilities;
 
 #nullable enable
 namespace XVNML2U.Mono

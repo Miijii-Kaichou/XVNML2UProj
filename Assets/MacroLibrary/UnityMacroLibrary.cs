@@ -271,6 +271,39 @@ namespace XVNML2U
             });
         }
 
+        [Macro("load_prop")]
+        [Macro("prop")]
+        private static void LoadPropImageMacro(MacroCallInfo info, string imageName, int x, int y)
+        {
+            Instance.SendNewAction(() =>
+            {
+                XVNMLPropsControl.LoadImage(imageName, x, -y);
+                return WCResult.Ok();
+            });
+        }
+
+        [Macro("set_prop_scale")]
+        [Macro("spscl")]
+        private static void SetPropImageScaleMacro(MacroCallInfo info, int xScale, int yScale)
+        {
+            Instance.SendNewAction(() =>
+            {
+                XVNMLPropsControl.SetPropScale(xScale, yScale, 1);
+                return WCResult.Ok(); 
+            });
+        }
+
+        [Macro("clear_prop")]
+        [Macro("clrp")]
+        private static void ClearPropImageMacro(MacroCallInfo info, string imageName)
+        {
+            Instance.SendNewAction(() =>
+            {
+                XVNMLPropsControl.UnloadImage(imageName); 
+                return WCResult.Ok();
+            });
+        }
+
         #region Standard Macro Overrides
         [Macro("expression")]
         [Macro("portrait")]

@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using XVNML.Input.Enums;
 using XVNML.Utilities.Diagnostics;
-using XVNML.XVNMLUtility.Tags;
+using XVNML.Utilities.Tags;
 
 namespace XVNML2U.Mono
 {

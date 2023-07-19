@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using XVNML.XVNMLUtility.Tags;
+using XVNML.Utilities.Tags;
 
 
 namespace XVNML2U.Mono

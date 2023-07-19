@@ -97,8 +97,11 @@
      </macroCache>
 
      <dialogue name::"XVNML2U Sample">
-          @ {$_defaultTextSpeed|pass}<
+          @ {$_defaultTextSpeed|set_prop_scale::(5i, 5i)|pass}<
           @ Welcome to XVNML2U!<
+          @ {load_prop::("StockImageBanana", 960i, 540i)} This is a banana...<
+          @ {load_prop::("YourMom", 960i, 540i)} AND THIS IS YOUR MOM!!!!!!<
+          @ {clear_prop::"StockImageBanana"|clear_prop::"YourMom"|pass}<
           @ This package{$_think} demonstrates the capabilities in which the XVNML
            Class Library is capable of{delay::500|clr}when used with the Unity Game Engine.<
           @ What you see here{delay::750} is a normal dialogue.<
@@ -1093,4 +1096,9 @@
 
           #//endregion
      </dialogue>
+
+     <imageDefinitions>
+          <image name::"StockImageBanana"    src::"Test/istockphoto-173242750-1024x1024.jpg" pathMode::Relative/>
+          <image name::"YourMom"             src::"Test/istockphoto-145054270-1024x1024.jpg" pathMode::Relative/>
+     </imageDefinitions>
 </proxy>

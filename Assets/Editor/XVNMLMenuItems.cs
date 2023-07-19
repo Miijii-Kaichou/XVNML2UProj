@@ -24,7 +24,7 @@ namespace XVNML2U
             fadeDuration = 0.1f,
         };
 
-        static readonly Color WhiteSemiTransparentColor = new Color(1, 1, 1, 0.5f);
+        static readonly Color WhiteSemiTransparentColor = new(1, 1, 1, 0.5f);
 
 
         [MenuItem("GameObject/XVNML2U/Stage/Stage (Empty)", priority = 81)]
@@ -181,7 +181,6 @@ namespace XVNML2U
             newPromptControlObject.AddComponent<XVNMLPromptControl>();
 
             GameObject content = new();
-            RectTransform rectTransformComponent = content.AddComponent<RectTransform>();
             content.AddComponent<CanvasRenderer>();
             VerticalLayoutGroup vlgComponent = content.AddComponent<VerticalLayoutGroup>();
 
@@ -190,7 +189,7 @@ namespace XVNML2U
 
             var contentLength = 12;
 
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
 
             for(int i = 0; i < contentLength; i++)
             {
@@ -343,7 +342,7 @@ namespace XVNML2U
             GameObject newCastControllerObject = new();
             newCastControllerObject.AddComponent<CastController>();
 
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
 
             for(int i = 0; i < castCount; i++)
             {

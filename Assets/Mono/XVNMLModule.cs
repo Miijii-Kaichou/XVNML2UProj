@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using XVNML.Core.Tags;
 using XVNML.Utilities.Dialogue;
-using XVNML.XVNMLUtility;
+using XVNML.Utilities;
 
 #nullable enable
 namespace XVNML2U.Mono
@@ -15,17 +15,25 @@ namespace XVNML2U.Mono
     public sealed class XVNMLModule : MonoBehaviour
     {
         [SerializeField, Tooltip("XVNML Entry Path")]
-        private XVNMLAsset _main;
+        private XVNMLAsset? _main;
 
         [SerializeField, Tooltip("Allow for the module to use existing cache data." +
             " If it doesn't exist," +
             " it'll create on upon completion of build process.")]
         private bool _allowForCacheUsageAndGeneration = false;
 
-        internal Action<XVNMLObj> onModuleBuildProcessComplete;
+        internal Action<XVNMLObj?>? onModuleBuildProcessComplete;
 
-        internal TagBase? Root => _main.top!.Root;
+        internal TagBase? Root
+        {
+            get
+            {
+                if (_main == null) return null;
+                return _main.top!.Root;
+            }
+        }
 
+        [Tooltip("Begin to manifest the XVNML DOM through Tokenization and Parsing.")]
         public void Build()
         {
             ReactionRegistry.BeginRegistrationProcess();
@@ -35,7 +43,9 @@ namespace XVNML2U.Mono
             #if UNITY_EDITOR
             EditorApplication.quitting += ShutDown;
             EditorApplication.playModeStateChanged += EvaluatePlayModeState;
-            #endif
+#endif
+
+            if (_main == null) return;
 
             _main.Build(onModuleBuildProcessComplete, _allowForCacheUsageAndGeneration);
         }
@@ -113,24 +123,22 @@ namespace XVNML2U.Mono
             if (extension == "aiff") requestedAudioType = AudioType.AIFF;
             if (extension == "ogg") requestedAudioType = AudioType.OGGVORBIS;
 
-            using (UnityWebRequest requestAudio = UnityWebRequestMultimedia.GetAudioClip(path, requestedAudioType))
+            using UnityWebRequest requestAudio = UnityWebRequestMultimedia.GetAudioClip(path, requestedAudioType);
+            
+            if (requestAudio == null) return null;
+
+            UnityWebRequestAsyncOperation operation = requestAudio.SendWebRequest();
+            while (!operation.isDone) continue;
+
+            if (requestAudio.result == UnityWebRequest.Result.ConnectionError ||
+                requestAudio.result == UnityWebRequest.Result.ProtocolError)
             {
-                if (requestAudio == null) return null;
-
-                UnityWebRequestAsyncOperation operation = requestAudio.SendWebRequest();
-                while (!operation.isDone) continue;
-
-                if (requestAudio.result == UnityWebRequest.Result.ConnectionError ||
-                    requestAudio.result == UnityWebRequest.Result.ProtocolError)
-                {
-                    Debug.Log("Failed to load audio.");
-                    return null;
-                }
-
-                return DownloadHandlerAudioClip.GetContent(requestAudio);
+                Debug.Log("Failed to load audio.");
+                return null;
             }
+
+            return DownloadHandlerAudioClip.GetContent(requestAudio);
         } 
         #endregion
     }
 }
-#nullable disable
