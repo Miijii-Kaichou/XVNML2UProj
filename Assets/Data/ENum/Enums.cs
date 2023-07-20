@@ -44,6 +44,7 @@
         FadeOutToLeft,
         FadeOutToRight,
         FadeOutToTop,
-        FadeOutToBottom
+        FadeOutToBottom,
+        FadeOut
     }
 }

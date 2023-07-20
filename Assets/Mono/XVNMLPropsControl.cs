@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using UnityEngine;
 using XVNML.Utilities.Tags;
 using XVNML2U.Mono;
 
-namespace XVNML2U
+namespace XVNML2U.Mono
 {
     public class XVNMLPropsControl : Singleton<XVNMLPropsControl>
     {
@@ -32,6 +33,9 @@ namespace XVNML2U
         static int PoolIndex = 0;
 
         public static TransitionMode PropTransitionMode { get; private set; }
+        public static float TransitionDuration { get; private set; }
+
+        private static readonly Color Transparent = new Color(1, 1, 1, 0);
 
         internal static void Init(XVNMLModule module)
         {
@@ -145,6 +149,8 @@ namespace XVNML2U
             newImageObject.transform.localScale = SetScale;
             newImageObject.transform.localPosition = new Vector3(x, y, 0);
 
+            DoPropTransition(propEntityComponent);
+
             CachedProps.Add(propEntityComponent);
         }
 
@@ -159,15 +165,19 @@ namespace XVNML2U
             result.gameObject.transform.localPosition = new Vector3(x,y,0);
 
             result.gameObject.name = $"${imageName} [Runtime Image]";
+
+            DoPropTransition(result);
         }
 
         internal static void UnloadImage(string imageName)
         {
             PropEntity target = CachedProps.Where(prop => prop.gameObject.name.Contains(imageName)).FirstOrDefault();
             if (target == null) return;
-            target.Clear();
-            target.gameObject.transform.localPosition = Vector2.zero;
-            target.gameObject.name = "PropEntity [Empty]";
+            DoPropTransition(target, () =>
+            {
+                target.Clear();
+                target.gameObject.name = "PropEntity [Empty]";
+            });
         }
 
         private static PropEntity? SearchForFree()
@@ -215,6 +225,77 @@ namespace XVNML2U
         internal static void SetPropTransitionMode(TransitionMode transitionMode)
         {
             PropTransitionMode = transitionMode;
+        }
+
+        private static void DoPropTransition(PropEntity entity, TweenCallback? callback = null)
+        {
+            Transform propTransform = entity.transform;
+            DG.Tweening.Core.TweenerCore<Color, Color, DG.Tweening.Plugins.Options.ColorOptions> tweening = null;
+            var distance = 0.25f;
+            switch (PropTransitionMode)
+            {
+                case TransitionMode.Instant:
+                    entity.PropGraphic.color = Color.white;
+                    return;
+                case TransitionMode.FadeIn:
+                    entity.PropGraphic.color = Transparent;
+                    tweening = entity.PropGraphic.DOFade(1, TransitionDuration);
+                    break;
+                case TransitionMode.FadeOut:
+                    entity.PropGraphic.DOFade(0, TransitionDuration);
+                    break;
+                case TransitionMode.FadeInFromLeft:
+                    entity.PropGraphic.color = Transparent;
+                    entity.transform.localPosition = new Vector3(propTransform.localPosition.x - distance, propTransform.localPosition.y, 1);
+                    entity.transform.DOMoveX( distance, TransitionDuration);
+                    tweening = entity.PropGraphic.DOFade(1, TransitionDuration);
+                    break;
+                case TransitionMode.FadeInFromRight:
+                    entity.PropGraphic.color = Transparent;
+                    entity.transform.localPosition = new Vector3(propTransform.localPosition.x + distance, propTransform.localPosition.y, 1);
+                    entity.transform.DOMoveX(-distance, TransitionDuration);
+                    tweening = entity.PropGraphic.DOFade(1, TransitionDuration);
+                    break;
+                case TransitionMode.FadeInFromTop:
+                    entity.PropGraphic.color = Transparent;
+                    entity.transform.localPosition = new Vector3(propTransform.localPosition.x, propTransform.localPosition.y - distance, 1);
+                    entity.transform.DOMoveY(distance, TransitionDuration);
+                    tweening = entity.PropGraphic.DOFade(1, TransitionDuration);
+                    break;
+                case TransitionMode.FadeInFromBottom:
+                    entity.PropGraphic.color = Transparent;
+                    entity.transform.localPosition = new Vector3(propTransform.localPosition.x, propTransform.localPosition.y + distance, 1);
+                    entity.transform.DOMoveY(-distance, TransitionDuration);
+                    tweening = entity.PropGraphic.DOFade(1, TransitionDuration);
+                    break;
+                case TransitionMode.FadeOutToLeft:
+                    entity.transform.DOMoveX(distance, TransitionDuration);
+                    tweening = entity.PropGraphic.DOFade(0, TransitionDuration);
+                    break;
+                case TransitionMode.FadeOutToRight:
+                    entity.transform.DOMoveX(-distance, TransitionDuration);
+                    tweening = entity.PropGraphic.DOFade(0, TransitionDuration);
+                    break;
+                case TransitionMode.FadeOutToTop:
+                    entity.transform.DOMoveY(-distance, TransitionDuration);
+                    tweening = entity.PropGraphic.DOFade(0, TransitionDuration);
+                    break;
+                case TransitionMode.FadeOutToBottom:
+                    entity.transform.DOMoveY(distance, TransitionDuration);
+                    tweening = entity.PropGraphic.DOFade(0, TransitionDuration);
+                    break;
+                default:
+                    return;
+            }
+
+            if (tweening == null)  return;
+            if (callback == null) return;
+            tweening.onComplete += callback;
+        }
+
+        internal static void SetTransitionDuration(float duration)
+        {
+            TransitionDuration = duration;
         }
     }
 }

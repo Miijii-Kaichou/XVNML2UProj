@@ -22,7 +22,11 @@ namespace XVNML2U.Mono
             " it'll create on upon completion of build process.")]
         private bool _allowForCacheUsageAndGeneration = false;
 
+        [SerializeField]
+        private Camera _mainCamera;
+
         internal Action<XVNMLObj?>? onModuleBuildProcessComplete;
+        internal Camera Camera => _mainCamera;
 
         internal TagBase? Root
         {

@@ -28,8 +28,11 @@
 
      <dialogue name::"XVNML2U Sample" src::"XVNML2USample.dialogue.xvnml"/>
 
-     <imageDefinitions>
-          <image name::"BestPracticesItem1" src::"Screenshot 2023-07-18 220714.png" pathMode::Relative/>
-          <image name::"BestPracticesItem2" src::"Screenshot 2023-07-18 221038.png" pathMode::Relative/>
+     <imageDefinitions name::"_globalImageDefs">
+          <image name::"BestPracticesItem1" src::"Screenshot 2023-07-18 220714.png"  pathMode::Relative/>
+          <image name::"BestPracticesItem2" src::"Screenshot 2023-07-18 221038.png"  pathMode::Relative/>
+          <image name::"BestPracticesItem3" src::$nil                                pathMode::Relative/>
+          <image name::"BestPracticesItem4" src::$nil                                pathMode::Relative/>
+          <image name::"BestPracticesItem5" src::$nil                                pathMode::Relative/>
      </imageDefinitions>
 </proxy>

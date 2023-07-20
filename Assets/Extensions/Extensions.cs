@@ -7,12 +7,42 @@ namespace XVNML2U
 {
     internal static class Extensions
     {
-        internal static int ToInt(this object target)
+        internal static int ToInt(this object target, int valueDefault = 0)
         {
-            int value = -1;
+            int value = valueDefault;
             try
             {
                 value = Convert.ToInt32(target);
+            }
+            catch
+            {
+                return value;
+            }
+
+            return value;
+        }
+
+        internal static float ToFloat(this object target, float valueDefault = 0f)
+        {
+            float value = valueDefault;
+            try
+            {
+                value = Convert.ToSingle(target);
+            }
+            catch
+            {
+                return value;
+            }
+
+            return value;
+        }
+
+        internal static bool ToBool(this object target, bool valueDefault = false)
+        {
+            bool value = valueDefault;
+            try
+            {
+                value = Convert.ToBoolean(target);
             }
             catch
             {

@@ -50,6 +50,14 @@
                <macro arg::0.5f symbol::"set_cast_motion_duration"/>
                <macro arg::"Left" symbol::"cast_enters_from"/>
           </macro>
+          <macro name::"_switchToPropFadeInMode">
+               <macro arg::"FadeInFromTop" symbol::"set_prop_loading_mode"/>
+               <macro arg::0.5f symbol::"set_prop_loading_duration"/>
+          </macro>
+          <macro name::"_switchToPropFadeOutMode">
+               <macro arg::"FadeOutToTop" symbol::"set_prop_loading_mode"/>
+               <macro arg::0.5f symbol::"set_prop_loading_duration"/>
+          </macro>
           <macro name::"_resetCastMotionSettings">
                <macro arg::"Instant" symbol::"set_cast_motion"/>
                <macro arg::0f symbol::"set_cast_motion_duration"/>
@@ -70,9 +78,13 @@
      </macroCache>
 
      <dialogue name::"XVNML2U Sample">
-          @ {$_defaultTextSpeed|set_prop_scale::(5i, 5i)|pass}<
+          @ {
+               $_defaultTextSpeed
+               |$_switchToPropFadeInMode
+               |set_prop_scale::(5i, 5i)
+               |$_chapter5
+               |pass}<
           @ Welcome to XVNML2U!<
-          @ {clear_prop::"StockImageBanana"|clear_prop::"YourMom"|pass}<
           @ This package{$_think} demonstrates the capabilities in which the XVNML
            Class Library is capable of{delay::500|clr}when used with the Unity Game Engine.<
           @ What you see here{delay::750} is a normal dialogue.<
@@ -925,10 +937,11 @@
           @ {$_defaultTextSpeed}XVNML is a very, very young mark-up language.<
           @ So, there isn't any "Official" standardized best practices to be mindful of...<
           @ The only person that would know that is the person writing all of this dialogue!<
-          @ With that said, here are several best practices to keep in mind...<
+          @ With that said{$_think} here are several best practices to keep in mind...<
 
           ["P5-BestPractices-Start"]
-          @ {insert::"1"|paren_end|load_prop::("BestPracticesItem1", "Center", "Center")|delay::750} Separate your XVNML files as much as you can.<
+          @ {insert::"1"|paren_end|load_prop::("BestPracticesItem1", "Center", "Center")|delay::750}
+          Separate your XVNML files as much as you can.<
           @ This will just make it so you don't have to deal with a lot of text in one file.<
           @ Also, it would make it a lot easier for the Tokenizer and Parser if there isn't
            too much text in one file.<
@@ -936,11 +949,22 @@
           @ you'll always know where it is.<
           @ You can even try seperating dialogue into their individual files.<
           @ Whatever make things a lot easier for your Dev Team...<
+          @ {
+               $_switchToPropFadeOutMode
+               |clear_prop::"BestPracticesItem1"
+               |$_switchToPropFadeInMode
+               |pass}<
           @ Since we're on the topic of seperating files...<
-          @ {insert::"2"|paren_end|delay::750} Name your files based on its Root tag.<
+          @ {insert::"2"|paren_end|set_prop_scale::(10i, 5i)|load_prop::("BestPracticesItem2", "Center", "Center")|delay::750}
+          Name your files based on its Root tag.<
           @ This just makes things easier differentiating between what's the "Main" XVNML
            file...<
           @ And what are "Source" files.<
+          @ {
+               $_switchToPropFadeOutMode
+               |clear_prop::"BestPracticesItem2"
+               |$_switchToPropFadeInMode
+               |pass}<
           @ A common naming convention you might see for the file that's being build
            is ending the file name with ".main.xvnml".<
           @ You could also have it as ".proxy.xvnml", knowing that there's a Proxy tag

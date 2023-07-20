@@ -26,6 +26,65 @@ namespace XVNML2U
 
         static readonly Color WhiteSemiTransparentColor = new(1, 1, 1, 0.5f);
 
+        [MenuItem("GameObject/XVNML2U/General/XVNML Module", priority = 80)]
+        static void AddNewXVNMLModuleObject()
+        {
+            GameObject newXVNMLModuleObject = new();
+            newXVNMLModuleObject.AddComponent<XVNMLModule>();
+            newXVNMLModuleObject.AddComponent<CoroutineHandler>();
+
+            newXVNMLModuleObject.name = "XVNML Module (Empty)";
+
+            FinalizeObjectCreation(ref newXVNMLModuleObject);
+        }
+
+        [MenuItem("GameObject/XVNML2U/General/Input Manager", priority = 80)]
+        static void AddNewInputManagerObject()
+        {
+            GameObject newXVNMLInputManagerObject = new();
+            newXVNMLInputManagerObject.AddComponent<XVNMLInputManager>();
+
+            newXVNMLInputManagerObject.name = "XVNMLInputManager";
+
+            FinalizeObjectCreation(ref newXVNMLInputManagerObject);
+        }
+
+        [MenuItem("GameObject/XVNML2U/General/XVNML Action Scheduler", priority = 80)]
+        static void AddNewXVNMLActionScheduler()
+        {
+            GameObject newXVNMLActionSchedulerObject = new();
+            newXVNMLActionSchedulerObject.AddComponent<XVNMLActionScheduler>();
+
+            newXVNMLActionSchedulerObject.name = "XVNMLActionScheduler";
+
+            FinalizeObjectCreation(ref newXVNMLActionSchedulerObject);
+        }
+
+        [MenuItem("GameObject/XVNML2U/General/Dialogue Writer Allocator", priority = 80)]
+        static void AddNewXVNMLDialogueWriterAllocator()
+        {
+            GameObject newDialogueWriterAllocator = new();
+            DialogueProcessAllocator dialogueProcessAllocatorComponent = newDialogueWriterAllocator.AddComponent<DialogueProcessAllocator>();
+
+            dialogueProcessAllocatorComponent.channelSize = 1;
+
+            newDialogueWriterAllocator.name = "XVNMLDialogueWriterAllocator";
+
+            FinalizeObjectCreation(ref newDialogueWriterAllocator);
+
+        }
+
+        [MenuItem("GameObject/XVNML2U/General/XVNML Log Listener", priority = 80)]
+        static void AddNewXVNMLogListenerObject()
+        {
+            GameObject newXVNMLLogListenerObject = new();
+            newXVNMLLogListenerObject.AddComponent<XVNMLLogListener>();
+
+            newXVNMLLogListenerObject.name = "XVNMLLogListener";
+
+            FinalizeObjectCreation(ref newXVNMLLogListenerObject);
+
+        }
 
         [MenuItem("GameObject/XVNML2U/Stage/Stage (Empty)", priority = 81)]
         static void AddNewEmptyXVNMLStageObject()
@@ -61,19 +120,7 @@ namespace XVNML2U
             FinalizeObjectCreation(ref newStageObject);
         }
 
-        [MenuItem("GameObject/XVNML2U/XVNML Module", priority = 81)]
-        static void AddNewXVNMLModuleObject()
-        {
-            GameObject newXVNMLModuleObject = new();
-            newXVNMLModuleObject.AddComponent<XVNMLModule>();
-            newXVNMLModuleObject.AddComponent<CoroutineHandler>();
-
-            newXVNMLModuleObject.name = "XVNML Module (Empty)";
-
-            FinalizeObjectCreation(ref newXVNMLModuleObject);
-        }
-
-        [MenuItem("GameObject/XVNML2U/UI/Text Renderer", priority = 81)]
+        [MenuItem("GameObject/XVNML2U/Text/Text Renderer", priority = 81)]
         static void AddNewXVNMLTextRendererObject()
         {
             GameObject newXVNMLTextRendererObject = new();
@@ -103,29 +150,6 @@ namespace XVNML2U
             FinalizeObjectCreation(ref newXVNMLAudioControllerObject);
         }
 
-        [MenuItem("GameObject/XVNML2U/Singleton/Input Manager", priority = 81)]
-        static void AddNewInputManagerObject()
-        {
-            GameObject newXVNMLInputManagerObject = new();
-            newXVNMLInputManagerObject.AddComponent<XVNMLInputManager>();
-
-            newXVNMLInputManagerObject.name = "XVNMLInputManager";
-
-            FinalizeObjectCreation(ref newXVNMLInputManagerObject);
-        }
-
-        [MenuItem("GameObject/XVNML2U/Singleton/XVNML Log Listener", priority = 81)]
-        static void AddNewXVNMLogListenerObject()
-        {
-            GameObject newXVNMLLogListenerObject = new();
-            newXVNMLLogListenerObject.AddComponent<XVNMLLogListener>();
-
-            newXVNMLLogListenerObject.name = "XVNMLLogListener";
-
-            FinalizeObjectCreation(ref newXVNMLLogListenerObject);
-            
-        }
-
         [MenuItem("GameObject/XVNML2U/Dialogue/Dialogue Control", priority = 81)]
         static void AddNewXVNMLDialogueControl()
         {
@@ -135,31 +159,6 @@ namespace XVNML2U
             newXVNMLDialogueControlObject.name = "XVNMLDialogueController";
 
             FinalizeObjectCreation(ref newXVNMLDialogueControlObject);
-            
-        }
-
-        [MenuItem("GameObject/XVNML2U/Singleton/XVNML Action Scheduler", priority = 81)]
-        static void AddNewXVNMLActionScheduler()
-        {
-            GameObject newXVNMLActionSchedulerObject = new();
-            newXVNMLActionSchedulerObject.AddComponent<XVNMLActionScheduler>();
-
-            newXVNMLActionSchedulerObject.name = "XVNMLActionScheduler";
-
-            FinalizeObjectCreation(ref newXVNMLActionSchedulerObject);
-        }
-
-        [MenuItem("GameObject/XVNML2U/Singleton/Dialogue Writer Allocator", priority = 81)]
-        static void AddNewXVNMLDialogueWriterAllocator()
-        {
-            GameObject newDialogueWriterAllocator = new();
-            DialogueProcessAllocator dialogueProcessAllocatorComponent = newDialogueWriterAllocator.AddComponent<DialogueProcessAllocator>();
-
-            dialogueProcessAllocatorComponent.channelSize = 1;
-
-            newDialogueWriterAllocator.name = "XVNMLDialogueWriterAllocator";
-
-            FinalizeObjectCreation(ref newDialogueWriterAllocator);
             
         }
 
@@ -281,7 +280,7 @@ namespace XVNML2U
             FinalizeObjectCreation(ref responseControlObject);
         }
 
-        [MenuItem("GameObject/XVNML2U/UI/Confirm Marker", priority = 81)]
+        [MenuItem("GameObject/XVNML2U/Graphics/Confirm Marker", priority = 81)]
         static void AddNewConfirmMarker()
         {
             GameObject newConfirmMarkerObject = new();
@@ -412,6 +411,28 @@ namespace XVNML2U
             newCastEntityObject.name = "CastEntity";
 
             FinalizeObjectCreation(ref newCastEntityObject);
+        }
+
+        [MenuItem("GameObject/XVNML2U/Props/XVNMLPropsController (Empty)", priority = 81)]
+        static void AddNewEmptyXVNMLPropController()
+        {
+            GameObject newPropControllerObject = new();
+            newPropControllerObject.AddComponent<XVNMLPropsControl>();
+
+            newPropControllerObject.name = "PropController (Empty)";
+
+            FinalizeObjectCreation(ref newPropControllerObject);
+        }
+
+        [MenuItem("GameObject/XVNML2U/Props/PropEntity", priority = 81)]
+        static void AddNewPropEntity()
+        {
+            GameObject newPropEntityObject = new();
+            newPropEntityObject.AddComponent<PropEntity>();
+
+            newPropEntityObject.name = "PropEntity";
+
+            FinalizeObjectCreation(ref newPropEntityObject);
         }
 
         [MenuItem("GameObject/XVNML2U/Kits/Basic Module Kit", priority = 81)]

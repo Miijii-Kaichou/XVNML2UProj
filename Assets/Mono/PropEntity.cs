@@ -1,9 +1,10 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace XVNML2U
+namespace XVNML2U.Mono
 {
     public class PropEntity : MonoBehaviour
     {
@@ -13,6 +14,7 @@ namespace XVNML2U
         public bool IsViewingGraphic => propGraphic.sprite != _nullImage;
         private Sprite _nullImage;
 
+        public Image PropGraphic => propGraphic;
 
         private void Awake()
         {

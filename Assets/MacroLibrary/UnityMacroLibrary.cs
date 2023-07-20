@@ -3,6 +3,7 @@ using XVNML.Utilities.Macros;
 using XVNML2U.Data;
 using XVNML2U.Mono;
 using XVNML.Core.Dialogue.Structs;
+using DG.Tweening;
 
 namespace XVNML2U
 {
@@ -330,6 +331,59 @@ namespace XVNML2U
             Instance.SendNewAction(() =>
             {
                 XVNMLPropsControl.SetPropTransitionMode(transitionMode);
+                return WCResult.Ok();
+            });
+        }
+
+        [Macro("set_prop_loading_duration")]
+        [Macro("spldd")]
+        private static void SetPropLoadingDurationMacro(MacroCallInfo info, float duration)
+        {
+            Instance.SendNewAction(() =>
+            {
+                XVNMLPropsControl.SetTransitionDuration(duration);
+                return WCResult.Ok();
+            });
+        }
+
+        [Macro("camera_shake")]
+        [Macro("cmrsk")]
+        private static void CameraShakeMacro(MacroCallInfo info, float duration)
+        {
+            CameraShakeMacro(info, duration, 3);
+        }
+
+        [Macro("camera_shake")]
+        [Macro("cmrsk")]
+        private static void CameraShakeMacro(MacroCallInfo info, float duration, float strength)
+        {
+            var processID = info.process.ID;
+            Instance.SendNewAction(() =>
+            {
+                Camera moduleCamera = DialogueProcessAllocator.ProcessReference[processID].Module.Camera;
+                moduleCamera.DOShakePosition(duration, strength);
+                return WCResult.Ok();
+            });
+        }
+
+        [Macro("camera_shake")]
+        [Macro("cmrsk")]
+        private static void CameraShakeMacro(MacroCallInfo info, float duration, string configString)
+        {
+            var processID = info.process.ID;
+
+            string[] data = configString.Split(',', System.StringSplitOptions.RemoveEmptyEntries);
+
+            float strength = data[0].ToFloat(3);
+            int vibrato = data[1].ToInt(10);
+            float randomness = data[2].ToFloat(90);
+            bool fadeOut = data[3].ToBool(true);
+            ShakeRandomnessMode mode = data[4].Parse<ShakeRandomnessMode>();
+
+            Instance.SendNewAction(() =>
+            {
+                Camera moduleCamera = DialogueProcessAllocator.ProcessReference[processID].Module.Camera;
+                moduleCamera.DOShakePosition(duration, strength, vibrato, randomness, fadeOut, mode);
                 return WCResult.Ok();
             });
         }
