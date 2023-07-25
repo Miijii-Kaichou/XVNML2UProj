@@ -13,6 +13,9 @@ namespace XVNML2U.Tags
         private string _description;
         public string Description => _description;
 
+        private string _title;
+        public string Title => _title;
+
         private QuestPrerequisites _prerequisites;
         public QuestPrerequisites Prerequisites => _prerequisites;
 
@@ -22,7 +25,8 @@ namespace XVNML2U.Tags
         protected override string[] AllowedParameters => new[]
         {
             "src",
-            "description"
+            "description",
+            "title"
         };
 
         public override void OnResolve(string fileOrigin)
@@ -33,15 +37,15 @@ namespace XVNML2U.Tags
 
             if (source != null)
             {
-                Debug.Log("Hwoow");
                 if (source == "nil") return;
-                XVNMLObj.Create(QuestDirectory + source, OnSourceCreation);
+                XVNMLObj.Create(fileOrigin + QuestDirectory + source, OnSourceCreation);
                 return;
             }
 
             _prerequisites = GetElement<QuestPrerequisites>();
             _objectives = GetElement<TaskList>();
             _description = GetParameterValue<string>(AllowedParameters[1]) ?? value.ToString();
+            _title = GetParameterValue<string>(AllowedParameters[2]);
         }
 
         private void OnSourceCreation(XVNMLObj obj)
@@ -50,23 +54,7 @@ namespace XVNML2U.Tags
             _prerequisites = root.GetElement<QuestPrerequisites>();
             _objectives = root.GetElement<TaskList>();
             _description = GetParameterValue<string>(AllowedParameters[1]) ?? root.GetElement<QuestInfo>().content;
-        }
-    }
-
-    [AssociateWithTag("questInfo", typeof(Quest), TagOccurance.PragmaLocalOnce, true)]
-    public sealed class QuestInfo : TagBase
-    {
-        protected override string[] AllowedParameters => new[]
-        {
-            "content"
-        };
-
-        public string content;
-
-        public override void OnResolve(string fileOrigin)
-        {
-            base.OnResolve(fileOrigin);
-            content = GetParameterValue<string>(AllowedParameters[0]) ?? value.ToString();
+            _title = GetParameterValue<string>(AllowedParameters[2]);
         }
     }
 }

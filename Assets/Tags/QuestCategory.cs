@@ -4,7 +4,7 @@ using XVNML.Utilities.Tags;
 
 namespace XVNML2U.Tags
 {
-    [AssociateWithTag("questCategory", typeof(QuestDefinitions), TagOccurance.Multiple, true)]
+    [AssociateWithTag("questCategory", new[] { typeof(Source), typeof(QuestDefinitions) }, TagOccurance.Multiple, true)]
     public sealed class QuestCategory : UserDefined
     {
         private static string QuestDirectory = @"/Quests/Categories/";
@@ -34,7 +34,7 @@ namespace XVNML2U.Tags
             if (source != null)
             {
                 if (source == "nil") return;
-                XVNMLObj.Create(QuestDirectory + source, OnSourceCreation);
+                XVNMLObj.Create(fileOrigin + QuestDirectory + source, OnSourceCreation);
                 return;
             }
             _isDefault = HasFlag(AllowedFlags[0]);

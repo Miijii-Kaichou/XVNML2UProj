@@ -13,13 +13,13 @@ namespace XVNML2U
         [SerializeField]
         private XVNMLModule module;
 
-        [Header("Quest Unity Events")]
-        [SerializeField] private UnityEvent _onQuestInitialize;
-        [SerializeField] private UnityEvent _onQuestActive;
-        [SerializeField] private UnityEvent _onQuestInactive;
-        [SerializeField] private UnityEvent _onQuestComplete;
-        [SerializeField] private UnityEvent _onNextTask;
-        [SerializeField] private UnityEvent _onTaskComplete;
+        [Header("Quest Unity Events"), Space(2)]
+        [Space(2), SerializeField] private UnityEvent<QuestLog> _onQuestInitialize;
+        [Space(2), SerializeField] private UnityEvent<QuestLog> _onQuestActive;
+        [Space(2), SerializeField] private UnityEvent<QuestLog> _onQuestInactive;
+        [Space(2), SerializeField] private UnityEvent<QuestLog> _onQuestComplete;
+        [Space(2), SerializeField] private UnityEvent<QuestLog> _onNextTask;
+        [Space(2), SerializeField] private UnityEvent<QuestLog> _onTaskComplete;
 
         private static SortedDictionary<(string, string), QuestLog> QuestControl;
 
@@ -32,6 +32,13 @@ namespace XVNML2U
 
         private static string DefaultCategory = "default";
         private static bool DefaultSet = false;
+
+        public static UnityEvent<QuestLog> OnQuestInitilize => Instance._onQuestInitialize;
+        public static UnityEvent<QuestLog> OnQuestActive => Instance._onQuestActive;
+        public static UnityEvent<QuestLog> OnQuestInactive => Instance._onQuestInactive;
+        public static UnityEvent<QuestLog> OnQuestComplete => Instance._onQuestComplete;
+        public static UnityEvent<QuestLog> OnNextTask => Instance._onNextTask;
+        public static UnityEvent<QuestLog> OnTaskComplete => Instance._onTaskComplete;
 
         public static void Init(XVNMLModule module)
         {
@@ -56,7 +63,6 @@ namespace XVNML2U
                 }
 
                 CreateNewQuestLogCategory(category);
-                Debug.Log($"Total Quests in {category.Key}: {category.Value.quests.Length}");
             }
         }
 
@@ -96,21 +102,21 @@ namespace XVNML2U
 
             foreach(var quest in category.Value.Item2)
             {
-                QuestLog newLog = new QuestLog()
+                QuestLog newLog = new()
                 {
-                    questName = quest.TagName ?? quest.TagID.ToString(),
+                    questName = quest.Title ?? "Untitled",
                     questDescription = quest.Description,
                 };
 
                 newLog.GenerateQuestTasks(quest.Objectives);
 
-                newLog.onQuestInitialize += () => Instance._onQuestInitialize.Invoke();
-                newLog.onQuestActive += () => Instance._onQuestActive.Invoke();
-                newLog.onQuestInActive += () => Instance._onQuestInitialize.Invoke();
-                newLog.onQuestComplete += () => Instance._onQuestComplete.Invoke();
+                newLog.onQuestInitialize += () => Instance._onQuestInitialize.Invoke(newLog);
+                newLog.onQuestActive += () => Instance._onQuestActive.Invoke(newLog);
+                newLog.onQuestInActive += () => Instance._onQuestInitialize.Invoke(newLog);
+                newLog.onQuestComplete += () => Instance._onQuestComplete.Invoke(newLog);
 
-                newLog.onNextTask += () => Instance._onNextTask.Invoke();
-                newLog.onTaskComplete += () => Instance._onTaskComplete.Invoke();
+                newLog.onNextTask += () => Instance._onNextTask.Invoke(newLog);
+                newLog.onTaskComplete += () => Instance._onTaskComplete.Invoke(newLog);
 
                 QuestControl.Add((categoryID, quest.TagName ?? quest.TagID.ToString()), newLog);
             }

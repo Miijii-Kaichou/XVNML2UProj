@@ -121,7 +121,6 @@ namespace XVNML2U.Mono
             var vkList = VKPurposeMap[module][purpose];
             if (vkList.Count == 1)
             {
-                Debug.Log("Checking if your mom was pressed! *Hits Dab*");
                 return KeyPressed(module, targetInputKeyPairs[purpose].First());
             }
 

@@ -390,27 +390,27 @@ namespace XVNML2U
         }
 
         [Macro("new_quest")]
-        private static void InitializeNewQuestMacro(MacroCallInfo callInfo, string questID)
+        private static void InitializeNewQuestMacro(MacroCallInfo callInfo, object questID)
         {
             InitializeNewQuestMacro(callInfo, null, questID);
         }
 
         [Macro("new_quest")]
-        private static void InitializeNewQuestMacro(MacroCallInfo callInfo, string? questCategory, string questID)
+        private static void InitializeNewQuestMacro(MacroCallInfo callInfo, object? questCategory, object questID)
         {
             Instance.SendNewAction(() =>
             {
-                XVNMLQuestSystem.InitializeQuest(questID, questCategory);
+                XVNMLQuestSystem.InitializeQuest(questID.ToString(), questCategory?.ToString());
                 return WCResult.Ok();
             });
         }
 
         [Macro("complete_task")]
-        private static void CompleteTaskMacro(MacroCallInfo callInfo, string questCategory, string questID)
+        private static void CompleteTaskMacro(MacroCallInfo callInfo, object questCategory, object questID)
         {
             Instance.SendNewAction(() =>
             {
-                XVNMLQuestSystem.CompleteCurrentTask(questID, questCategory);
+                XVNMLQuestSystem.CompleteCurrentTask(questID.ToString(), questCategory?.ToString());
                 return WCResult.Ok();
             });
         }

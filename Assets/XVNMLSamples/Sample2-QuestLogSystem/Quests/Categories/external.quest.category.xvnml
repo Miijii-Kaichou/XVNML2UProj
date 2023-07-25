@@ -1,13 +1,13 @@
 <source name::"External.Quest.Category.XVNML">
 	<questCategory name::"_external">
                <quest name::"Hidden Quest 1">
-                    <description>
+                    <questInfo>
                     "This is the first hidden quest."
-                    </description>
+                    </questInfo>
                     <taskList>
-                         <task/>
-                         <task/>
-                         <task/>
+                         <task title::"Task"/>
+                         <task title::"Task"/>
+                         <task title::"Task"/>
                     </taskList>
                </quest>
     </questCategory>

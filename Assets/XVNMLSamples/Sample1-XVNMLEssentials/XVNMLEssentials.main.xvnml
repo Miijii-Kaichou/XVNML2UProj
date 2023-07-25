@@ -26,27 +26,6 @@
           <keycode name::"_navRight"             vkey::Right          purpose::NAVIGATION_RIGHT/>
      </keycodeDefinitions>
 
-     <questDefinitions #useCategories>
-          <questCategory name::"_main" #isDefault>
-               <quest name::"XVNML Quest System Introduction">
-                    <questInfo content::"First Test Quest for the XVNML Quest System"/>
-                    <taskList>
-                         <task title::"Go ahead and do a left click."/>
-                         <task title::"Go ahead and do a right click."/>
-                         <task title::"Open the Quest System Log UI"/>
-                         <task title::"Close the Quest System Log UI to complete quest."/>
-                    </taskList>
-               </quest>
-          </questCategory>
-          <questCategory name::"_side">
-               <quest name::"XVNML Quest System Side Quest">
-                    <taskList>
-                         <task title::"Do a thing..."/>
-                    </taskList>
-               </quest>
-          </questCategory>
-     </questDefinitions>
-
      <dialogue name::"XVNML2U Sample" src::"XVNML2USample.dialogue.xvnml"/>
 
      <imageDefinitions name::"_globalImageDefs">

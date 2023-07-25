@@ -7,12 +7,12 @@
           <keycode name::"_navLeft"              vkey::Left           purpose::NAVIGATION_LEFT />
           <keycode name::"_navRight"             vkey::Right          purpose::NAVIGATION_RIGHT/>
      </keycodeDefinitions>
-     <questDefinitions name::"_gameQuestLog">
+     <questDefinitions name::"_gameQuestLog" #useCategories>
           <questCategory name::"_main" #isDefault>
-               <quest name::"Amongst the Mysterious Lights.">
-                    <description>
+               <quest name::"Amongst_the_Mysterious_Lights" title::"Among the Mysterious Lights.">
+                    <questInfo>
                     "This is the first main quest."
-                    </description>
+                    </questInfo>
                     <taskList>
                          <task title::"Find the source of the earthquake."/>
                          <task title::"Go towards the mysterious light."/>
@@ -22,51 +22,54 @@
                </quest>
           </questCategory>
           <questCategory name::"_side">
-               <quest name::"Very Strange Stalactites">
-                    <description>
+               <quest name::"Very_Strange_Stalactites" title::"Very Strange Stalactites...">
+                    <questInfo>
                     "This is the first side quest."
-                    </description>
+                    </questInfo>
                     <taskList>
                          <task title::"Investigate the game in Gerudo Village."/>
                          <task title::"Bring the strange rock back to that one Gerudo (I don't know why)."/>
                     </taskList>
                </quest>
-               <quest>
-                    <questPrerequisite>
+               <quest name::"Second_Side_Quest" title::"Yet Another Side Quest.">
+                    <questPrerequisites>
                          <prerequisite category::$_side questID::000/>
-                    </questPrerequisite>
-                    <description>
+                    </questPrerequisites>
+                    <questInfo>
                     "This is the second side question."
-                    </description>
+                    </questInfo>
                     <taskList>
-                         <task/>
-                         <task/>
-                         <task/>
-                         <task/>
-                         <task/>
-                         <task/>
+                         <task title::"Task"/>
+                         <task title::"Task"/>
+                         <task title::"Task"/>
+                         <task title::"Task"/>
+                         <task title::"Task"/>
+                         <task title::"Task"/>
                     </taskList>
                </quest>
-               <quest>
-                    <questPrerequisite>
+               <quest name::"Final_Countdown" title::"Final Countdown...">
+                    <questPrerequisites>
                          <prerequisite category::$_side questID::001/>
-                    </questPrerequisite>
-                    <description>
+                    </questPrerequisites>
+                    <questInfo>
                     "This is the final side quest for now."
-                    </description>
-                    <taskTagList>
-                         <task/>
-                         <task/>
-                         <task/>
-                    </taskDefinitions>
+                    </questInfo>
+                    <taskList>
+                         <task title::"Task"/>
+                         <task title::"Task"/>
+                         <task title::"Task"/>
+                    </taskList>
                </quest>
           </questCategory>
           <questCategory name::"_external" src::"external.quest.category.xvnml"/>
      </questDefinitions>
 
-     <dialogueGroup name::"Quest Log System Example">
-          <dialogue>
-
-          </dialogue>
-     </dialogueGroup>
-</proxy>
+     <dialogue name::"QuestLogTest">
+          @ {sts::100}We just experienced an earth-quake last night.<
+          @ And then when it subsided, I saw strange lights through the window.<
+          @ {camera_shake::3f|delay::3000} Woooow!<
+          @ Another earthquake already.<
+          @ And it even felt like the source of it isn't too far off from here...<
+          @ {new_quest::$Amongst_the_Mysterious_Lights|pass}<<
+     </dialogue>
+ </proxy>

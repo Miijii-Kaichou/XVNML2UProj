@@ -221,7 +221,8 @@ namespace XVNML2U.Mono
 
             if (dialogueReferenceType == ElementReferenceValueType.ID)
             {
-                RunDialogue(module.Get<Dialogue>(Convert.ToInt32(dialogueReferenceValue)), processChannel);
+                int index = dialogueReferenceValue.ToInt();
+                RunDialogue(module.Get<Dialogue>(index), processChannel);
                 return;
             }
 
