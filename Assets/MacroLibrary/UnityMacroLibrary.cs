@@ -1,3 +1,4 @@
+#nullable enable
 using UnityEngine;
 using XVNML.Utilities.Macros;
 using XVNML2U.Data;
@@ -133,7 +134,7 @@ namespace XVNML2U
         [Macro("cast")]
         private static void CueCastMacro(MacroCallInfo info, string anchoring)
         {
-            var name = info.process.CurrentCastInfo.Value.name;
+            var name = info.process.CurrentCastInfo!.Value.name!;
             CueCastMacro(info, name, anchoring, 0);
         }
 
@@ -141,7 +142,7 @@ namespace XVNML2U
         [Macro("cast")]
         private static void CueCastMacro(MacroCallInfo info, string anchoring, uint offset)
         {
-            var name = info.process.CurrentCastInfo.Value.name;
+            var name = info.process.CurrentCastInfo!.Value.name!;
             CueCastMacro(info, name, anchoring, offset);
         }
 
@@ -156,14 +157,14 @@ namespace XVNML2U
         [Macro("cast")]
         private static void CueCastMacro(MacroCallInfo info, string name, string anchoring, uint offset)
         {
-            DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.PositionCast(info, name, anchoring.Parse<Anchoring>(), offset);
+            DialogueProcessAllocator.ProcessReference[info.process.ID].Stage!.PositionCast(info, name, anchoring.Parse<Anchoring>(), offset);
         }
 
         [Macro("move_cast")]
         [Macro("mcst")]
         private static void MoveCastMacro(MacroCallInfo info, int units)
         {
-            var name = info.process.CurrentCastInfo?.name;
+            var name = info.process.CurrentCastInfo?.name!;
             MoveCastMacro(info, name, units);
         }
 
@@ -171,34 +172,34 @@ namespace XVNML2U
         [Macro("mcst")]
         private static void MoveCastMacro(MacroCallInfo info, string name, int units)
         {
-            DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.MoveCast(info, name, units);
+            DialogueProcessAllocator.ProcessReference[info.process.ID].Stage!.MoveCast(info, name, units);
         }
 
         [Macro("set_cast_motion")]
         [Macro("scstm")]
         private static void SetCastMotionMacro(MacroCallInfo info, string motionType)
         {
-            DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.SetCastMotion(motionType.Parse<CastMotionType>());
+            DialogueProcessAllocator.ProcessReference[info.process.ID].Stage!.SetCastMotion(motionType.Parse<CastMotionType>());
         }
 
         [Macro("set_cast_motion_duration")]
         [Macro("scstmd")]
         private static void SetCastMotionDurationMacro(MacroCallInfo info, float motionDuration)
         {
-            DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.SetCastMotionDuration(motionDuration);
+            DialogueProcessAllocator.ProcessReference[info.process.ID].Stage!.SetCastMotionDuration(motionDuration);
         }
 
         [Macro("cast_enters_from")]
         [Macro("cstef")]
         private static void CastEntersFromMacro(MacroCallInfo info, string side)
         {
-            DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.HaveCastEnterFrom(side.Parse<EnterSide>());
+            DialogueProcessAllocator.ProcessReference[info.process.ID].Stage!.HaveCastEnterFrom(side.Parse<EnterSide>());
         }
 
         [Macro("react")]
         private static void ReactMacro(MacroCallInfo info, string reactionName)
         {
-            var castName = info.process.CurrentCastInfo?.name;
+            var castName = info.process.CurrentCastInfo?.name!;
             ReactMacro(info, castName, reactionName);
         }
 
@@ -226,7 +227,7 @@ namespace XVNML2U
             Instance.SendNewAction(() =>
             {
                 SceneInfo newSceneInfo = new() { name = sceneName, layer = layer };
-                DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.ChangeScene(newSceneInfo);
+                DialogueProcessAllocator.ProcessReference[info.process.ID].Stage!.ChangeScene(newSceneInfo);
                 return WCResult.Ok();
             });
         }
@@ -262,12 +263,12 @@ namespace XVNML2U
 
         [Macro("clear_scene")]
         [Macro("clrscn")]
-        private static void ClearSceneMacro(MacroCallInfo info, string sceneName, uint layerID)
+        private static void ClearSceneMacro(MacroCallInfo info, string? sceneName, uint layerID)
         {
             Instance.SendNewAction(() =>
             {
                 SceneInfo newScene = new() { name = sceneName, layer = (int)layerID };
-                DialogueProcessAllocator.ProcessReference[info.process.ID].Stage.ClearScene(newScene);
+                DialogueProcessAllocator.ProcessReference[info.process.ID].Stage!.ClearScene(newScene);
                 return WCResult.Ok();
             });
         }
@@ -360,7 +361,7 @@ namespace XVNML2U
             var processID = info.process.ID;
             Instance.SendNewAction(() =>
             {
-                Camera moduleCamera = DialogueProcessAllocator.ProcessReference[processID].Module.Camera;
+                Camera moduleCamera = DialogueProcessAllocator.ProcessReference[processID].Module!.Camera;
                 moduleCamera.DOShakePosition(duration, strength);
                 return WCResult.Ok();
             });
@@ -382,8 +383,34 @@ namespace XVNML2U
 
             Instance.SendNewAction(() =>
             {
-                Camera moduleCamera = DialogueProcessAllocator.ProcessReference[processID].Module.Camera;
+                Camera moduleCamera = DialogueProcessAllocator.ProcessReference[processID].Module!.Camera;
                 moduleCamera.DOShakePosition(duration, strength, vibrato, randomness, fadeOut, mode);
+                return WCResult.Ok();
+            });
+        }
+
+        [Macro("new_quest")]
+        private static void InitializeNewQuestMacro(MacroCallInfo callInfo, string questID)
+        {
+            InitializeNewQuestMacro(callInfo, null, questID);
+        }
+
+        [Macro("new_quest")]
+        private static void InitializeNewQuestMacro(MacroCallInfo callInfo, string? questCategory, string questID)
+        {
+            Instance.SendNewAction(() =>
+            {
+                XVNMLQuestSystem.InitializeQuest(questID, questCategory);
+                return WCResult.Ok();
+            });
+        }
+
+        [Macro("complete_task")]
+        private static void CompleteTaskMacro(MacroCallInfo callInfo, string questCategory, string questID)
+        {
+            Instance.SendNewAction(() =>
+            {
+                XVNMLQuestSystem.CompleteCurrentTask(questID, questCategory);
                 return WCResult.Ok();
             });
         }
@@ -398,7 +425,7 @@ namespace XVNML2U
             var stage = DialogueProcessAllocator.ProcessReference[info.process.ID].Stage;
             Instance.SendNewAction(() =>
             {
-                stage.ChangeExpression(castName, value);
+                stage?.ChangeExpression(castName, value);
                 return WCResult.Ok();
             });
         }
@@ -420,7 +447,7 @@ namespace XVNML2U
             var stage = processRef.Stage;
             processRef.SendNewAction(() =>
             {
-                stage.ChangeVoice(castName, value);
+                stage?.ChangeVoice(castName, value);
                 return WCResult.Ok();
             });
         }

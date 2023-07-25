@@ -39,7 +39,7 @@ namespace XVNML2U.Mono
 
         internal static void Init(XVNMLModule module)
         {
-            if (module == null) return;
+            if (IsNull) return;
 
             if (Instance._enablePooling) SetPropEntities();
 
@@ -78,6 +78,8 @@ namespace XVNML2U.Mono
 
             foreach(var image in images)
             {
+                if (image == null) continue;
+                if (image.GetImageData() == null) continue;
                 Texture2D? texture = XVNMLModule.ProcessTextureData(image.GetImageData());
                 Sprite imageSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100);
                 ImageMapping.Add(image.TagName, imageSprite);

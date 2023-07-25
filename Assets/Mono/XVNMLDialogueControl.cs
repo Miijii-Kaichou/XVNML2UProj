@@ -114,7 +114,7 @@ namespace XVNML2U.Mono
         private void Start()
         {
             DialogueProcessAllocator.Register(this, (uint)processChannel);
-            module!.onModuleBuildProcessComplete += Initialize;            
+            module!.onModuleBuildProcessComplete += Initialize;
             module!.Build();
         }
 
@@ -261,6 +261,7 @@ namespace XVNML2U.Mono
             PrepareAudioPool();
             PrepareScenes();
             PreparePropController();
+            PrepareQuestLogSystem();
 
             DialogueWriter.Write(dialogue.dialogueOutput!, channel);
 
@@ -514,6 +515,12 @@ namespace XVNML2U.Mono
         {
             if (module == null) return;
             XVNMLPropsControl.Init(module);
+        }
+
+        private void PrepareQuestLogSystem()
+        {
+            if (module == null) return;
+            XVNMLQuestSystem.Init(module);
         }
 
         private void RunDialogueInGroup(DialogueGroup group)

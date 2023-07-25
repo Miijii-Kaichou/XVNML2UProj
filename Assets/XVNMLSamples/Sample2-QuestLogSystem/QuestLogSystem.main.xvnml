@@ -1,0 +1,72 @@
+<proxy name::"QuestLogSystem.Main.XVNML" lang::CSharp engine::Unity screenWidth::1920 screenHeight::1080>
+     <keycodeDefinitions name::"_globalInputDef">
+          <keycode name::"_proceedWithMouse"     vkey::LeftMouse      purpose::PROCEED         />
+          <keycode name::"_proceedWithEnter"     vkey::Return         purpose::PROCEED         />
+          <keycode name::"_navUp"                vkey::Up             purpose::NAVIGATION_UP   />
+          <keycode name::"_navDown"              vkey::Down           purpose::NAVIGATION_DOWN />
+          <keycode name::"_navLeft"              vkey::Left           purpose::NAVIGATION_LEFT />
+          <keycode name::"_navRight"             vkey::Right          purpose::NAVIGATION_RIGHT/>
+     </keycodeDefinitions>
+     <questDefinitions name::"_gameQuestLog">
+          <questCategory name::"_main" #isDefault>
+               <quest name::"Amongst the Mysterious Lights.">
+                    <description>
+                    "This is the first main quest."
+                    </description>
+                    <taskList>
+                         <task title::"Find the source of the earthquake."/>
+                         <task title::"Go towards the mysterious light."/>
+                         <task title::"Find a way inside the sacred enterance."/>
+                         <task title::"Clear the temple"/>
+                    </taskList>
+               </quest>
+          </questCategory>
+          <questCategory name::"_side">
+               <quest name::"Very Strange Stalactites">
+                    <description>
+                    "This is the first side quest."
+                    </description>
+                    <taskList>
+                         <task title::"Investigate the game in Gerudo Village."/>
+                         <task title::"Bring the strange rock back to that one Gerudo (I don't know why)."/>
+                    </taskList>
+               </quest>
+               <quest>
+                    <questPrerequisite>
+                         <prerequisite category::$_side questID::000/>
+                    </questPrerequisite>
+                    <description>
+                    "This is the second side question."
+                    </description>
+                    <taskList>
+                         <task/>
+                         <task/>
+                         <task/>
+                         <task/>
+                         <task/>
+                         <task/>
+                    </taskList>
+               </quest>
+               <quest>
+                    <questPrerequisite>
+                         <prerequisite category::$_side questID::001/>
+                    </questPrerequisite>
+                    <description>
+                    "This is the final side quest for now."
+                    </description>
+                    <taskTagList>
+                         <task/>
+                         <task/>
+                         <task/>
+                    </taskDefinitions>
+               </quest>
+          </questCategory>
+          <questCategory name::"_external" src::"external.quest.category.xvnml"/>
+     </questDefinitions>
+
+     <dialogueGroup name::"Quest Log System Example">
+          <dialogue>
+
+          </dialogue>
+     </dialogueGroup>
+</proxy>

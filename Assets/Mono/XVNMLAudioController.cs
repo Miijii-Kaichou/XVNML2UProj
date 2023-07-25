@@ -74,6 +74,8 @@ namespace XVNML2U.Mono
 
         internal static void Init(Audio[] audio)
         {
+            if (IsNull) return;
+
             AudioSources = new AudioSource[DialogueProcessAllocator.ChannelSize];
             for (int i = 0; i < AudioSources.Length; i++)
             {

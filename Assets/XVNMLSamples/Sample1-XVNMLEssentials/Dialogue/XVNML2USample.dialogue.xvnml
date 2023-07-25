@@ -4,7 +4,7 @@
                <macro arg::"Test" symbol::"jump_to"/>
                <macro symbol::"pass"/>
           </macro>
-          <macro name::"_defaultTextSpeed" arg::40 symbol::"set_text_speed"/>
+          <macro name::"_defaultTextSpeed" arg::80 symbol::"set_text_speed"/>
           <macro name::"_main" arg::"Main" symbol::"jump_to"/>
           <macro name::"_jump" arg::"Jump" symbol::"react"/>
           <macro name::"_chapter1">
@@ -82,7 +82,7 @@
                $_defaultTextSpeed
                |$_switchToPropFadeInMode
                |set_prop_scale::(5i, 5i)
-               |$_chapter5
+               |$_doTest
                |pass}<
           @ Welcome to XVNML2U!<
           @ This package{$_think} demonstrates the capabilities in which the XVNML
@@ -191,6 +191,7 @@
            Declarative Role on a Skriptr line.<
           @ However, if you've defined Cast members within your XVNML project...<
           @ You can set them as a speaker!<
+          ["Test"] 
           @ {$_initializeCastMotionSettings}For example...<
           @??? {cue_cast::("Hana","Center")}Hello!<
           @??? My name is Hana!<
@@ -649,24 +650,24 @@
           @ The data contained in a scene's corresponding image is loaded and converted to a tangible
            Unity Asset at Runtime.<
           @ Once XVNML2U reads those bytes, it'll cache the final produce until it is needed using the
-           {quot}cue_scene{quot} Macro.<
+           "cue_scene" Macro.<
           @ At that point, it'll use the information cached, and set the image to be seen in the Game View.<
           @ {use_scene::"OutsideOfSchool"}Like so.<
           @ You may even set a layer in which the scene will be viewed, allow for a scene made with
            different parts.<
           @ This is all that the SceneController does, and you would have to create your own macro
            to do fancy stuff, such as changing the image's RGBA values.<
-          @ {clear_scene}You can unload the scene by using the {quot}clear_scene{quot} macro.<
+          @ {clear_scene}You can unload the scene by using the "clear_scene" macro.<
           @ Without passing an argument, it'll clear the only or last image that was loaded.<
           @ Passing in a value, such as which layer to target {paren}a numerical value{paren_end}
            or by the name of the scene {paren}which the SceneController will find the layer with that image{paren_end}...<
-          @ You can remove those specific scenes, or replace them using the {quot}cue_scene{quot} macro
+          @ You can remove those specific scenes, or replace them using the "cue_scene" macro
            and override a layer with the new image.<
           @ Again, that's basically the only thing that you can you do with the SceneController.<
           @ However, there will me more functionalities for it in the later versions of XVNML2U to come.<
           @ This isn't so much for Casts however.<
-          @ You can cue a cast and set them at a position using the {quot}cue_cast{quot} macro.<
-          @ You can either position them using {quot}Left{quot}, {quot}Right{quot}, and {quot}Center{quot}.<
+          @ You can cue a cast and set them at a position using the "cue_cast" macro.<
+          @ You can either position them using "Left", "Right", and "Center".<
           @ Or by a relative shift using a numerical value.<
           @ You can even specify an offset.<
           @ {
@@ -694,7 +695,7 @@
           @ We really appreciate{exp::("Hana", "Happy")} the demonstration, Hana!<
           @Hana {react::"Jump"}Any time, chief!<
           @ {move_cast::("Hana", -1325)}Basically, the stage is doing exactly what a stage is suppose to do...<
-          @ You set up a scene, and cast members can {quot}walk{quot} on stage.<
+          @ You set up a scene, and cast members can "walk" on stage.<
           @ And you can control the timing of that using the prementioned Macros within you Skriptr lines!<
           @ You would have to memorize some of these macros to get use to them.<
           @ But once you know them, you're basically writing your own Screenplay!<
@@ -740,8 +741,8 @@
            play from your XVNML file.<
           @ The sounds that play on the XVNMLAudioController is seperate from the audio that's
            played from a cast member.<
-          @ Using Unity-Specific macros such as {quot}set_sound{quot}, {quot}set_volume{quot}
-           and {quot}play_sound{quot}...<
+          @ Using Unity-Specific macros such as "set_sound", "set_volume"
+           and "play_sound"...<
           @ You can set the mood in combination with the XVNMLStage Component.<
           @ {use_scene::"OutsideOfSchool"}Let's cue our scene here...<
           @ And play some peaceful music...{$_doAudioControllerDemonstration} and there we go.<
@@ -770,7 +771,7 @@
           @ Of course, there are a lot of other components that are provided with XVNML2U.<
           @ However, you would just have to look at the documentation for that one.<
           @ We just wanted to mention the more...<
-          @ {quot}significant{quot} components that you'll find within XVNML2U.<
+          @ "significant" components that you'll find within XVNML2U.<
           @ The information that we gave to you today should be enough for you to get
            started on your own...<
           @ and to also have a better understanding of how everything works.<
@@ -785,7 +786,7 @@
 
           ["P4"]
           @ Oooooooooooooooooooooo!<
-          @ So you would like to get {quot}hands-onsie{quot} with XVNML?<
+          @ So you would like to get "hands-onsie" with XVNML?<
           @ We like your attitude my friend!<
           @ The XVNML binary that's integrated with XVNML2U gives you all sorts of
            utilities that allows you to do more with XVNML.<
@@ -955,7 +956,7 @@
                |$_switchToPropFadeInMode
                |pass}<
           @ Since we're on the topic of seperating files...<
-          @ {insert::"2"|paren_end|set_prop_scale::(10i, 5i)|load_prop::("BestPracticesItem2", "Center", "Center")|delay::750}
+          @ {insert::"2"|paren_end|set_prop_scale::(12i, 5i)|load_prop::("BestPracticesItem2", "Center", "Center")|delay::750}
           Name your files based on its Root tag.<
           @ This just makes things easier differentiating between what's the "Main" XVNML
            file...<
@@ -991,19 +992,19 @@
           @ You may had noticed some other directories relative to this file...<
           @ Such as "Audio", "Casts", "Images", and "Scenes"...<
           @ This is because when finding a source, it's mapped to the directory of the same
-           kind of source that's relative to the Main XVNML file.<
+          kind of source that's relative to the Main XVNML file.<
           @ It's a little extra, but you can configure how everything is mapped out
-           though I wouldn't recommend it.<
+          though I wouldn't recommend it.<
           @ This is because it helps organizes your files, as well as limit the amount of
-           times you have to put in an Absolute path.<
+          times you have to put in an Absolute path.<
           @ By default, by assigning the "src" parameter of a tag to a file path...<
           @ The path mode is Relative by default.<
           @ If you want to state specifically where to find it, you can change the
-           path mode to Absolute by typing "pathMode::Absolute".<
+          path mode to Absolute by typing "pathMode::Absolute".<
           @ Pretty simple.<
           @ And if you don't want it to look into directories relative to your main
-           simply have your "src" path start with {quot}..{slash}{quot}<
-          @ The Proxy will then look at the same level as your Main XVNML file<
+          simply have your "src" path start with {quot}..{slash}{quot}<
+          @ The Proxy will then look at the same level as your Main XVNML file.<
           @ Again, I wouldn't recommend it due to structure and consistency sake.<
           @ With XVNML, a modular approach to building your XVNML "front-end"
           {space|paren}I guess you could call it{paren_end}...<
@@ -1035,35 +1036,6 @@
            far more effecient.<
           @ You honestly don't have to worry about it too much.<
           @ Just be sure you keep all this in mind when creating your story.<
-          @ {insert::"4"|paren_end|delay::750} Hit "Enter" and "Space", instead of typing {quot}{curly}new_line{pipe}space{curly_end}
-           {quot}or hitting enter and typing {quot}{curly}space{curly_end}{quot}<
-          @ Do not type a space at the end of your contining SkriptrLine.<
-          @ This is a no-no!<
-          @ This is just a best practice to do, because this will not only limit the amount of
-           macro calls...<
-          @ But you're also able to see where the space is at a glance.<
-          @ If you instead had the space at the end "like on this line"...
-          you have no idea where the space is.<
-          @ But if you hit "enter", and then the space,
-           you know where it is, and proceeds you with more visuals
-           regarding your SkriptrLine.<
-          @ And{$_think}<
-          @ I think that's about it for best practices...{pause} at least for now.<
-          @ OH! Here's a trick you can do to limit the total amount of lines inside a XVNML file...<
-          @ just from using macros alone!<
-          @ And that is...<
-          @ {insert::"5"|paren_end|delay::750} Use the {quot}{curly}pause{pipe}clr{curly_end}{quot} macro.<
-          @ This behaves EXACTLY how it would when ending your line with {tag}.<
-          @ That will also help optimize the building time of the XVNML file.<
-          @ And there's even a short hand for it too.<
-          @ Though we prefer the {curly}pause{pipe}clr{curly_end} example.<
-          @ But if you were curious on what it was anyway...<
-          @ Just type {quot}{tag_end} {curly}clr{curly_end}{quot}<
-          @ And that's it.{pause} The {quot}{tag_end}{quot} is automatically converted into a "pause" macro.<
-          @ Though it's special, because you can change your character's expression or voice
-           from that point on!<
-          @ And it was entirely made to do that...<
-          @ Which is why we just going for the {curly}pause{pipe}clr{curly_end} instead.<
           @ Before we conclude...<
           ? Would you like to go over those points again?>>
           (

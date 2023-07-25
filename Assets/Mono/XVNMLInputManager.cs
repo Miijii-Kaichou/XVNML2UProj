@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using XVNML.Input.Enums;
-using XVNML.Utilities.Diagnostics;
 using XVNML.Utilities.Tags;
 
 namespace XVNML2U.Mono
@@ -14,6 +13,8 @@ namespace XVNML2U.Mono
 
         public static void Init(XVNMLModule module)
         {
+            if (IsNull) return;
+
             var root = module.Root;
 
             KeycodeDefinitions def = root.GetElement<KeycodeDefinitions>();
