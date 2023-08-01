@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using XVNML.Utilities.Dialogue;
 
@@ -33,6 +34,12 @@ namespace XVNML2U.Mono
         {
             if (Instance._isInitialized == false) Initialize();
             ProcessReference[channel] = control;
+        }
+
+        internal static void Refresh()
+        {
+            var size = (int)Instance.channelSize;
+            DialogueWriter.AllocateChannels(size);
         }
     }
 }

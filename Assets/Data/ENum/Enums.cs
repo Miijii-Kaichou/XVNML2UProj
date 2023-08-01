@@ -47,4 +47,10 @@
         FadeOutToBottom,
         FadeOut
     }
+
+    public enum ElementReferenceValueType
+    {
+        ID,
+        Name
+    }
 }

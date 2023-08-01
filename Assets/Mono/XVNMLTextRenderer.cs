@@ -53,5 +53,10 @@ namespace XVNML2U.Mono
         {
             _target = tmpText;
         }
+
+        internal void Refresh()
+        {
+            _target.ForceMeshUpdate();
+        }
     }
 }

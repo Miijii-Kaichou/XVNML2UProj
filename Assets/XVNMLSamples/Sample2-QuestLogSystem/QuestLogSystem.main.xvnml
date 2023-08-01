@@ -64,12 +64,20 @@
           <questCategory name::"_external" src::"external.quest.category.xvnml"/>
      </questDefinitions>
 
-     <dialogue name::"QuestLogTest">
+     <dialogue name::"QuestLogTest0">
           @ {sts::100}We just experienced an earth-quake last night.<
           @ And then when it subsided, I saw strange lights through the window.<
           @ {camera_shake::3f|delay::3000} Woooow!<
           @ Another earthquake already.<
           @ And it even felt like the source of it isn't too far off from here...<
           @ {new_quest::$Amongst_the_Mysterious_Lights|pass}<<
+     </dialogue>
+
+     <dialogue name::"QuestLogTest1">
+          @ {sts::100}After resolving that earth-quake incident, there seems to be
+           rocks crystalizing.<
+          @ I honestly don't know what else to say, but we're just going to do
+           the side mission.<
+          @ {new_quest::($_side,$Very_Strange_Stalactites)|pass}<<
      </dialogue>
  </proxy>

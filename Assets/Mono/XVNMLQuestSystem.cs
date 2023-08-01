@@ -1,12 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using XVNML2U.Mono;
 using XVNML2U.Tags;
+using XVNML2U.Data;
 
-namespace XVNML2U
+namespace XVNML2U.Mono
 {
     public sealed class XVNMLQuestSystem : Singleton<XVNMLQuestSystem>
     {
@@ -21,8 +21,7 @@ namespace XVNML2U
         [Space(2), SerializeField] private UnityEvent<QuestLog> _onNextTask;
         [Space(2), SerializeField] private UnityEvent<QuestLog> _onTaskComplete;
 
-        private static SortedDictionary<(string, string), QuestLog> QuestControl;
-
+        public static SortedDictionary<(string category, string id), QuestLog> QuestControl { get; private set; }
         public static QuestLog[] ActiveQuests =>
             QuestControl
             .Where(qc => qc.Value.Active)
@@ -30,7 +29,7 @@ namespace XVNML2U
             .ToArray();
 
 
-        private static string DefaultCategory = "default";
+        public static string DefaultCategory { get; private set; } = "default";
         private static bool DefaultSet = false;
 
         public static UnityEvent<QuestLog> OnQuestInitilize => Instance._onQuestInitialize;
@@ -40,9 +39,12 @@ namespace XVNML2U
         public static UnityEvent<QuestLog> OnNextTask => Instance._onNextTask;
         public static UnityEvent<QuestLog> OnTaskComplete => Instance._onTaskComplete;
 
+        public static bool IsInitialized { get; private set; }
+
         public static void Init(XVNMLModule module)
         {
             if (IsNull) return;
+            if (IsInitialized) return;
 
             Instance.module ??= module;
 
@@ -52,7 +54,7 @@ namespace XVNML2U
             var questCategories = questDefinitions.QuestCategoryMap;
             if (questCategories == null) return;
 
-            QuestControl = new SortedDictionary<(string, string), QuestLog>();
+            QuestControl = new SortedDictionary<(string category, string id), QuestLog>();
 
             foreach(var category in questCategories)
             {
@@ -64,6 +66,8 @@ namespace XVNML2U
 
                 CreateNewQuestLogCategory(category);
             }
+
+            IsInitialized = true;
         }
 
         public static void InitializeQuest(string questID, string? questCategory)
@@ -106,6 +110,7 @@ namespace XVNML2U
                 {
                     questName = quest.Title ?? "Untitled",
                     questDescription = quest.Description,
+                    questCategoryName = categoryID
                 };
 
                 newLog.GenerateQuestTasks(quest.Objectives);
@@ -121,103 +126,5 @@ namespace XVNML2U
                 QuestControl.Add((categoryID, quest.TagName ?? quest.TagID.ToString()), newLog);
             }
         }
-    }
-
-    public sealed class QuestLog
-    {
-        public string questName;
-        public string questDescription;
-
-        public Action onQuestInitialize;
-        public Action onQuestActive;
-        public Action onQuestInActive;
-        public Action onQuestComplete;
-        
-        public Action onNextTask;
-        public Action onTaskComplete;
-        
-        public int taskID = -1;
-        public SortedDictionary<string, bool> TaskLog;
-
-        private Task[] _tasks;
-        private bool _isActive;
-        private bool _isComplete;
-
-        public string TaskTitle => _currentTask.title;
-        
-        public bool Active
-        {
-            get
-            {
-                return _isActive;
-            }
-            private set
-            {
-                _isActive = value;
-                Action activeStateAction = _isActive ? onQuestActive : onQuestInActive;
-                activeStateAction.Invoke();
-            }
-        }
-
-        public bool Complete
-        {
-            get
-            {
-                return _isComplete;
-            }
-            private set
-            {
-                _isComplete = value;
-                if (_isComplete == false) return;
-                onQuestComplete?.Invoke();
-            }
-        }
-
-        private Task _currentTask => _tasks[taskID];
-
-        public void SetActive(bool active) => Active = active;
-
-        public void Initialize()
-        {
-            onQuestInitialize?.Invoke();
-            Active = true;
-            NextTask();
-            onNextTask?.Invoke();
-        }
-
-        public void GenerateQuestTasks(TaskList objectives)
-        {
-            if (objectives == null) return;
-
-            _tasks = objectives.Items;
-            if (_tasks == null) return;
-
-            TaskLog = new SortedDictionary<string, bool>();
-
-            foreach ( var task in _tasks)
-            {
-                TaskLog.Add(task.TagName == "task" ? task.TagID.ToString() : task.TagName, false);
-            }
-        }
-
-        public void CompleteCurrentTask()
-        {
-            var identifier = _currentTask.TagName ?? _currentTask.TagID.ToString();
-            TaskLog[identifier] = true;
-
-            onTaskComplete?.Invoke();
-            
-            NextTask();
-
-            if (taskID > _tasks.Length - 1)
-            {
-                Complete = true;
-                return;
-            }
-
-            onNextTask?.Invoke();
-        }
-
-        private void NextTask() => taskID++;
     }
 }

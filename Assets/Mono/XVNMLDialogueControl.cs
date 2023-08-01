@@ -17,11 +17,6 @@ namespace XVNML2U.Mono
     [DisallowMultipleComponent]
     public sealed class XVNMLDialogueControl : MonoActionSender
     {
-        public enum ElementReferenceValueType
-        {
-            ID,
-            Name
-        }
 
         // We first need a reference to the XVNML Module that you want to pull a dialogue from
         [Header("Set Up")]
@@ -85,13 +80,13 @@ namespace XVNML2U.Mono
         }
 
         public bool IsBlocked { get; private set; }
+        public bool IsActive { get; private set; }
 
         private AudioSource? _voiceAudioSource;
         private CastInfo _castInfo;
         private CanvasGroup? _canvasGroup;
 
         private bool _isHidden = false;
-        private bool _isFinished = false;
         private const float InactiveAlpha = 0.0f;
         private const float ActiveAlpha = 1.0f;
 
@@ -130,8 +125,6 @@ namespace XVNML2U.Mono
         public void Play()
         {
             if (module == null) return;
-
-            _isFinished = false;
 
             if (processChannel < 0)
             {
@@ -174,35 +167,51 @@ namespace XVNML2U.Mono
 
         public void Play(int dialogueIndex)
         {
+            SetDialgoueReferenceType(ElementReferenceValueType.ID);
             dialogueReferenceValue = dialogueIndex.ToString();
+            Play();
         }
 
         public void Play(int dialogueIndex, int dialogueGroup)
         {
+            SetDialgoueReferenceType(ElementReferenceValueType.ID);
+            SetDialogueGroupReferenceType(ElementReferenceValueType.ID);
             dialogueReferenceValue = dialogueIndex.ToString();
             dialogueGroupReferenceValue = dialogueGroup.ToString();
+            Play();
         }
 
         public void Play(int dialogueIndex, string dialogueGroup)
         {
+            SetDialgoueReferenceType(ElementReferenceValueType.ID);
+            SetDialogueGroupReferenceType(ElementReferenceValueType.Name);
             dialogueReferenceValue = dialogueIndex.ToString();
             dialogueGroupReferenceValue = dialogueGroup;
+            Play();
         }
 
         public void Play(string dialogueName)
         {
+            SetDialgoueReferenceType(ElementReferenceValueType.Name);
             dialogueReferenceValue = dialogueName;
+            Play();
         }
 
         public void Play(string dialogueName, int dialogueGroup)
         {
+            SetDialgoueReferenceType(ElementReferenceValueType.Name);
+            SetDialogueGroupReferenceType(ElementReferenceValueType.ID);
             dialogueReferenceValue = dialogueName;
+            Play();
         }
 
         public void Play(string dialogueName, string dialogueGroup)
         {
+            SetDialgoueReferenceType(ElementReferenceValueType.Name);
+            SetDialogueGroupReferenceType(ElementReferenceValueType.Name);
             dialogueReferenceValue = dialogueName;
             dialogueGroupReferenceValue = dialogueGroup;
+            Play();
         }
 
         public void Continue(DialogueWriterProcessor process)
@@ -213,6 +222,16 @@ namespace XVNML2U.Mono
         public void SetForChannel(int channel)
         {
             processChannel = channel;
+        }
+
+        private void SetDialgoueReferenceType(ElementReferenceValueType type)
+        {
+            dialogueReferenceType = type;
+        }
+
+        private void SetDialogueGroupReferenceType(ElementReferenceValueType type)
+        {
+            dialogueGroupReferenceType = type;
         }
 
         private void RunDialogue()
@@ -231,6 +250,7 @@ namespace XVNML2U.Mono
 
         private void RunDialogue(Dialogue? dialogue, int channel)
         {
+            
             if (dialogue == null)
             {
                 Debug.LogError($"Failed to run dialogue for channel {channel}");
@@ -240,21 +260,23 @@ namespace XVNML2U.Mono
             dontDetain = dialogue.DoNotDetain;
             textSpeedControlledExternally = dialogue.TextSpeedControlledExternally;
 
-            DialogueWriter.OnLineStart![processChannel] += ResetCastFlags;
-            DialogueWriter.OnLineSubstringChange![processChannel] += UpdateTextOutput;
-            DialogueWriter.OnLinePause![processChannel] += dontDetain ? DontWait : WaitForMouseClick;
+            DialogueProcessAllocator.Refresh();
 
-            DialogueWriter.OnPrompt![processChannel] += ShowPrompt;
-            DialogueWriter.OnPromptResonse![processChannel] += ResponseToPromptSelection;
+            DialogueWriter.OnLineStart![processChannel] = ResetCastFlags;
+            DialogueWriter.OnLineSubstringChange![processChannel] = UpdateTextOutput;
+            DialogueWriter.OnLinePause![processChannel] = dontDetain ? DontWait : WaitForMouseClick;
 
-            DialogueWriter.OnCastChange![processChannel] += SetCastName;
-            DialogueWriter.OnCastExpressionChange![processChannel] += SetCastExpression;
-            DialogueWriter.OnCastVoiceChange![processChannel] += SetCastVoice;
+            DialogueWriter.OnPrompt![processChannel] = ShowPrompt;
+            DialogueWriter.OnPromptResonse![processChannel] = ResponseToPromptSelection;
 
-            DialogueWriter.OnChannelBlock![processChannel] += OnChannelBlock;
-            DialogueWriter.OnChannelUnblock![processChannel] += OnChannelUnblock;
+            DialogueWriter.OnCastChange![processChannel] = SetCastName;
+            DialogueWriter.OnCastExpressionChange![processChannel] = SetCastExpression;
+            DialogueWriter.OnCastVoiceChange![processChannel] = SetCastVoice;
 
-            DialogueWriter.OnDialogueFinish![processChannel] += OnFinish;
+            DialogueWriter.OnChannelBlock![processChannel] = OnChannelBlock;
+            DialogueWriter.OnChannelUnblock![processChannel] = OnChannelUnblock;
+
+            DialogueWriter.OnDialogueFinish![processChannel] = OnFinish;
 
             PrepareActionSchedular();
             PrepareInputManager();
@@ -264,38 +286,27 @@ namespace XVNML2U.Mono
             PreparePropController();
             PrepareQuestLogSystem();
 
-            DialogueWriter.Write(dialogue.dialogueOutput!, channel);
+
+            DialogueScript? script = dialogue.dialogueOutput!;
+            DialogueWriter.Write(script, channel);
 
             _onPlay?.Invoke();
+            
+            IsActive = true;
         }
 
         private void OnFinish(DialogueWriterProcessor sender)
         {
             SendNewAction(() =>
             {
-                if (_isFinished) return WCResult.Ok();
                 if (sender.ID != processChannel) return WCResult.Unknown();
+
+                DialogueWriter.ShutDown();
 
                 _mainText.Text = string.Empty;
                 _onFinish?.Invoke();
 
-                DialogueWriter.OnLineStart![processChannel] -= ResetCastFlags;
-                DialogueWriter.OnLineSubstringChange![processChannel] -= UpdateTextOutput;
-                DialogueWriter.OnLinePause![processChannel] -= dontDetain ? DontWait : WaitForMouseClick;
-
-                DialogueWriter.OnPrompt![processChannel] -= ShowPrompt;
-                DialogueWriter.OnPromptResonse![processChannel] -= ResponseToPromptSelection;
-
-                DialogueWriter.OnCastChange![processChannel] -= SetCastName;
-                DialogueWriter.OnCastExpressionChange![processChannel] -= SetCastExpression;
-                DialogueWriter.OnCastVoiceChange![processChannel] -= SetCastVoice;
-
-                DialogueWriter.OnChannelBlock![processChannel] -= OnChannelBlock;
-                DialogueWriter.OnChannelUnblock![processChannel] -= OnChannelUnblock;
-
-                DialogueWriter.OnDialogueFinish![processChannel] -= OnFinish;
-
-                _isFinished = true;
+                IsActive = false;
 
                 return WCResult.Ok();
             });
@@ -369,6 +380,7 @@ namespace XVNML2U.Mono
         {
             DialogueWriter.MoveNextLine(sender);
             _mainText.Text = sender.DisplayingContent;
+            IsActive = true;
             return WCResult.Ok();
         }
 
@@ -380,7 +392,11 @@ namespace XVNML2U.Mono
 
                 _mainText.Text = sender.DisplayingContent;
 
-                if (_mainText.IsTextOverflowing) _mainText.PageToDisplay++;
+                if (_mainText.IsTextOverflowing)
+                {
+                    _mainText.PageToDisplay++;
+                    _mainText.Refresh();
+                }
                 if (tickSound == null) return WCResult.Ok();
 
                 _voiceAudioSource?.PlayOneShot(tickSound);
@@ -392,7 +408,6 @@ namespace XVNML2U.Mono
         {
             SendNewAction(() =>
             {
-                ;
                 if (sender.CurrentCastInfo == null) return WCResult.Ok();
                 if (_castNameText == null) return WCResult.Ok();
 

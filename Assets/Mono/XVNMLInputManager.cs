@@ -11,9 +11,12 @@ namespace XVNML2U.Mono
         private static readonly Dictionary<XVNMLModule, SortedDictionary<InputEvent, List<VirtualKey>>> VKPurposeMap = new();
         private static readonly Dictionary<XVNMLModule, KeycodeDefinitions> AttachedKeycodeDefinitions = new();
 
+        public static bool IsInitialized = false;
+
         public static void Init(XVNMLModule module)
         {
             if (IsNull) return;
+            if (IsInitialized) return;
 
             var root = module.Root;
 
@@ -49,6 +52,8 @@ namespace XVNML2U.Mono
 
                 targetInputKeyPairs.Add(code.purpose, new List<VirtualKey> { code.vkey });
             }
+
+            IsInitialized = true;
         }
 
         public static bool KeyPressed(XVNMLModule module, VirtualKey key)

@@ -82,7 +82,6 @@
                $_defaultTextSpeed
                |$_switchToPropFadeInMode
                |set_prop_scale::(5i, 5i)
-               |$_doTest
                |pass}<
           @ Welcome to XVNML2U!<
           @ This package{$_think} demonstrates the capabilities in which the XVNML
@@ -191,7 +190,6 @@
            Declarative Role on a Skriptr line.<
           @ However, if you've defined Cast members within your XVNML project...<
           @ You can set them as a speaker!<
-          ["Test"] 
           @ {$_initializeCastMotionSettings}For example...<
           @??? {cue_cast::("Hana","Center")}Hello!<
           @??? My name is Hana!<
