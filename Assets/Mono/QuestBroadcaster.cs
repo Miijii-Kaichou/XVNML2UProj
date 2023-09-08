@@ -12,12 +12,14 @@ namespace XVNML2U.Mono
         public enum BroadcastPayloadType
         {
             NewQuest,
-            NewTask
+            NewTask,
+            QuestComplete
         }
 
         
         [SerializeField] QuestAnimations questLogAnimation;
         [SerializeField] QuestTaskAnimations questTaskAnimation;
+        [SerializeField] QuestAnimations questCompleteAnimation;
 
         private Queue<(QuestLog log, Action<QuestLog> callback)> _broadcastEventQueue = new();
         private bool _isActive;
@@ -41,6 +43,11 @@ namespace XVNML2U.Mono
             SendNewBroadcastPayload(log, BroadcastPayloadType.NewTask);
         }
 
+        public void SendQuestCompleteBroadcast(QuestLog log)
+        {
+            SendNewBroadcastPayload(log, BroadcastPayloadType.QuestComplete);
+        }
+
         private void SendNewBroadcastPayload(QuestLog log, BroadcastPayloadType type)
         {
             switch (type)
@@ -50,11 +57,15 @@ namespace XVNML2U.Mono
                     return;
                 case BroadcastPayloadType.NewTask:
                     _broadcastEventQueue.Enqueue((log, BroadcastNewTask));
-                    break;
+                    return;
+                 case BroadcastPayloadType.QuestComplete:
+                    _broadcastEventQueue.Enqueue((log, BroadcastQuestComplete));
+                    return;
                 default:
                     break;
             }
         }
+
 
         IEnumerator QuestBroadcastListener()
         {
@@ -66,28 +77,35 @@ namespace XVNML2U.Mono
                     continue;
                 }
 
-                yield return new WaitUntil(() => _isBusy == false);
-
-                _isBusy = true;
-                var action = _broadcastEventQueue.Dequeue();
-                var log = action.log;
-                action.callback.Invoke(log);
+                for (int i = 0; i < _broadcastEventQueue.Count; i++)
+                {
+                    yield return new WaitUntil(() => _isBusy == false);
+                    _isBusy = true;
+                    var action = _broadcastEventQueue.Dequeue();
+                    var log = action.log;
+                    action.callback.Invoke(log);
+                }
 
                 yield return null;
             }
         }
 
-        void BroadcastNewQuest(QuestLog log)
+        private void BroadcastNewQuest(QuestLog log)
         {
             questLogAnimation.DoAnimation(log);
         }
 
 
-        void BroadcastNewTask(QuestLog log)
+        private void BroadcastNewTask(QuestLog log)
         {
             questTaskAnimation.DoAnimation(log);
         }
 
+        private void BroadcastQuestComplete(QuestLog log)
+        {
+            questCompleteAnimation.DoAnimation(log);
+        }
+       
         public void SetBroadcasterAsNotBusy() => _isBusy = false;
     }
 }

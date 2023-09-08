@@ -22,8 +22,6 @@ namespace XVNML2U.Mono
         [Header("Set Up")]
         [SerializeField] private XVNMLModule? module;
         [SerializeField] private bool runOnAwakeUp = false;
-        [SerializeField] private bool dontDetain = false;
-        [SerializeField] private bool textSpeedControlledExternally = false;
         [SerializeField] private int processChannel = 0;
         [SerializeField] private AudioClip tickSound;
         [SerializeField] private XVNMLStage stageObj;
@@ -35,12 +33,17 @@ namespace XVNML2U.Mono
             "you want to access")]
         private string dialogueReferenceValue;
         [SerializeField] private ElementReferenceValueType dialogueReferenceType = ElementReferenceValueType.ID;
+        private bool dontDetain = false;
+        private bool textSpeedControlledExternally = false;
+        private bool enableMigration = false;
 
         // Lastly, have an optional string that references the
         // dialogue group
         [Header("Dialogue Group Target")]
         [SerializeField] private string dialogueGroupReferenceValue;
         [SerializeField] private ElementReferenceValueType dialogueGroupReferenceType = ElementReferenceValueType.ID;
+        private bool enableGroupMigration = false;
+        private bool collectFiles = false;
 
         [Header("Components")]
         [SerializeField] private XVNMLTextRenderer _castNameText;
@@ -113,10 +116,19 @@ namespace XVNML2U.Mono
             module!.Build();
         }
 
-        private void Initialize(XVNMLObj obj)
+        private void Initialize(XVNMLObj? obj)
         {
             _mainText ??= GetComponent<XVNMLTextRenderer>();
             _canvasGroup ??= GetComponent<CanvasGroup>();
+
+            PrepareActionSchedular();
+            PrepareInputManager();
+            PrepareCasts();
+            PrepareAudioPool();
+            PrepareScenes();
+            PreparePropController();
+            PrepareQuestLogSystem();
+
             if (runOnAwakeUp == false) return;
 
             Play();
@@ -259,6 +271,9 @@ namespace XVNML2U.Mono
 
             dontDetain = dialogue.DoNotDetain;
             textSpeedControlledExternally = dialogue.TextSpeedControlledExternally;
+            enableGroupMigration = dialogue.EnableGroupMigration;
+            enableMigration = dialogue.EnableMigration;
+
 
             DialogueProcessAllocator.Refresh();
 
@@ -277,15 +292,6 @@ namespace XVNML2U.Mono
             DialogueWriter.OnChannelUnblock![processChannel] = OnChannelUnblock;
 
             DialogueWriter.OnDialogueFinish![processChannel] = OnFinish;
-
-            PrepareActionSchedular();
-            PrepareInputManager();
-            PrepareCasts();
-            PrepareAudioPool();
-            PrepareScenes();
-            PreparePropController();
-            PrepareQuestLogSystem();
-
 
             DialogueScript? script = dialogue.dialogueOutput!;
             DialogueWriter.Write(script, channel);

@@ -14,12 +14,16 @@ namespace XVNML2U.Mono
         public void StartNewQuest(XVNMLDialogueControl control)
         {
             if (control.IsActive) return;
+            (string category, string id) questInfo = ("_main", "Amongst_the_Mysterious_Lights");
+            if (XVNMLQuestSystem.QuestControl[questInfo].Complete) return;
             control.Play(QuestStuff[0]);
         }
 
         public void StartNewSideQuest(XVNMLDialogueControl control)
         {
             if (control.IsActive) return;
+            (string category, string id) questInfo = ("_side", "Very_Strange_Stalactites");
+            if (XVNMLQuestSystem.QuestControl[questInfo].Complete) return;
             control.Play(QuestStuff[1]);
         }
     }

@@ -1,8 +1,8 @@
+#nullable enable
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using XVNML2U.Mono;
 using XVNML2U.Tags;
 using XVNML2U.Data;
 
@@ -11,7 +11,7 @@ namespace XVNML2U.Mono
     public sealed class XVNMLQuestSystem : Singleton<XVNMLQuestSystem>
     {
         [SerializeField]
-        private XVNMLModule module;
+        private XVNMLModule? module;
 
         [Header("Quest Unity Events"), Space(2)]
         [Space(2), SerializeField] private UnityEvent<QuestLog> _onQuestInitialize;
@@ -21,10 +21,10 @@ namespace XVNML2U.Mono
         [Space(2), SerializeField] private UnityEvent<QuestLog> _onNextTask;
         [Space(2), SerializeField] private UnityEvent<QuestLog> _onTaskComplete;
 
-        public static SortedDictionary<(string category, string id), QuestLog> QuestControl { get; private set; }
-        public static QuestLog[] ActiveQuests =>
+        public static SortedDictionary<(string category, string id), QuestLog?>? QuestControl { get; private set; }
+        public static QuestLog?[] ActiveQuests =>
             QuestControl
-            .Where(qc => qc.Value.Active)
+            .Where(qc => qc.Value!.Active)
             .Select(qc => qc.Value)
             .ToArray();
 
@@ -73,19 +73,19 @@ namespace XVNML2U.Mono
         public static void InitializeQuest(string questID, string? questCategory)
         {
             questCategory ??= DefaultCategory;
-            QuestControl[(questCategory, questID)].Initialize();
+            QuestControl?[(questCategory, questID)]?.Initialize();
         }
 
         public static void SetQuestActive(bool active, string questID, string? questCategory)
         {
             questCategory ??= DefaultCategory;
-            QuestControl[(questCategory, questID)].SetActive(active);
+            QuestControl?[(questCategory, questID)]?.SetActive(active);
         }
 
         public static void CompleteCurrentTask(string questID, string? questCategory)
         {
             questCategory ??= DefaultCategory;
-            QuestControl[(questCategory, questID)].CompleteCurrentTask();
+            QuestControl?[(questCategory, questID)]?.CompleteCurrentTask();
         }
 
         public static void SaveQuestSystemState()
