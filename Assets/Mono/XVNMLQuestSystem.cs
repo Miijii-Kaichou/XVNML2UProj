@@ -10,9 +10,6 @@ namespace XVNML2U.Mono
 {
     public sealed class XVNMLQuestSystem : Singleton<XVNMLQuestSystem>
     {
-        [SerializeField]
-        private XVNMLModule? module;
-
         [Header("Quest Unity Events"), Space(2)]
         [Space(2), SerializeField] private UnityEvent<QuestLog> _onQuestInitialize;
         [Space(2), SerializeField] private UnityEvent<QuestLog> _onQuestActive;
@@ -46,25 +43,23 @@ namespace XVNML2U.Mono
             if (IsNull) return;
             if (IsInitialized) return;
 
-            Instance.module ??= module;
-
             var questDefinitions = module.Get<QuestDefinitions>();
             if (questDefinitions == null) return;
 
             var questCategories = questDefinitions.QuestCategoryMap;
             if (questCategories == null) return;
 
-            QuestControl = new SortedDictionary<(string category, string id), QuestLog>();
+            QuestControl = new SortedDictionary<(string category, string id), QuestLog?>();
 
             foreach(var category in questCategories)
             {
-                if (category.Value.category.IsDefault && DefaultSet == false)
+                if (category.Value.category!.IsDefault && DefaultSet == false)
                 {
                     DefaultSet = !DefaultSet;
                     DefaultCategory = category.Key;
                 }
 
-                CreateNewQuestLogCategory(category);
+                CreateNewQuestLogCategory(category!);
             }
 
             IsInitialized = true;
@@ -102,7 +97,7 @@ namespace XVNML2U.Mono
         {
             string categoryID = category.Key;
 
-            List<QuestLog> quests = new List<QuestLog>();
+            List<QuestLog> quests = new();
 
             foreach(var quest in category.Value.Item2)
             {
@@ -123,7 +118,7 @@ namespace XVNML2U.Mono
                 newLog.onNextTask += () => Instance._onNextTask.Invoke(newLog);
                 newLog.onTaskComplete += () => Instance._onTaskComplete.Invoke(newLog);
 
-                QuestControl.Add((categoryID, quest.TagName ?? quest.TagID.ToString()), newLog);
+                QuestControl?.Add((categoryID, quest.TagName ?? quest.TagID.ToString()), newLog);
             }
         }
     }

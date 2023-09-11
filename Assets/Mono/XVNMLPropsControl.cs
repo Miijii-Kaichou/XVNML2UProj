@@ -1,20 +1,15 @@
+#nullable enable
+
 using DG.Tweening;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using UnityEngine;
 using XVNML.Utilities.Tags;
-using XVNML2U.Mono;
 
 namespace XVNML2U.Mono
 {
     public class XVNMLPropsControl : Singleton<XVNMLPropsControl>
     {
-        [SerializeField]
-        private XVNMLModule _module;
-
         [SerializeField, Header("Transform")]
         private RectTransform _rectTransform;
 
@@ -24,9 +19,9 @@ namespace XVNML2U.Mono
         [SerializeField]
         private int _maxPropCount = 32;
 
-        private static SortedDictionary<string, Sprite> ImageMapping = new();
-        private static List<PropEntity> CachedProps = new();
-        private static Vector3 SetScale = new Vector3(1, 1, 1);
+        private readonly static SortedDictionary<string, Sprite> ImageMapping = new();
+        private readonly static List<PropEntity> CachedProps = new();
+        private static Vector3 SetScale = new(1, 1, 1);
         private static int ModuleWidth = 0;
         private static int ModuleHeight = 0;
 
@@ -35,7 +30,7 @@ namespace XVNML2U.Mono
         public static TransitionMode PropTransitionMode { get; private set; }
         public static float TransitionDuration { get; private set; }
 
-        private static readonly Color Transparent = new Color(1, 1, 1, 0);
+        private static readonly Color Transparent = new(1, 1, 1, 0);
 
         internal static void Init(XVNMLModule module)
         {
@@ -43,17 +38,15 @@ namespace XVNML2U.Mono
 
             if (Instance._enablePooling) SetPropEntities();
 
-            Instance._rectTransform ??= Instance.GetComponent<RectTransform>();
-            ModuleWidth = module.Root.GetParameterValue<int>("screenWidth");
-            ModuleHeight = module.Root.GetParameterValue<int>("screenHeight");
+            Instance._rectTransform = Instance.GetComponent<RectTransform>();
+            ModuleWidth = module.Root!.GetParameterValue<int>("screenWidth")!;
+            ModuleHeight = module.Root!.GetParameterValue<int>("screenHeight")!;
 
             Instance._rectTransform.sizeDelta = new Vector2(ModuleWidth, ModuleHeight);
 
-            ImageDefinitions imageDefinitions = module.Get<ImageDefinitions>();
+            ImageDefinitions imageDefinitions = module.Get<ImageDefinitions>()!;
 
-            GenerateImageMapping(imageDefinitions);
-            
-            Instance._module = module;
+            GenerateImageMapping(imageDefinitions!);
         }
 
         private static void SetPropEntities()
@@ -81,8 +74,8 @@ namespace XVNML2U.Mono
                 if (image == null) continue;
                 if (image.GetImageData() == null) continue;
                 Texture2D? texture = XVNMLModule.ProcessTextureData(image.GetImageData());
-                Sprite imageSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100);
-                ImageMapping.Add(image.TagName, imageSprite);
+                Sprite imageSprite = Sprite.Create(texture, new Rect(0, 0, texture!.width, texture.height), new Vector2(0.5f, 0.5f), 100);
+                ImageMapping.Add(image.TagName!, imageSprite);
             }
         }
 
@@ -188,7 +181,7 @@ namespace XVNML2U.Mono
             var limit = Instance._maxPropCount;
             var counter = 0;
 
-            PropEntity result = null;
+            PropEntity? result = null;
 
             while(counter < limit && objectFound == false)
             {
@@ -219,7 +212,7 @@ namespace XVNML2U.Mono
             return result;
         }
 
-        internal static void SetPropScale(int xScale, int yScale, int v)
+        internal static void SetPropScale(int xScale, int yScale)
         {
             SetScale = new Vector3(xScale, yScale, 1);
         }
@@ -232,7 +225,7 @@ namespace XVNML2U.Mono
         private static void DoPropTransition(PropEntity entity, TweenCallback? callback = null)
         {
             Transform propTransform = entity.transform;
-            DG.Tweening.Core.TweenerCore<Color, Color, DG.Tweening.Plugins.Options.ColorOptions> tweening = null;
+            DG.Tweening.Core.TweenerCore<Color, Color, DG.Tweening.Plugins.Options.ColorOptions>? tweening = null;
             var distance = 0.25f;
             switch (PropTransitionMode)
             {

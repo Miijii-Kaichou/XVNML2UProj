@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using UnityEditor;
@@ -13,20 +14,12 @@ namespace XVNML2U
     [CustomEditor(typeof(XVNMLAsset))]
     public sealed class XVNMLAssetInspector : Editor
     {
-        private int _onEditMode = 0;
-        private int _enableWrapping = 0;
-        private int _zoomLevel = 1;
-        private int _maxZoomLevel = 4;
-
         private SerializedProperty xvnmlContent;
         private XVNMLAsset fileAsset;
 
         private Vector2 scrollPosition = Vector2.zero;
 
-        private int _totalPages = 0;
-        private int _currentPage = 1;
-
-        private List<string> _pageContent = new List<string>();
+        private Process _activeProcess;
 
         public void OnEnable()
         {
@@ -45,7 +38,11 @@ namespace XVNML2U
             {
                 //TODO: Start Process with argument.
                 _ = HasAssociatedExecutable(fileAsset.filePath, out string associatedPath);
-                Process.Start(associatedPath, fileAsset.filePath);
+
+                _activeProcess = new Process();
+                _activeProcess.StartInfo.FileName = associatedPath;
+                _activeProcess.StartInfo.Arguments = fileAsset.filePath;
+                _activeProcess.Start();
             }
 
             if (GUILayout.Button("Ping"))
@@ -61,19 +58,13 @@ namespace XVNML2U
             serializedObject.ApplyModifiedProperties();
         }
 
-        private void Process_Exited(object sender, System.EventArgs e)
-        {
-            var process = sender as Process;
-            Console.Write($"VSCode Process {process.SessionId} has exited.");
-        }
-
         private void DrawImporterGUI()
         {
             fileAsset = serializedObject.targetObject as XVNMLAsset;
             fileAsset.ReadContentFromFile();
 
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, GUILayout.Height(500));
-            EditorGUI.BeginDisabledGroup(_onEditMode == 0);
+            EditorGUI.BeginDisabledGroup(true);
             GUILayout.TextArea(xvnmlContent == null ? string.Empty : xvnmlContent.stringValue
                  , GUILayout.ExpandWidth(true)
                  , GUILayout.ExpandHeight(true));

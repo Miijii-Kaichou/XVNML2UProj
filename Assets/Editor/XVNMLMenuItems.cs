@@ -26,7 +26,7 @@ namespace XVNML2U
 
         static readonly Color WhiteSemiTransparentColor = new(1, 1, 1, 0.5f);
 
-        [MenuItem("GameObject/XVNML2U/General/XVNML Module", priority = 80)]
+        [MenuItem("GameObject/XVNML2U/General/Module", priority = 80)]
         static void AddNewXVNMLModuleObject()
         {
             GameObject newXVNMLModuleObject = new();
@@ -49,7 +49,7 @@ namespace XVNML2U
             FinalizeObjectCreation(ref newXVNMLInputManagerObject);
         }
 
-        [MenuItem("GameObject/XVNML2U/General/XVNML Action Scheduler", priority = 80)]
+        [MenuItem("GameObject/XVNML2U/General/Action Scheduler", priority = 80)]
         static void AddNewXVNMLActionScheduler()
         {
             GameObject newXVNMLActionSchedulerObject = new();
@@ -74,7 +74,7 @@ namespace XVNML2U
 
         }
 
-        [MenuItem("GameObject/XVNML2U/General/XVNML Log Listener", priority = 80)]
+        [MenuItem("GameObject/XVNML2U/General/Log Listener", priority = 80)]
         static void AddNewXVNMLogListenerObject()
         {
             GameObject newXVNMLLogListenerObject = new();
@@ -322,7 +322,7 @@ namespace XVNML2U
             FinalizeObjectCreation(ref newSceneControllerObject);
         }
 
-        [MenuItem("GameObject/XVNML2U/Cast/CastController", priority = 81)]
+        [MenuItem("GameObject/XVNML2U/Cast/CastController (Empty)", priority = 81)]
         static void AddNewEmptyCastController()
         {
             GameObject newEmptyCastControllerObject = new();
