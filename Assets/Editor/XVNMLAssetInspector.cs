@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -13,11 +14,19 @@ namespace XVNML2U
     public sealed class XVNMLAssetInspector : Editor
     {
         private int _onEditMode = 0;
+        private int _enableWrapping = 0;
+        private int _zoomLevel = 1;
+        private int _maxZoomLevel = 4;
 
         private SerializedProperty xvnmlContent;
         private XVNMLAsset fileAsset;
 
         private Vector2 scrollPosition = Vector2.zero;
+
+        private int _totalPages = 0;
+        private int _currentPage = 1;
+
+        private List<string> _pageContent = new List<string>();
 
         public void OnEnable()
         {
@@ -28,33 +37,20 @@ namespace XVNML2U
         {
             base.OnHeaderGUI();
 
+            EditorGUILayout.Space();
+
             EditorGUILayout.BeginHorizontal();
 
-            var editText = _onEditMode == 0 ? "Edit" : "Finish";
-
-            if (GUILayout.Button($"{editText} XVNML"))
-            {
-                //TODO: Enable Text Box for XVNML to be Editted.
-                _onEditMode = _onEditMode == 0 ? _onEditMode + 1 : 0;
-                OnHeaderGUI();
-                return;
-            }
-
-            EditorGUI.BeginDisabledGroup(_onEditMode == 0);
-            if (GUILayout.Button("Save"))
-            {
-                //TODO: Update File Content and call DrawImportGUI again.
-                return;
-            }
-            EditorGUI.EndDisabledGroup();
-
-            if (GUILayout.Button("Use VSCode"))
+            if (GUILayout.Button("View in VSCode"))
             {
                 //TODO: Start Process with argument.
                 _ = HasAssociatedExecutable(fileAsset.filePath, out string associatedPath);
-                var process = Process.Start(associatedPath, fileAsset.filePath);
-                process.Exited += Process_Exited;
-                return;
+                Process.Start(associatedPath, fileAsset.filePath);
+            }
+
+            if (GUILayout.Button("Ping"))
+            {
+                EditorGUIUtility.PingObject(target);
             }
             EditorGUILayout.EndHorizontal();
 
@@ -76,16 +72,13 @@ namespace XVNML2U
             fileAsset = serializedObject.targetObject as XVNMLAsset;
             fileAsset.ReadContentFromFile();
 
-            EditorStyles.textField.wordWrap = true;
+            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, GUILayout.Height(500));
             EditorGUI.BeginDisabledGroup(_onEditMode == 0);
-            EditorGUILayout.BeginScrollView(scrollPosition);
-            EditorGUILayout.TextArea(xvnmlContent == null ? string.Empty : xvnmlContent.stringValue
+            GUILayout.TextArea(xvnmlContent == null ? string.Empty : xvnmlContent.stringValue
                  , GUILayout.ExpandWidth(true)
-                 , GUILayout.ExpandHeight(true)
-                 , GUILayout.MinHeight(250)
-                 , GUILayout.MaxHeight(500));
-            EditorGUILayout.Space(10);
+                 , GUILayout.ExpandHeight(true));
             EditorGUILayout.EndScrollView();
+            EditorGUILayout.Space(10);
             EditorGUI.EndDisabledGroup();
         }
 

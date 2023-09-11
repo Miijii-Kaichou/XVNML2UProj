@@ -1,11 +1,14 @@
 using System;
 using UnityEngine;
+using XVNML.Core.Dialogue;
 using XVNML.Utilities.Tags;
 
 namespace XVNML2U.Mono
 {
     public sealed class CastEntity : MonoBehaviour
     {
+        private const int MainDialogueControl = 0;
+
         [Header("Graphics")]
         public CastGraphicMode graphicMode;
 
@@ -21,7 +24,7 @@ namespace XVNML2U.Mono
 
         //Data
         public ElementMediaLibrary<Sprite> PortraitLibrary = new();
-        public ElementMediaLibrary<AudioClip> VoiceLibrary = new();
+        public ElementMediaLibrary<(bool perCharacter, AudioClip clip)> VoiceLibrary = new();
 
         void Awake()
         {
@@ -45,11 +48,11 @@ namespace XVNML2U.Mono
             PortraitLibrary.Add(id, name.ToString(), newSprite);
         }
 
-        public void GenerateAndAddToVoiceLibrary(int id, ReadOnlySpan<char> name, string path)
+        public void GenerateAndAddToVoiceLibrary(int id, ReadOnlySpan<char> name, string path, bool isPerCharacter = false)
         {
             AudioClip newClip = XVNMLModule.ProcessAudioClip(path);
             newClip.name = name.ToString();
-            VoiceLibrary.Add(id, name.ToString(), newClip);
+            VoiceLibrary.Add(id, name.ToString(), (isPerCharacter, newClip));
             return;
         }
 
@@ -102,7 +105,9 @@ namespace XVNML2U.Mono
             if (VoiceLibrary == null) return;
             if (name == string.Empty || name == null) return;
             if (VoiceLibrary.ContainsName(name) == false) return;
-            voiceBox.clip = VoiceLibrary[name];
+            
+            voiceBox.clip = VoiceLibrary[name].clip;
+
             voiceBox.Play();
         }
 

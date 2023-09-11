@@ -935,7 +935,7 @@
           @ However, the unnecessary use of them may lead to the Tokenizer and Parser struggling.<
           @ As of typing this, we haven't had any performance issues with the process.<
           @ In fact, we did, and we fixed it because it was something we didn't want in the final product.<
-          @ Image waiting 27 seconds upon clicking on the "Play Mode" button for Unity to actually start playing...<
+          @ Image,{delay::500} waiting {bold|color::"yellow"}27 seconds{color_end|bold_end} upon clicking on the "Play Mode" button for Unity to actually start playing...<
           @ Yeah{$_think} Unbelievable.{delay::500} We know.<
           @ This is because the Tokenizer has a list of all tokens that makes up a file.<
           @ Other parts of the building process uses it, and even borrows some tokens...<

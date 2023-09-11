@@ -445,7 +445,7 @@ namespace XVNML2U.Mono
                 if (sender.CurrentCastInfo == null) return WCResult.Ok();
 
                 _castInfo = sender.CurrentCastInfo.Value;
-                Stage?.ChangeExpression(_castInfo);
+                Stage!.ChangeExpression(_castInfo);
 
                 return WCResult.Ok();
             });
@@ -458,7 +458,7 @@ namespace XVNML2U.Mono
                 if (sender.CurrentCastInfo == null) return WCResult.Ok();
 
                 _castInfo = sender.CurrentCastInfo.Value;
-                Stage?.ChangeVoice(_castInfo);
+                Stage!.ChangeVoice(_castInfo);
 
                 return WCResult.Ok();
             });
@@ -557,6 +557,11 @@ namespace XVNML2U.Mono
             }
 
             RunDialogue(group[dialogueGroupReferenceValue.Parse<string>()], processChannel);
+        }
+
+        internal void SetTickSound(AudioSource voiceBox)
+        {
+            tickSound = voiceBox.clip;
         }
     }
 }

@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
+using XVNML.Core.Dialogue;
 using XVNML.Core.Dialogue.Structs;
+using XVNML.Utilities.Dialogue;
 using XVNML.Utilities.Macros;
 using XVNML.Utilities.Tags;
 
@@ -54,7 +56,6 @@ namespace XVNML2U.Mono
         {
             castController.ChangeVoice(new CastInfo() { name = castName, expression = value});
         }
-
 
         internal void PositionCast(MacroCallInfo info, string name, Anchoring anchoring, uint offset)
         {
