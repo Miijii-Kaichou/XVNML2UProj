@@ -5,7 +5,7 @@
                |$_switchToPropFadeInMode
                |set_prop_scale::(5i, 5i)
                |pass}<
-          @ Welcome to {bold|emphasis|color::"yellow"}XVNML2U!{color_end|emphasis_end|bold_end}<
+          @ {style::"title"}Welcome to {bold|emphasis|color::"yellow"}XVNML2U!{color_end|emphasis_end|bold_end|style_end}<
           @ This package{$_think} demonstrates the capabilities in which the XVNML
            Class Library is capable of{delay::500|clr}when used with the Unity Game Engine.<
           @ What you see here{delay::750} is a normal dialogue.<
@@ -857,12 +857,12 @@
           ["P5"]
           @ {$_defaultTextSpeed}XVNML is a very, very young mark-up language.<
           @ So, there isn't any "Official" standardized best practices to be mindful of...<
-          @ The only person that would know that is the person writing all of this dialogue!<
-          @ With that said{$_think} here are several best practices to keep in mind...<
+          @ The only person that would know that is {b}the person writing all of this dialogue!{bed}<
+          @ With that said{$_think} here are {col::"yellow"|b}several best practices to keep in mind...{bed|coled}<
 
           ["P5-BestPractices-Start"]
-          @ {insert::"1"|paren_end|load_prop::("BestPracticesItem1", "Center", "Center")|delay::750}
-          Separate your XVNML files as much as you can.<
+          @ {b|insert::"1"|paren_end|load_prop::("BestPracticesItem1", "Center", "Center")|delay::750}
+          Separate your XVNML files as much as you can.{bed}<
           @ This will just make it so you don't have to deal with a lot of text in one file.<
           @ Also, it would make it a lot easier for the Tokenizer and Parser if there isn't
            too much text in one file.<
@@ -876,8 +876,8 @@
                |$_switchToPropFadeInMode
                |pass}<
           @ Since we're on the topic of seperating files...<
-          @ {insert::"2"|paren_end|set_prop_scale::(12i, 5i)|load_prop::("BestPracticesItem2", "Center", "Center")|delay::750}
-          Name your files based on its Root tag.<
+          @ {b|insert::"2"|paren_end|set_prop_scale::(12i, 5i)|load_prop::("BestPracticesItem2", "Center", "Center")|delay::750}
+          Name your files based on its Root tag.{bed}<
           @ This just makes things easier differentiating between what's the "Main" XVNML
            file...<
           @ And what are "Source" files.<
@@ -930,7 +930,7 @@
           {space|paren}I guess you could call it{paren_end}...<
           @ Is amongst the most important best practices for not just XVNML...<
           @ but for C{hash} as well.<
-          @ {insert::"3"|paren_end|delay::750} If you can, limit as much macros as you can.<
+          @ {b|insert::"3"|paren_end|delay::750} If you can, limit as much macros as you can.<
           @ Macros is one of XVNML's coolest features.<
           @ However, the unnecessary use of them may lead to the Tokenizer and Parser struggling.<
           @ As of typing this, we haven't had any performance issues with the process.<
@@ -967,7 +967,7 @@
 
           @ Be sure the balance the amount of macros used verses the amount of Skriptr lines that
            needs to be parsed.<
-          @ And hopefully your XVNML file will become a lot more optimized.
+          @ And hopefully your XVNML file will {b}become a lot more optimized{bed}.
           {$_main}<
 
           #//endregion
@@ -983,6 +983,7 @@
 
           #//endregion
      </dialogue>
+
      <macroCache rootScope::"XVNML2USample.Dialogue.XVNML">
           <macro name::"_doTest">
                <macro arg::"Test" symbol::"jump_to"/>

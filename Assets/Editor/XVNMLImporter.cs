@@ -28,6 +28,8 @@ namespace XVNML2U.Mono.Core
             StoredContext = ctx;
 
             IncludeNecessaryExtensions();
+
+            SaveAndReimport();
         }
 
         private void IncludeNecessaryExtensions()

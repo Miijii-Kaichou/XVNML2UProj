@@ -3319,7 +3319,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b7301259c5ddf944af75de315bc2ea4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _module: {fileID: 888242071}
   _rectTransform: {fileID: 582317580}
   _enablePooling: 1
   _maxPropCount: 4

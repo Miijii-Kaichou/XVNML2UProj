@@ -275,7 +275,6 @@ namespace XVNML2U.Mono
             enableMigration = dialogue.EnableMigration;
             collectFiles = dialogue.HasFlag("collectFiles");
 
-
             DialogueProcessAllocator.Refresh();
 
             DialogueWriter.OnLineStart![processChannel] = ResetCastFlags;
