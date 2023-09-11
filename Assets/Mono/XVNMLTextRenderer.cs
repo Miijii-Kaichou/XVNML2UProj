@@ -58,5 +58,13 @@ namespace XVNML2U.Mono
         {
             _target.ForceMeshUpdate();
         }
+
+        internal TextMeshProUGUI Root
+        {
+            get
+            {
+                return _target;
+            }
+        }
     }
 }

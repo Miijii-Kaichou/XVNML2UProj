@@ -11,6 +11,8 @@ using XVNML.Utilities.Dialogue;
 using XVNML.Utilities;
 using XVNML.Utilities.Tags;
 using XVNML2U.Data;
+using System.Linq;
+using System.Text;
 
 namespace XVNML2U.Mono
 {
@@ -403,6 +405,7 @@ namespace XVNML2U.Mono
                     _mainText.PageToDisplay++;
                     _mainText.Refresh();
                 }
+
                 if (tickSound == null) return WCResult.Ok();
 
                 _voiceAudioSource?.PlayOneShot(tickSound);

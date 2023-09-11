@@ -38,7 +38,7 @@ namespace XVNML2U.Mono
 
         [HideInInspector] public XVNMLObj? top;
 
-        public string? content;
+        [HideInInspector] public string? content;
 
         private void OnEnable()
         {

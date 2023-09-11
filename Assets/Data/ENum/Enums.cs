@@ -53,4 +53,18 @@
         ID,
         Name
     }
+
+    public enum ControlState : sbyte
+    {
+        None,
+        Bold,
+        Italize,
+        Underline,
+        StrikeThrough,
+        Color,
+        TypeFace,
+        Size,
+        Style,
+        Sprite
+    }
 }
