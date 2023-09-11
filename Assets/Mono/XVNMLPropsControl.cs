@@ -1,3 +1,4 @@
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring the field as nullable
 #nullable enable
 
 using DG.Tweening;
@@ -212,9 +213,9 @@ namespace XVNML2U.Mono
             return result;
         }
 
-        internal static void SetPropScale(int xScale, int yScale)
+        internal static void SetPropScale(int xScale, int yScale, int zScale = 1)
         {
-            SetScale = new Vector3(xScale, yScale, 1);
+            SetScale = new Vector3(xScale, yScale, zScale);
         }
 
         internal static void SetPropTransitionMode(TransitionMode transitionMode)

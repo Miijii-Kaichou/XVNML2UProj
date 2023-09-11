@@ -1,4 +1,4 @@
-#nullable enable
+#pragma warning disable CS8632 // The annotation for nullable reference type should only be used in code within a '#nullable' annotations context
 
 using System;
 using UnityEngine;
@@ -11,8 +11,6 @@ using XVNML.Utilities.Dialogue;
 using XVNML.Utilities;
 using XVNML.Utilities.Tags;
 using XVNML2U.Data;
-using System.Linq;
-using System.Text;
 
 namespace XVNML2U.Mono
 {
@@ -62,8 +60,8 @@ namespace XVNML2U.Mono
         internal XVNMLModule? Module => module;
         internal XVNMLStage? Stage => stageObj;
 
-        internal int DOMWidth => module!.Root!["screenWidth"].ToInt();
-        internal int DOMHeight => module!.Root!["screenHeight"].ToInt();
+        internal int DOMWidth => module.Root["screenWidth"].ToInt();
+        internal int DOMHeight => module.Root["screenHeight"].ToInt();
 
         internal bool IsHidden
         {
@@ -97,8 +95,8 @@ namespace XVNML2U.Mono
 
         private void OnValidate()
         {
-            _mainText ??= GetComponent<XVNMLTextRenderer>();
-            _canvasGroup ??= GetComponent<CanvasGroup>();
+            _mainText = _mainText != null ? _mainText : GetComponent<XVNMLTextRenderer>();
+            _canvasGroup = _canvasGroup != null ? _canvasGroup : GetComponent<CanvasGroup>();
 
             if (tickSound == null) return;
             if (_voiceAudioSource != null) return;
@@ -120,8 +118,8 @@ namespace XVNML2U.Mono
 
         private void Initialize(XVNMLObj? obj)
         {
-            _mainText ??= GetComponent<XVNMLTextRenderer>();
-            _canvasGroup ??= GetComponent<CanvasGroup>();
+            _mainText = _mainText != null ? _mainText : GetComponent<XVNMLTextRenderer>();
+            _canvasGroup = _canvasGroup != null ? _canvasGroup : GetComponent<CanvasGroup>();
 
             PrepareActionSchedular();
             PrepareInputManager();
@@ -129,7 +127,6 @@ namespace XVNML2U.Mono
             PrepareAudioPool();
             PrepareScenes();
             PreparePropController();
-            PrepareQuestLogSystem();
 
             if (runOnAwakeUp == false) return;
 
@@ -216,6 +213,7 @@ namespace XVNML2U.Mono
             SetDialgoueReferenceType(ElementReferenceValueType.Name);
             SetDialogueGroupReferenceType(ElementReferenceValueType.ID);
             dialogueReferenceValue = dialogueName;
+            dialogueGroupReferenceValue = dialogueGroup.ToString();
             Play();
         }
 
@@ -275,6 +273,7 @@ namespace XVNML2U.Mono
             textSpeedControlledExternally = dialogue.TextSpeedControlledExternally;
             enableGroupMigration = dialogue.EnableGroupMigration;
             enableMigration = dialogue.EnableMigration;
+            collectFiles = dialogue.HasFlag("collectFiles");
 
 
             DialogueProcessAllocator.Refresh();
@@ -407,8 +406,9 @@ namespace XVNML2U.Mono
                 }
 
                 if (tickSound == null) return WCResult.Ok();
+                if (_voiceAudioSource == null) return WCResult.Ok(); 
 
-                _voiceAudioSource?.PlayOneShot(tickSound);
+                _voiceAudioSource.PlayOneShot(tickSound);
                 return WCResult.Ok();
             });
         }
@@ -540,12 +540,6 @@ namespace XVNML2U.Mono
         {
             if (module == null) return;
             XVNMLPropsControl.Init(module);
-        }
-
-        private void PrepareQuestLogSystem()
-        {
-            if (module == null) return;
-            XVNMLQuestSystem.Init(module);
         }
 
         private void RunDialogueInGroup(DialogueGroup group)

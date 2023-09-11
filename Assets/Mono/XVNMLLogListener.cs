@@ -26,7 +26,7 @@ namespace XVNML2U.Mono
         [SerializeField]
         private bool _pauseGamePlayOnError = false;
 
-        private IEnumerator _coroutine;
+        private IEnumerator? _coroutine;
 
         private void OnValidate()
         {

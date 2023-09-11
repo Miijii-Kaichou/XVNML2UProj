@@ -1,4 +1,5 @@
 #nullable enable
+
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,11 +11,11 @@ namespace XVNML2U.Mono
 {
     public sealed class SceneController : MonoBehaviour
     {
-        public UnityEngine.UI.Image[] sceneRenderers;
+        public UnityEngine.UI.Image[]? sceneRenderers;
 
-        private Sprite _nullImage;
-        private SortedDictionary<string, Sprite> _sceneMap = new();
-        private List<Scene> _scenes;
+        private Sprite? _nullImage;
+        private readonly SortedDictionary<string, Sprite> _sceneMap = new();
+        private List<Scene>? _scenes;
 
         // Start is called before the first frame update
         void Awake()
@@ -36,7 +37,7 @@ namespace XVNML2U.Mono
             if (_sceneMap.ContainsKey(sceneName!) == false) return;
             var target = _sceneMap[sceneName!];
 
-            sceneRenderers[layer].sprite = target;
+            sceneRenderers![layer].sprite = target;
         }
 
         internal void ClearScene(SceneInfo sceneInfo)
@@ -61,7 +62,7 @@ namespace XVNML2U.Mono
                 return;
             }
 
-            if (layer > sceneRenderers.Length - 1) layer = sceneRenderers.Length - 1;
+            if (layer > sceneRenderers!.Length - 1) layer = sceneRenderers.Length - 1;
             if (_sceneMap.ContainsKey(sceneName ?? string.Empty) == false)
             {
                 sceneRenderers[layer].sprite = _nullImage;
@@ -91,7 +92,7 @@ namespace XVNML2U.Mono
             if (scene == null) return;
             if (scene.imageTarget == null || scene.imageTarget.GetImageTargetPath() == string.Empty) return;
             Texture2D? tex2D = XVNMLModule.ProcessTextureData(scene.imageTarget.GetImageData());
-            _scenes.Add(scene);
+            _scenes?.Add(scene);
             _sceneMap.Add(scene?.TagName!, Sprite.Create(tex2D, new Rect(0, 0, tex2D!.width, tex2D.height), new Vector2(0.5f, 0.5f)));
         }
 
