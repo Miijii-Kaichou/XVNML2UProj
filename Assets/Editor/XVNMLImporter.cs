@@ -6,8 +6,9 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.AssetImporters;
 using UnityEngine;
+using XVNML2U.FileSupport;
 
-namespace XVNML2U.Mono.Core
+namespace XVNML2U.Editor
 {
     [ScriptedImporter(1, "xvnml")]
     public sealed class XVNMLImporter : ScriptedImporter

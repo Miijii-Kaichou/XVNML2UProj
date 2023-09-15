@@ -5,10 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using XVNML2U.Mono;
 
-namespace XVNML2U
+namespace XVNML2U.Editor
 {
 #if UNITY_EDITOR
-    public sealed class XVNMLMenuItems : Editor
+    public sealed class XVNMLMenuItems : UnityEditor.Editor
     {
         private const string HierarchyMenuItemPath = "Window/General/Hierarchy";
         private const string NullImageResourcePath = "Images/NullImage";
