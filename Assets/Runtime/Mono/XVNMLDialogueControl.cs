@@ -279,6 +279,8 @@ namespace XVNML2U.Mono
 
             DialogueProcessAllocator.Refresh();
 
+            DialogueWriter.RootScopeIdentifierSet![processChannel] = dialogue.RootScope;
+
             DialogueWriter.OnLineStart![processChannel] = ResetCastFlags;
             DialogueWriter.OnLineSubstringChange![processChannel] = UpdateTextOutput;
             DialogueWriter.OnLinePause![processChannel] = dontDetain ? DontWait : WaitForMouseClick;

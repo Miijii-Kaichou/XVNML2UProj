@@ -36,4 +36,6 @@
           <image name::"BestPracticesItem4" src::$nil                                pathMode::Relative/>
           <image name::"BestPracticesItem5" src::$nil                                pathMode::Relative/>
      </imageDefinitions>
+
+     <macroCache name::"main" src::"main.macro.cache.xvnml" pathMode::Relative/>
 </proxy>

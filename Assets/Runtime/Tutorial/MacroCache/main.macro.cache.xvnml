@@ -1,0 +1,79 @@
+<source name::"Main.Macro.Cache.XVNML">
+     <macroCache name::"main" rootScope::"XVNML2USample.Dialogue.XVNML">
+          <macro name::"_doTest">
+               <macro arg::"Test" symbol::"jump_to"/>
+               <macro symbol::"pass"/>
+          </macro>
+          <macro name::"_defaultTextSpeed" arg::80 symbol::"set_text_speed"/>
+          <macro name::"_main" arg::"Main" symbol::"jump_to"/>
+          <macro name::"_jump" arg::"Jump" symbol::"react"/>
+          <macro name::"_chapter1">
+               <macro symbol::"show_text_box"/>
+               <macro arg::"P1" symbol::"jump_to"/>
+               <macro symbol::"pass"/>
+          </macro>
+          <macro name::"_chapter2">
+               <macro symbol::"show_text_box"/>
+               <macro arg::"P2" symbol::"jump_to"/>
+               <macro symbol::"pass"/>
+          </macro>
+          <macro name::"_chapter3">
+               <macro symbol::"show_text_box"/>
+               <macro arg::"P3" symbol::"jump_to"/>
+               <macro symbol::"pass"/>
+          </macro>
+          <macro name::"_chapter4">
+               <macro symbol::"show_text_box"/>
+               <macro arg::"P4" symbol::"jump_to"/>
+               <macro symbol::"pass"/>
+          </macro>
+          <macro name::"_chapter5">
+               <macro symbol::"show_text_box"/>
+               <macro arg::"P5" symbol::"jump_to"/>
+               <macro symbol::"pass"/>
+          </macro>
+          <macro name::"_conclude">
+               <macro symbol::"show_text_box"/>
+               <macro arg::"CL" symbol::"jump_to"/>
+               <macro symbol::"pass"/>
+          </macro>
+          <macro name::"_doAudioControllerDemonstration">
+               <macro arg::500 symbol::"delay"/>
+               <macro arg::"PeacefulMusic" symbol::"set_sound"/>
+               <macro arg::100 symbol::"set_volume"/>
+               <macro arg::true symbol::"loop"/>
+               <macro symbol::"play_sound"/>
+               <macro arg::3000 symbol::"delay"/>
+          </macro>
+          <macro name::"_initializeCastMotionSettings">
+               <macro arg::"Interpolation" symbol::"set_cast_motion"/>
+               <macro arg::0.5f symbol::"set_cast_motion_duration"/>
+               <macro arg::"Left" symbol::"cast_enters_from"/>
+          </macro>
+          <macro name::"_switchToPropFadeInMode">
+               <macro arg::"FadeInFromTop" symbol::"set_prop_loading_mode"/>
+               <macro arg::0.5f symbol::"set_prop_loading_duration"/>
+          </macro>
+          <macro name::"_switchToPropFadeOutMode">
+               <macro arg::"FadeOutToTop" symbol::"set_prop_loading_mode"/>
+               <macro arg::0.5f symbol::"set_prop_loading_duration"/>
+          </macro>
+          <macro name::"_resetCastMotionSettings">
+               <macro arg::"Instant" symbol::"set_cast_motion"/>
+               <macro arg::0f symbol::"set_cast_motion_duration"/>
+          </macro>
+          <macro name::"_pauseAndHide">
+               <macro symbol::"pause"/>
+               <macro symbol::"hide_text_box"/>
+          </macro>
+          <macro name::"_think">
+               <macro arg::500 symbol::"delay"/>
+               <macro arg::"." symbol::"insert"/>
+               <macro arg::500 symbol::"delay"/>
+               <macro arg::"." symbol::"insert"/>
+               <macro arg::500 symbol::"delay"/>
+               <macro arg::"." symbol::"insert"/>
+               <macro arg::1000 symbol::"delay"/>
+          </macro>
+     </macroCache>
+</source>
