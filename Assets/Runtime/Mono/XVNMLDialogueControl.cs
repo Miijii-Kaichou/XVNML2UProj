@@ -2,7 +2,6 @@
 
 using System;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.Events;
 using XVNML.Core.Dialogue;
 using XVNML.Core.Dialogue.Structs;
@@ -11,7 +10,6 @@ using XVNML.Utilities.Dialogue;
 using XVNML.Utilities;
 using XVNML.Utilities.Tags;
 using XVNML2U.Data;
-using XVNML.Core.Tags.UserOverrides;
 
 namespace XVNML2U.Mono
 {
@@ -26,6 +24,12 @@ namespace XVNML2U.Mono
         [SerializeField] private int processChannel = 0;
         [SerializeField] private AudioClip tickSound;
         [SerializeField] private XVNMLStage stageObj;
+
+        [Header("Automatic Module Detection")]
+        [SerializeField, Tooltip("Allows for automatic module detection. " +
+            "Please note that this can be an intensive operation. " +
+            "Also note it'll reference the first component it comes across")]
+        private bool allowAutomaticDetection;
 
         // This is just going to be a normal object,
         // but we're expecting a number or a string.
@@ -113,8 +117,23 @@ namespace XVNML2U.Mono
         private void Start()
         {
             DialogueProcessAllocator.Register(this, (uint)processChannel);
+
+            if (module == null) return;
+            if (runOnAwakeUp == false) return;
+
+            StartControl();
+        }
+
+        private void StartControl()
+        {
             module!.onModuleBuildProcessComplete += Initialize;
             module!.Build();
+        }
+
+        private void TryDetectModuleInScene()
+        {
+            if (allowAutomaticDetection == false) return;
+            module = FindObjectOfType<XVNMLModule>();
         }
 
         private void Initialize(XVNMLObj? obj)
@@ -128,8 +147,6 @@ namespace XVNML2U.Mono
             PrepareAudioPool();
             PrepareScenes();
             PreparePropController();
-
-            if (runOnAwakeUp == false) return;
 
             Play();
         }
@@ -157,20 +174,24 @@ namespace XVNML2U.Mono
             {
                 DialogueGroup? group = null;
 
+
                 if (dialogueGroupReferenceType == ElementReferenceValueType.ID)
                 {
-                    group = module.Get<DialogueGroup>(Convert.ToInt32(dialogueGroupReferenceValue));
+                    int id = Convert.ToInt32(dialogueGroupReferenceValue);
+
+                    group = module.Get<DialogueGroup>(id);
                     if (group == null) return;
 
                     RunDialogueInGroup(group);
                     return;
                 }
 
-                Assert.IsNull(dialogueReferenceValue.ToString());
+
+                group = module.Get<DialogueGroup>(dialogueGroupReferenceValue);
                 if (group == null) return;
 
-                group = module.Get<DialogueGroup>(dialogueGroupReferenceValue.ToString());
                 RunDialogueInGroup(group!);
+
                 return;
             }
 
@@ -251,19 +272,28 @@ namespace XVNML2U.Mono
         {
             if (module == null) return;
 
+            Dialogue? dialogueTarget;
+
             if (dialogueReferenceType == ElementReferenceValueType.ID)
             {
                 int index = dialogueReferenceValue.ToInt();
-                RunDialogue(module.Get<Dialogue>(index), processChannel);
+
+                dialogueTarget = module.Get<Dialogue>(index);
+                if (dialogueTarget == null) return;
+
+                RunDialogue(dialogueTarget, processChannel);
                 return;
             }
 
-            RunDialogue(module.Get<Dialogue>(dialogueReferenceValue.ToString()), processChannel);
+            dialogueTarget = module.Get<Dialogue>(dialogueReferenceValue.ToString());
+            if (dialogueTarget == null) return;
+
+            RunDialogue(dialogueTarget, processChannel);
         }
 
         private void RunDialogue(Dialogue? dialogue, int channel)
         {
-            
+
             if (dialogue == null)
             {
                 Debug.LogError($"Failed to run dialogue for channel {channel}");
@@ -301,7 +331,7 @@ namespace XVNML2U.Mono
             DialogueWriter.Write(script, channel);
 
             _onPlay?.Invoke();
-            
+
             IsActive = true;
         }
 
@@ -409,7 +439,7 @@ namespace XVNML2U.Mono
                 }
 
                 if (tickSound == null) return WCResult.Ok();
-                if (_voiceAudioSource == null) return WCResult.Ok(); 
+                if (_voiceAudioSource == null) return WCResult.Ok();
 
                 _voiceAudioSource.PlayOneShot(tickSound);
                 return WCResult.Ok();
@@ -446,8 +476,11 @@ namespace XVNML2U.Mono
             SendNewAction(() =>
             {
                 if (sender.CurrentCastInfo == null) return WCResult.Ok();
+                if (Stage == null) return WCResult.Ok("There is no Stage Object to set an Expression for a cast member.");
+
 
                 _castInfo = sender.CurrentCastInfo.Value;
+
                 Stage!.ChangeExpression(_castInfo);
 
                 return WCResult.Ok();
@@ -459,8 +492,10 @@ namespace XVNML2U.Mono
             SendNewAction(() =>
             {
                 if (sender.CurrentCastInfo == null) return WCResult.Ok();
+                if (Stage == null) return WCResult.Ok("There is no Stage Object to set a Voice for a cast member.");
 
                 _castInfo = sender.CurrentCastInfo.Value;
+
                 Stage!.ChangeVoice(_castInfo);
 
                 return WCResult.Ok();
@@ -547,18 +582,21 @@ namespace XVNML2U.Mono
 
         private void RunDialogueInGroup(DialogueGroup group)
         {
-            if (dialogueReferenceType == ElementReferenceValueType.ID)
-            {
-                RunDialogue(group[dialogueGroupReferenceValue.Parse<int>()], processChannel);
-                return;
-            }
+            Dialogue? dialogueTarget = group[dialogueReferenceValue];
+            if (dialogueTarget == null) return;
 
-            RunDialogue(group[dialogueGroupReferenceValue.Parse<string>()], processChannel);
+            RunDialogue(group[dialogueReferenceValue], processChannel);
         }
 
         internal void SetTickSound(AudioSource voiceBox)
         {
             tickSound = voiceBox.clip;
+        }
+
+        public void SetModule(XVNMLModule mainModule)
+        {
+            module = mainModule;
+            StartControl();
         }
     }
 }

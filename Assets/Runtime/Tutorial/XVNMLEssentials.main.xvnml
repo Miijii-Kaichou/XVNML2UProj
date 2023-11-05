@@ -27,6 +27,7 @@
           <keycode name::"_navRight"             vkey::Right          purpose::NAVIGATION_RIGHT/>
      </keycodeDefinitions>
 
+     <dialogue name::"Koko" src::"InugamiKoko.dialogue.xvnml"/>
      <dialogue name::"XVNML2U Sample" src::"XVNML2USample.dialogue.xvnml"/>
 
      <imageDefinitions name::"_globalImageDefs">

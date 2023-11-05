@@ -75,5 +75,15 @@
                <macro arg::"." symbol::"insert"/>
                <macro arg::1000 symbol::"delay"/>
           </macro>
+
+          $> TODO - Allow for cached macros to pass in arguments when called.
+		$> This macro will wait a set duration of time until inserting the desired string.
+		$> <macro name::"_timeBomb">
+		$>	<macro symbol::"delay" value::_/>
+		$>	<macro symbol::"insert">
+		$>		<arg value::_/>
+		$>	</macro>
+		$> </macro>
+          
      </macroCache>
 </source>

@@ -33,6 +33,8 @@ namespace XVNML2U.Mono
         internal Action<XVNMLObj?>? onModuleBuildProcessComplete;
         internal Camera Camera => _mainCamera;
 
+        internal bool BuildComplete = false;
+
         internal TagBase? Root
         {
             get
@@ -45,20 +47,28 @@ namespace XVNML2U.Mono
         [Tooltip("Begin to manifest the XVNML DOM through Tokenization and Parsing.")]
         public void Build()
         {
-            SearchAndApplyUserOverrideSettings();
+            if (BuildComplete) return;
+
+            //SearchAndApplyUserOverrideSettings();
 
             ReactionRegistry.BeginRegistrationProcess();
 
             Application.quitting += ShutDown;
-            
-            #if UNITY_EDITOR
+
+#if UNITY_EDITOR
             EditorApplication.quitting += ShutDown;
             EditorApplication.playModeStateChanged += EvaluatePlayModeState;
 #endif
 
             if (_main == null) return;
 
+            onModuleBuildProcessComplete += FlagAsFinished;
             _main.Build(onModuleBuildProcessComplete, _allowForCacheUsageAndGeneration);
+        }
+
+        private void FlagAsFinished(XVNMLObj? obj)
+        {
+            BuildComplete = obj != null;
         }
 
         private void SearchAndApplyUserOverrideSettings()

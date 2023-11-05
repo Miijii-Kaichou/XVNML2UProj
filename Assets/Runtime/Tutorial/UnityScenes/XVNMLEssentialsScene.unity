@@ -4698,6 +4698,7 @@ GameObject:
   - component: {fileID: 888242071}
   - component: {fileID: 888242072}
   - component: {fileID: 888242073}
+  - component: {fileID: 888242074}
   m_Layer: 0
   m_Name: VNModuleKit
   m_TagString: Untagged
@@ -4765,6 +4766,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26acafbb690269344a50a1619ecfd3b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &888242074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 888242069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 779d4afa8225d9f4796397b05cdde2ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _yourName: Dorothy
 --- !u!1 &897744262
 GameObject:
   m_ObjectHideFlags: 0
@@ -4824,10 +4838,11 @@ MonoBehaviour:
   processChannel: 0
   tickSound: {fileID: 0}
   stageObj: {fileID: 28105569}
+  allowAutomaticDetection: 0
   dialogueReferenceValue: XVNML2U Sample
   dialogueReferenceType: 1
   dialogueGroupReferenceValue: 
-  dialogueGroupReferenceType: 0
+  dialogueGroupReferenceType: 1
   _castNameText: {fileID: 1062401940}
   _mainText: {fileID: 1464674103}
   _confirmMarker: {fileID: 1835789588}

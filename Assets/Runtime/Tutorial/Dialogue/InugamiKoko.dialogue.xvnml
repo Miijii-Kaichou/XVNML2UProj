@@ -1,0 +1,20 @@
+<source name::"InugamiKoko.dialogue">
+    <dialogue name::"KokoDialogue">
+        @Koko Hello, Human!<
+        @* So, they've finally done it.<
+        @* Heaven's stuted so low that they're willing to 
+        bind the rule to have a human run me out...<
+        @* Veryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy cute! {insert::"U w U"}<
+        ? Are you going to take that from a literal dog?>>
+        (
+            ("Yes")>
+                @ {em}You let it go. It's not worth it to be honest...<<
+            ("Maybe")>
+                @ {em}You shrugged it off...<<
+            ("No")>
+                @ {em}You punched the dog.<<
+            ("Hell no!")>
+                @ {em}You REALLY punched the dog... Like forreals...<<
+        )
+    </dialogue>
+</source>

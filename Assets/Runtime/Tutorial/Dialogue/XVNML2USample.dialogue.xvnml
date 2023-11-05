@@ -1,15 +1,20 @@
 <source name::"XVNML2USample.Dialogue.XVNML">
-     <dialogue #override name::"XVNML2U Sample" #enableMigration>
+     <dialogue name::"XVNML2U Sample">
           @ {
-               $_defaultTextSpeed
+               initialize::("_defaultPropScale", int, 5i)
+               |initialize::("_word", string, "THIS")
+               |initialize::("_default_cast_position", int, -1325)
+               |$_defaultTextSpeed
                |$_switchToPropFadeInMode
-               |set_prop_scale::(5i, 5i)
+               |set_prop_scale::($_defaultPropScale, $_defaultPropScale)
                |pass}<
-          @ {style::"title"}Welcome to {bold|emphasis|color::"yellow"}XVNML2U!{color_end|emphasis_end|bold_end|style_end}<
+          @ Hello {insd::$YourName|set::($YourName, "Dorothy")}.<
+          @ Or should I call you...{delay::1000|insd::$YourName}.<
+          @ {align::"center"}Welcome to {bold|emphasis|color::"yellow"}XVNML2U!{color_end|emphasis_end|bold_end|style_end}<
           @ This package{$_think} demonstrates the capabilities in which the XVNML
            Class Library is capable of{delay::500|clr}when used with the Unity Game Engine.<
           @ What you see here{delay::750} is a normal dialogue.<
-          @ And {insert::"THIS"|delay::1000} is a dialogue with{set_text_speed::60} a
+          @ And {insert::$_word|delay::1000} is a dialogue with{set_text_speed::60} a
            looooooooooooooooooooooooooooooooooooooooooooooooooooot of {$_defaultTextSpeed}charisma!!!!<
           @ And with a normal XVNML Dialogue Control component, you can run whatever
            dialogue you want.<
@@ -126,7 +131,7 @@
           @* And anything with an {quot|aster|quot} is consider a Persistent Cast Signature.<
           @ The general format of a Cast Signature is the following...<
           @ {paren}{at}{pipe}{qm}{paren_end}{tag_end}{brack}Expressions{brack_end}{tag_end}{brack}Voice{brack_end}<
-          @ {move_cast::("Hana",-1325)}It's definitely a lot to keep up with, but that's what the XVNMLEssentials guide is for...<
+          @ {move_cast::("Hana",$_default_cast_position)}It's definitely a lot to keep up with, but that's what the XVNMLEssentials guide is for...<
           @ To help you get in touch with XVNML.<
           ? Would you like to know more about Cast Signatures?>>
           (
@@ -202,7 +207,7 @@
            signature is formed.<
           @ {exp::("Hana","Smile")}Nice work, Hana. I'm really{exp::("Hana","Happy")|react::("Hana","Jump")} proud of you.<
           @Hana Hehe!<
-          @ {move_cast::("Hana",-1325)}An added bonus to Normal Cast Signatures comes with the
+          @ {move_cast::("Hana",$_default_cast_position)}An added bonus to Normal Cast Signatures comes with the
            different Cast-Specific Macros exclusive to Unity...<
           @ Such as "move_cast", "cue_cast", "cast_enters_from", "set_cast_motion", and "set_cast_motion_duration".<
           @ In fact, we happened to use those macros just demonstrating how Normal Cast Definitions work.<
@@ -614,7 +619,7 @@
           @ {set_cast_motion::"Interpolation"}Pretty mind blowing...{exp::("Hana", "Smile")} We know...<
           @ We really appreciate{exp::("Hana", "Happy")} the demonstration, Hana!<
           @Hana {react::"Jump"}Any time, chief!<
-          @ {move_cast::("Hana", -1325)}Basically, the stage is doing exactly what a stage is suppose to do...<
+          @ {move_cast::("Hana", $_default_cast_position)}Basically, the stage is doing exactly what a stage is suppose to do...<
           @ You set up a scene, and cast members can "walk" on stage.<
           @ And you can control the timing of that using the prementioned Macros within you Skriptr lines!<
           @ You would have to memorize some of these macros to get use to them.<
