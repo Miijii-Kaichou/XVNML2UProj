@@ -4698,7 +4698,6 @@ GameObject:
   - component: {fileID: 888242071}
   - component: {fileID: 888242072}
   - component: {fileID: 888242073}
-  - component: {fileID: 888242074}
   m_Layer: 0
   m_Name: VNModuleKit
   m_TagString: Untagged
@@ -4766,18 +4765,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26acafbb690269344a50a1619ecfd3b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &888242074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 888242069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 779d4afa8225d9f4796397b05cdde2ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &897744262
 GameObject:
   m_ObjectHideFlags: 0
@@ -4817,7 +4804,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: -20}
+  m_AnchoredPosition: {x: 0, y: -20.000122}
   m_SizeDelta: {x: -32, y: 280}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &897744264
