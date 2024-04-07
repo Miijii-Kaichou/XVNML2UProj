@@ -3,12 +3,11 @@
           @ {
                initialize::("_defaultPropScale", int, 5i)
                |initialize::("_word", string, "THIS")
-               |initialize::("_default_cast_position", int, -1325)
                |$_defaultTextSpeed
                |$_switchToPropFadeInMode
                |set_prop_scale::($_defaultPropScale, $_defaultPropScale)
                |pass}<
-          @ Hello {insd::$YourName|set::($YourName, "Dorothy")}.<
+          @ Hello {insd::$YourName|set::("YourName", "Dorothy")}.<
           @ Or should I call you...{delay::1000|insd::$YourName}.<
           @ {align::"center"}Welcome to {bold|emphasis|color::"yellow"}XVNML2U!{color_end|emphasis_end|bold_end|style_end}<
           @ This package{$_think} demonstrates the capabilities in which the XVNML
@@ -118,20 +117,26 @@
           @ However, if you've defined Cast members within your XVNML project...<
           @ You can set them as a speaker!<
           @ {$_initializeCastMotionSettings}For example...<
+
           @??? {cue_cast::("Hana","Center")}Hello!<
           @??? My name is Hana!<
+
           @Hana>Happy {react::"Jump"}It's very nice to meet you!<
+
           @ Anything after and before actual dialogue is known as the Cast Signature.<
           @ {exp::("Hana", "Smile")|react::("Hana", "Jump")}If you look at Line 204, this is considered a Normal Cast Signature.<
           @ It's the most common signature that you'll see inside an XVNML document.<
           @ Anything without a name is considered a Narrative Cast Signature.<
           @ As the name suggests, it's meant to denote that the Narrator is speaking.<
+
           @??? If there's a {quot|qm|qm|qm|quot} in place of the name...<
           @??? This is known as the Anonymous Cast Signature.<
+
           @* And anything with an {quot|aster|quot} is consider a Persistent Cast Signature.<
+
           @ The general format of a Cast Signature is the following...<
           @ {paren}{at}{pipe}{qm}{paren_end}{tag_end}{brack}Expressions{brack_end}{tag_end}{brack}Voice{brack_end}<
-          @ {move_cast::("Hana",$_default_cast_position)}It's definitely a lot to keep up with, but that's what the XVNMLEssentials guide is for...<
+          @ {move_cast::("Hana",$Default_Cast_X_Position)}It's definitely a lot to keep up with, but that's what the XVNMLEssentials guide is for...<
           @ To help you get in touch with XVNML.<
           ? Would you like to know more about Cast Signatures?>>
           (
@@ -149,29 +154,29 @@
           ? {$_defaultTextSpeed}Which Cast Signature would you like to know about?{$_pauseAndHide}>>
           (
                ("Narrative Cast Signatures...")>
-                    @ {jump_to::"P1-Skriptr-CastSignatures-Narrative"|pass}<<
+                    @ {$_p1Narrative}<<
                ("Normal Cast Signatures...")>
-                    @ {jump_to::"P1-Skriptr-CastSignatures-Normal"|pass}<<
+                    @ {$_p1Normal}<<
                ("Persistent Cast Signatures...")>
-                    @ {jump_to::"P1-Skriptr-CastSignatures-Persistent"|pass}<<
+                    @ {$_p1Persistent}<<
                ("Anonymous Cast Signatures...")>
-                    @ {jump_to::"P1-Skriptr-CastSignatures-Anonymous"|pass}<<
+                    @ {$_p1Anonymous}<<
           )
 
           ["P1-Skriptr-CastSignatures-Main"]
           ? {$_defaultTextSpeed}Which Cast Signature would you like to know about?{$_pauseAndHide}>>
           (
                ("Narrative Cast Signatures...")>
-                    @ {jump_to::"P1-Skriptr-CastSignatures-Narrative"|pass}<<
+                    @ {$_p1Narrative}<<
                ("Normal Cast Signatures...")>
-                    @ {jump_to::"P1-Skriptr-CastSignatures-Normal"|pass}<<
+                    @ {$_p1Normal}<<
                ("Persistent Cast Signatures...")>
-                    @ {jump_to::"P1-Skriptr-CastSignatures-Persistent"|pass}<<
+                    @ {$_p1Persistent}<<
                ("Anonymous Cast Signatures...")>
-                    @ {jump_to::"P1-Skriptr-CastSignatures-Anonymous"|pass}<<
+                    @ {$_p1Anonymous}<<
                ("I've learned everything there is to know about Cast Signatures...")>
                     @ That's great to hear!
-                    {jump_to::"P1-Skriptr-CastSignatures-Complete"}<<
+                    {$_p1_end}<<
           )
 
           ["P1-Skriptr-CastSignatures-Narrative"]
@@ -207,7 +212,7 @@
            signature is formed.<
           @ {exp::("Hana","Smile")}Nice work, Hana. I'm really{exp::("Hana","Happy")|react::("Hana","Jump")} proud of you.<
           @Hana Hehe!<
-          @ {move_cast::("Hana",$_default_cast_position)}An added bonus to Normal Cast Signatures comes with the
+          @ {move_cast::("Hana", $Default_Cast_X_Position)}An added bonus to Normal Cast Signatures comes with the
            different Cast-Specific Macros exclusive to Unity...<
           @ Such as "move_cast", "cue_cast", "cast_enters_from", "set_cast_motion", and "set_cast_motion_duration".<
           @ In fact, we happened to use those macros just demonstrating how Normal Cast Definitions work.<
@@ -423,44 +428,44 @@
           ? {$_defaultTextSpeed}Which component are you interested in learning?{$_pauseAndHide}>>
           (
                ("The LogListner Component")>
-                    @ {jump_to::"P3-XVNML2U-UnityComponents-LogListener"|pass}<<
+                    @ {jump_to::"P3-XVNML2U-UnityComponents-LogListener"|stb|pass}<<
                ("The ActionScheduler Component")>
-                    @ {jump_to::"P3-XVNML2U-UnityComponents-ActionScheduler"|pass}<<
+                    @ {jump_to::"P3-XVNML2U-UnityComponents-ActionScheduler"|stb|pass}<<
                ("The InputManager Component")>
-                    @ {jump_to::"P3-XVNML2U-UnityComponents-InputManager"|pass}<<
+                    @ {jump_to::"P3-XVNML2U-UnityComponents-InputManager"|stb|pass}<<
                ("The Stage Component")>
-                    @ {jump_to::"P3-XVNML2U-UnityComponents-Stage"|pass}<<
+                    @ {jump_to::"P3-XVNML2U-UnityComponents-Stage"|stb|pass}<<
                ("The XVNMLPromptControl Component")>
-                    @ {jump_to::"P3-XVNML2U-UnityComponents-XVNMLPromptControl"|pass}<<
+                    @ {jump_to::"P3-XVNML2U-UnityComponents-XVNMLPromptControl"|stb|pass}<<
                ("The XVNMLAudioController")>
-                    @ {jump_to::"P3-XVNML2U-UnityComponents-XVNMLAudioController"|pass}<<
+                    @ {jump_to::"P3-XVNML2U-UnityComponents-XVNMLAudioController"|stb|pass}<<
                ("The ResponseControl Component")>
-                    @ {jump_to::"P3-XVNML2U-UnityComponents-ResponseControl"|pass}<<
+                    @ {jump_to::"P3-XVNML2U-UnityComponents-ResponseControl"|stb|pass}<<
                ("The Confirm Marker")>
-                    @ {jump_to::"P3-XVNML2U-UnityComponents-ConfirmMarker"|pass}<<
+                    @ {jump_to::"P3-XVNML2U-UnityComponents-ConfirmMarker"|stb|pass}<<
           )
 
           ["P3-XVNML2U-UnityComponents-Main"]
           ? {$_defaultTextSpeed}Are there any more components you would like to learn about?{$_pauseAndHide}>>
           (
                ("The LogListner Component")>
-                    @ {jump_to::"P3-XVNML2U-UnityComponents-LogListener"|pass}<<
+                    @ {jump_to::"P3-XVNML2U-UnityComponents-LogListener"|stb|pass}<<
                ("The ActionScheduler Component")>
-                    @ {jump_to::"P3-XVNML2U-UnityComponents-ActionScheduler"|pass}<<
+                    @ {jump_to::"P3-XVNML2U-UnityComponents-ActionScheduler"|stb|pass}<<
                ("The InputManager Component")>
-                    @ {jump_to::"P3-XVNML2U-UnityComponents-InputManager"|pass}<<
+                    @ {jump_to::"P3-XVNML2U-UnityComponents-InputManager"|stb|pass}<<
                ("The Stage Component")>
-                    @ {jump_to::"P3-XVNML2U-UnityComponents-Stage"|pass}<<
+                    @ {jump_to::"P3-XVNML2U-UnityComponents-Stage"|stb|pass}<<
                ("The XVNMLPromptControl Component")>
-                    @ {jump_to::"P3-XVNML2U-UnityComponents-XVNMLPromptControl"|pass}<<
+                    @ {jump_to::"P3-XVNML2U-UnityComponents-XVNMLPromptControl"|stb|pass}<<
                ("The XVNMLAudioController")>
-                    @ {jump_to::"P3-XVNML2U-UnityComponents-XVNMLAudioController"|pass}<<
+                    @ {jump_to::"P3-XVNML2U-UnityComponents-XVNMLAudioController"|stb|pass}<<
                ("The ResponseControl Component")>
-                    @ {jump_to::"P3-XVNML2U-UnityComponents-ResponseControl"|pass}<<
+                    @ {jump_to::"P3-XVNML2U-UnityComponents-ResponseControl"|stb|pass}<<
                ("The Confirm Marker")>
-                    @ {jump_to::"P3-XVNML2U-UnityComponents-ConfirmMarker"|pass}<<
+                    @ {jump_to::"P3-XVNML2U-UnityComponents-ConfirmMarker"|stb|pass}<<
                ("I have learned enough about XVNML2U components...")>
-                    @ {jump_to::"P3-XVNML2U-UnityComponents-Complete"|pass}<<
+                    @ {jump_to::"P3-XVNML2U-UnityComponents-Complete"|stb|pass}<<
           )
 
           ["P3-XVNML2U-UnityComponents-LogListener"]
@@ -619,7 +624,7 @@
           @ {set_cast_motion::"Interpolation"}Pretty mind blowing...{exp::("Hana", "Smile")} We know...<
           @ We really appreciate{exp::("Hana", "Happy")} the demonstration, Hana!<
           @Hana {react::"Jump"}Any time, chief!<
-          @ {move_cast::("Hana", $_default_cast_position)}Basically, the stage is doing exactly what a stage is suppose to do...<
+          @ {move_cast::("Hana", $Default_Cast_X_Position)}Basically, the stage is doing exactly what a stage is suppose to do...<
           @ You set up a scene, and cast members can "walk" on stage.<
           @ And you can control the timing of that using the prementioned Macros within you Skriptr lines!<
           @ You would have to memorize some of these macros to get use to them.<

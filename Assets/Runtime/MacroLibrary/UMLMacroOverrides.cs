@@ -9,10 +9,8 @@ using XVNML2U.Mono;
 namespace XVNML2U
 {
     [MacroLibrary(typeof(UMLMacroOverrides))]
-    internal class UMLMacroOverrides : ActionSender
+    internal class UMLMacroOverrides : ActionSender<UMLMacroOverrides>
     {
-        private static UMLMacroOverrides Instance => new();
-
         [Macro("expression")]
         [Macro("portrait")]
         [Macro("exp")]
@@ -20,7 +18,7 @@ namespace XVNML2U
         private static void SetCastExpressionMacro(MacroCallInfo info, string castName, string value)
         {
             var stage = DialogueProcessAllocator.ProcessReference[info.process.ID].Stage;
-            Instance.SendNewAction(() =>
+            I.SendNewAction(() =>
             {
                 stage?.ChangeExpression(castName, value);
                 return WCResult.Ok();

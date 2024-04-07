@@ -1,0 +1,6 @@
+<proxy	name::"#SCRIPTNAME#"
+		engine::"UnityEngine"
+		target::".."
+		lang::"CSharp">
+
+</proxy>

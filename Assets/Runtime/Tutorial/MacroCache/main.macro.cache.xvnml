@@ -1,12 +1,6 @@
 <source name::"Main.Macro.Cache.XVNML">
      <macroCache name::"main" rootScope::"XVNML2USample.Dialogue.XVNML">
-          <macro name::"_doTest">
-               <macro arg::"Test" symbol::"jump_to"/>
-               <macro symbol::"pass"/>
-          </macro>
-          <macro name::"_defaultTextSpeed" arg::80 symbol::"set_text_speed"/>
-          <macro name::"_main" arg::"Main" symbol::"jump_to"/>
-          <macro name::"_jump" arg::"Jump" symbol::"react"/>
+          $> Label Control Macros: Chapter
           <macro name::"_chapter1">
                <macro symbol::"show_text_box"/>
                <macro arg::"P1" symbol::"jump_to"/>
@@ -37,12 +31,41 @@
                <macro arg::"CL" symbol::"jump_to"/>
                <macro symbol::"pass"/>
           </macro>
+
+          $> Label Control Macros: Cast Signatures
+          <macro name::"_p1Narrative">
+               <macro symbol::"show_text_box"/>
+               <macro symbol::"jump_to" arg::"P1-Skriptr-CastSignatures-Narrative"/>
+               <macro symbol::"pass"/>
+          </macro>
+          <macro name::"_p1Normal">
+               <macro symbol::"show_text_box"/>
+               <macro symbol::"jump_to" arg::"P1-Skriptr-CastSignatures-Normal"/>
+               <macro symbol::"pass"/>
+          </macro>
+          <macro name::"_p1Persistent">
+               <macro symbol::"show_text_box"/>
+               <macro symbol::"jump_to" arg::"P1-Skriptr-CastSignatures-Persistent"/>
+               <macro symbol::"pass"/>
+          </macro>
+          <macro name::"_p1Anonymous">
+               <macro symbol::"show_text_box"/>
+               <macro symbol::"jump_to" arg::"P1-Skriptr-CastSignatures-Anonymous"/>
+               <macro symbol::"pass"/>
+          </macro>
+          <macro name::"_p1_end">
+               <macro symbol::"show_text_box"/>
+               <macro symbol::"jump_to" arg::"P1-Skriptr-CastSignatures-Complete"/>
+               <macro symbol::"pass"/>
+          </macro>
+
+          $> Unity-Based Macro Calls
           <macro name::"_doAudioControllerDemonstration">
                <macro arg::500 symbol::"delay"/>
-               <macro arg::"PeacefulMusic" symbol::"set_sound"/>
-               <macro arg::100 symbol::"set_volume"/>
+               <macro arg::"PeacefulMusic" symbol::"ssnd"/>
+               <macro arg::100 symbol::"ssndv"/>
                <macro arg::true symbol::"loop"/>
-               <macro symbol::"play_sound"/>
+               <macro symbol::"plsnd"/>
                <macro arg::3000 symbol::"delay"/>
           </macro>
           <macro name::"_initializeCastMotionSettings">
@@ -62,6 +85,11 @@
                <macro arg::"Instant" symbol::"set_cast_motion"/>
                <macro arg::0f symbol::"set_cast_motion_duration"/>
           </macro>
+
+          $> Macro Shortcuts
+          <macro name::"_defaultTextSpeed" arg::80 symbol::"set_text_speed"/>
+          <macro name::"_main" arg::"Main" symbol::"jump_to"/>
+          <macro name::"_jump" arg::"Jump" symbol::"react"/>
           <macro name::"_pauseAndHide">
                <macro symbol::"pause"/>
                <macro symbol::"hide_text_box"/>
@@ -75,15 +103,5 @@
                <macro arg::"." symbol::"insert"/>
                <macro arg::1000 symbol::"delay"/>
           </macro>
-
-          $> TODO - Allow for cached macros to pass in arguments when called.
-		$> This macro will wait a set duration of time until inserting the desired string.
-		$> <macro name::"_timeBomb">
-		$>	<macro symbol::"delay" value::_/>
-		$>	<macro symbol::"insert">
-		$>		<arg value::_/>
-		$>	</macro>
-		$> </macro>
-          
      </macroCache>
 </source>

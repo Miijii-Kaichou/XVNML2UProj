@@ -10,10 +10,8 @@ using XVNML2U.Mono;
 namespace XVNML2U
 {
     [MacroLibrary(typeof(UMLControl))]
-    internal class UMLControl : ActionSender
+    internal class UMLControl : ActionSender<UMLControl>
     {
-        private static UMLControl Instance => new();
-
         [Macro("debug")]
         private static void DebugLogMacro(MacroCallInfo info, string message)
         {
@@ -24,7 +22,7 @@ namespace XVNML2U
         [Macro("dsndl")]
         private static void DisableLoopMacro(MacroCallInfo info)
         {
-            Instance.SendNewAction(() =>
+            I.SendNewAction(() =>
             {
                 XVNMLAudioController.DisableLoop(info.process.ID);
                 return WCResult.Ok();
@@ -35,7 +33,7 @@ namespace XVNML2U
         [Macro("esndl")]
         private static void EnableLoopMacro(MacroCallInfo info)
         {
-            Instance.SendNewAction(() =>
+            I.SendNewAction(() =>
             {
                 XVNMLAudioController.EnableLoop(info.process.ID);
                 return WCResult.Ok();
@@ -66,7 +64,7 @@ namespace XVNML2U
         [Macro("pssnd")]
         private static void PauseMacro(MacroCallInfo info)
         {
-            Instance.SendNewAction(() =>
+            I.SendNewAction(() =>
             {
                 XVNMLAudioController.Pause(info.process.ID);
                 return WCResult.Ok();
@@ -77,7 +75,7 @@ namespace XVNML2U
         [Macro("plsnd")]
         private static void PlayMacro(MacroCallInfo info)
         {
-            Instance.SendNewAction(() =>
+            I.SendNewAction(() =>
             {
                 XVNMLAudioController.Play(info.process.ID);
                 return WCResult.Ok();
@@ -88,7 +86,7 @@ namespace XVNML2U
         [Macro("ssnd")]
         private static void SetMusicMacro(MacroCallInfo info, string audioName)
         {
-            Instance.SendNewAction(() =>
+            I.SendNewAction(() =>
             {
                 XVNMLAudioController.SetMusic(info.process.ID, audioName);
                 return WCResult.Ok();
@@ -99,7 +97,7 @@ namespace XVNML2U
         [Macro("ssndv")]
         private static void SetMusicVolumeMacro(MacroCallInfo info, uint volume)
         {
-            Instance.SendNewAction(() =>
+            I.SendNewAction(() =>
             {
                 XVNMLAudioController.SetVolume(info.process.ID, (int)volume);
                 return WCResult.Ok();
@@ -110,7 +108,7 @@ namespace XVNML2U
         [Macro("loop")]
         private static void SetSoundLoopMacro(MacroCallInfo info, bool loop)
         {
-            Instance.SendNewAction(() =>
+            I.SendNewAction(() =>
             {
                 if (loop)
                 {
@@ -135,7 +133,7 @@ namespace XVNML2U
         [Macro("prop")]
         private static void LoadPropImageMacro(MacroCallInfo info, string imageName, int x, int y)
         {
-            Instance.SendNewAction(() =>
+            I.SendNewAction(() =>
             {
                 XVNMLPropsControl.LoadImage(imageName, x, -y);
                 return WCResult.Ok();
@@ -153,7 +151,7 @@ namespace XVNML2U
         [Macro("prop")]
         private static void LoadPropImageMacro(MacroCallInfo info, string imageName, string horizontalAnchoring, string verticalAnchoring, int xOffset, int yOffset)
         {
-            Instance.SendNewAction(() =>
+            I.SendNewAction(() =>
             {
                 XVNMLPropsControl.LoadImage(imageName, horizontalAnchoring.Parse<Anchoring>(), verticalAnchoring.Parse<Anchoring>(), xOffset, yOffset);
                 return WCResult.Ok();
@@ -164,7 +162,7 @@ namespace XVNML2U
         [Macro("spscl")]
         private static void SetPropImageScaleMacro(MacroCallInfo info, int xScale, int yScale)
         {
-            Instance.SendNewAction(() =>
+            I.SendNewAction(() =>
             {
                 XVNMLPropsControl.SetPropScale(xScale, yScale);
                 return WCResult.Ok();
@@ -175,7 +173,7 @@ namespace XVNML2U
         [Macro("clrp")]
         private static void ClearPropImageMacro(MacroCallInfo info, string imageName)
         {
-            Instance.SendNewAction(() =>
+            I.SendNewAction(() =>
             {
                 XVNMLPropsControl.UnloadImage(imageName);
                 return WCResult.Ok();
@@ -187,7 +185,7 @@ namespace XVNML2U
         private static void SetPropLoadingModeMacro(MacroCallInfo info, string mode)
         {
             TransitionMode transitionMode = mode.Parse<TransitionMode>();
-            Instance.SendNewAction(() =>
+            I.SendNewAction(() =>
             {
                 XVNMLPropsControl.SetPropTransitionMode(transitionMode);
                 return WCResult.Ok();
@@ -198,7 +196,7 @@ namespace XVNML2U
         [Macro("spldd")]
         private static void SetPropLoadingDurationMacro(MacroCallInfo info, float duration)
         {
-            Instance.SendNewAction(() =>
+            I.SendNewAction(() =>
             {
                 XVNMLPropsControl.SetTransitionDuration(duration);
                 return WCResult.Ok();
@@ -217,7 +215,7 @@ namespace XVNML2U
         private static void CameraShakeMacro(MacroCallInfo info, float duration, float strength)
         {
             var processID = info.process.ID;
-            Instance.SendNewAction(() =>
+            I.SendNewAction(() =>
             {
                 Camera moduleCamera = DialogueProcessAllocator.ProcessReference[processID].Module!.Camera;
                 moduleCamera.DOShakePosition(duration, strength);
@@ -239,7 +237,7 @@ namespace XVNML2U
             bool fadeOut = data[3].ToBool(true);
             ShakeRandomnessMode mode = data[4].Parse<ShakeRandomnessMode>();
 
-            Instance.SendNewAction(() =>
+            I.SendNewAction(() =>
             {
                 Camera moduleCamera = DialogueProcessAllocator.ProcessReference[processID].Module!.Camera;
                 moduleCamera.DOShakePosition(duration, strength, vibrato, randomness, fadeOut, mode);

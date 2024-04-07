@@ -10,6 +10,7 @@ using XVNML2U.Data;
 using XVNML2U.Mono;
 
 using DG.Tweening;
+using XVNML.Core.Native;
 
 namespace XVNML2U.Mono
 {
@@ -22,7 +23,28 @@ namespace XVNML2U.Mono
         public EnterSide CastEntersFrom { get; private set; }
         public float CastMotionDuration { get; private set; }
 
+        public int Default_Cast_X_Position
+        {
+            get
+            {
+                return RuntimeReferenceTable
+                    .Get()
+                    .value
+                    .ToInt();
+            }
+            set
+            {
+                RuntimeReferenceTable
+                    .Set(value: value);
+            }
+        }
+
         private const int DefaultXPos = -1325;
+
+        private void OnEnable()
+        {
+            Default_Cast_X_Position = DefaultXPos;
+        }
 
         internal void ChangeExpression(CastInfo castInfo)
         {

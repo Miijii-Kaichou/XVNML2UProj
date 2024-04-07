@@ -10,10 +10,8 @@ using XVNML2U.Mono;
 namespace XVNML2U
 {
     [MacroLibrary(typeof(UMLScenes))]
-    internal class UMLScenes : ActionSender
+    internal class UMLScenes : ActionSender<UMLScenes>
     {
-        private static UMLScenes Instance => new();
-
         [Macro("clear_all_scenes")]
         [Macro("clrascn")]
         private static void ClearAllScenesMacro(MacroCallInfo info)
@@ -32,7 +30,6 @@ namespace XVNML2U
         [Macro("clrscn")]
         private static void ClearSceneMacro(MacroCallInfo info, string sceneName)
         {
-            Debug.Log("USE ME BEBE!!!!");
             ClearSceneMacro(info, sceneName, 0);
         }
 
@@ -47,7 +44,7 @@ namespace XVNML2U
         [Macro("clrscn")]
         private static void ClearSceneMacro(MacroCallInfo info, string? sceneName, uint layerID)
         {
-            Instance.SendNewAction(() =>
+            I.SendNewAction(() =>
             {
                 SceneInfo newScene = new() { name = sceneName, layer = (int)layerID };
                 DialogueProcessAllocator.ProcessReference[info.process.ID].Stage!.ClearScene(newScene);
@@ -66,7 +63,7 @@ namespace XVNML2U
         [Macro("scene")]
         private static void UseSceneMacro(MacroCallInfo info, string sceneName, int layer)
         {
-            Instance.SendNewAction(() =>
+            I.SendNewAction(() =>
             {
                 SceneInfo newSceneInfo = new() { name = sceneName, layer = layer };
                 DialogueProcessAllocator.ProcessReference[info.process.ID].Stage!.ChangeScene(newSceneInfo);

@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using TMPro;
 using UnityEditor;
@@ -8,7 +9,7 @@ using XVNML2U.Mono;
 namespace XVNML2U.Editor
 {
 #if UNITY_EDITOR
-    public sealed class XVNMLMenuItems : UnityEditor.Editor
+    public sealed class XVNMLHierarchyMenuItems : UnityEditor.Editor
     {
         private const string HierarchyMenuItemPath = "Window/General/Hierarchy";
         private const string NullImageResourcePath = "Images/NullImage";

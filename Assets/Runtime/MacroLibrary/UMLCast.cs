@@ -1,6 +1,7 @@
 ﻿#pragma warning disable IDE0051 // Remove unused private members
 #pragma warning disable IDE0060 // Remove used parameters
 
+using XVNML.Core.Native;
 using XVNML.Utilities.Macros;
 using XVNML2U.Data;
 using XVNML2U.Mono;
@@ -8,10 +9,8 @@ using XVNML2U.Mono;
 namespace XVNML2U
 {
     [MacroLibrary(typeof(UMLCast))]
-    internal class UMLCast : ActionSender
+    internal class UMLCast : ActionSender<UMLCast>
     {
-        private static UMLCast Instance => new();
-
         [Macro("cast_enters_from")]
         [Macro("cstef")]
         private static void CastEntersFromMacro(MacroCallInfo info, string side)
@@ -74,7 +73,7 @@ namespace XVNML2U
         [Macro("react")]
         private static void ReactMacro(MacroCallInfo info, string castName, string reactionName)
         {
-            Instance.SendNewAction(() =>
+            I.SendNewAction(() =>
             {
                 ReactionRegistry.DoReaction(reactionName, castName);
                 return WCResult.Ok();
