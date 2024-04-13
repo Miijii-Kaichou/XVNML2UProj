@@ -1,3 +1,14 @@
 {
-	"name": "miijii.xvnml2u.Editor.FileSupport"
+    "name": "XVNML2U.Editor.FileSupport",
+    "rootNamespace": "XVNML2U.Editor.FileSupport",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 
-public struct CoroutineEntry
+namespace XVNML2U
 {
-    public int EntryID { get; }
-    public IEnumerator Coroutine { get; }
-
-    public CoroutineEntry(IEnumerator coroutine, int entryID)
+    public struct CoroutineEntry
     {
-        Coroutine = coroutine;
-        EntryID = entryID;
+        public int EntryID { get; }
+        public IEnumerator Coroutine { get; }
+
+        public CoroutineEntry(IEnumerator coroutine, int entryID)
+        {
+            Coroutine = coroutine;
+            EntryID = entryID;
+        }
     }
 }

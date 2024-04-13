@@ -1,0 +1,16 @@
+#pragma warning disable IDE0051 // Remove unused private members
+#pragma warning disable IDE0060 // Remove used parameters
+
+using XVNML.Utilities.Macros;
+using XVNML2U.Data;
+using XVNML2U.Mono;
+
+[MacroLibrary(typeof(#SCRIPTNAME#))]
+public sealed class #SCRIPTNAME# : ActionSender<#SCRIPTNAME#>
+{
+	[Macro("my_macro")]
+	private static void MyMacroMacro(MacroCallInfo info)
+	{
+		Debug.Log("This is my macro!");
+	}
+}

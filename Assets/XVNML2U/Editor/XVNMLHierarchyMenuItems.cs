@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Linq;
 using System.Text;
 using TMPro;
 using UnityEditor;
@@ -13,9 +15,10 @@ namespace XVNML2U.Editor
     {
         private const string HierarchyMenuItemPath = "Window/General/Hierarchy";
         private const string NullImageResourcePath = "Images/NullImage";
-        private const string BasicModuleKitPrefabResourcePath = "Assets/Resources/Kits/BasicModuleKit.prefab";
+        private const string BasicModuleKitPrefabResourcePath = "BasicModuleKit.prefab";
         private const string VNModuleKitPrefabResourcePath = "Assets/Resources/Kits/VNModuleKit.prefab";
-        static readonly ColorBlock DefaultResponseControlButtonColorBlock = new()
+
+        private static readonly ColorBlock DefaultResponseControlButtonColorBlock = new()
         {
             normalColor = Color.black + new Color(0, 0, 0, 0.5f),
             highlightedColor = Color.white,
@@ -25,7 +28,12 @@ namespace XVNML2U.Editor
             fadeDuration = 0.1f,
         };
 
-        static readonly Color WhiteSemiTransparentColor = new(1, 1, 1, 0.5f);
+        private static readonly Color WhiteSemiTransparentColor = new(1, 1, 1, 0.5f);
+        private static readonly StringBuilder StringBuilder = new StringBuilder();
+
+        public static object KitAssetSource = "Assets/XVNML2U/Resources/Kits/";
+        public static bool KitAssetSourceUpdated = false;
+        public static string KitSearchPattern = "XVNML2U/Resources/Kits";
 
         [MenuItem("GameObject/XVNML2U/General/Module", priority = 80)]
         static void AddNewXVNMLModuleObject()
@@ -439,19 +447,41 @@ namespace XVNML2U.Editor
         [MenuItem("GameObject/XVNML2U/Kits/Basic Module Kit", priority = 81)]
         static void AddNewBasicModuleKit()
         {
-            GameObject newBasicModuleKitObject = PrefabUtility.LoadPrefabContents(BasicModuleKitPrefabResourcePath);
+            string kitName = "BasicModuleKit";
+
+            ProvideUpdatedKitLocation();
+
+            StringBuilder.Append(KitAssetSource)
+                .Append('/')
+                .Append(kitName)
+                .Append(".prefab");
+
+            GameObject newBasicModuleKitObject = PrefabUtility.LoadPrefabContents(StringBuilder.ToString());
             newBasicModuleKitObject = Instantiate(newBasicModuleKitObject);
-            newBasicModuleKitObject.name = "BasicModuleKit";
+            newBasicModuleKitObject.name = kitName;
             FinalizeObjectCreation(ref newBasicModuleKitObject);
+
+            StringBuilder.Clear();
         }
 
         [MenuItem("GameObject/XVNML2U/Kits/VN Module Kit", priority = 81)]
         static void AddNewVNModuleKit()
         {
-            GameObject newVNModuleKitObject = PrefabUtility.LoadPrefabContents(VNModuleKitPrefabResourcePath);
+            string kitName = "VNModuleKit";
+
+            ProvideUpdatedKitLocation();
+
+            StringBuilder.Append(KitAssetSource)
+                .Append('/')
+                .Append(kitName)
+                .Append(".prefab");
+
+            GameObject newVNModuleKitObject = PrefabUtility.LoadPrefabContents(StringBuilder.ToString());
             newVNModuleKitObject = Instantiate(newVNModuleKitObject);
-            newVNModuleKitObject.name = "VNModuleKit";
+            newVNModuleKitObject.name = kitName;
             FinalizeObjectCreation(ref newVNModuleKitObject);
+
+            StringBuilder.Clear();
         }
 
         private static void FinalizeObjectCreation(ref GameObject obj)
@@ -471,6 +501,19 @@ namespace XVNML2U.Editor
                 EditorWindow.focusedWindow.SendEvent(new Event { keyCode = KeyCode.F2, type = EventType.KeyDown });
             };
         }
+
+        #region Helper Methods
+        private static void ProvideUpdatedKitLocation()
+        {
+            if (KitAssetSourceUpdated) return;
+
+            KitAssetSource = Directory
+               .GetDirectories(Application.dataPath, KitSearchPattern, SearchOption.AllDirectories)
+               .First();
+
+            KitAssetSourceUpdated = true;
+        }
+        #endregion
     }
 #endif
 }

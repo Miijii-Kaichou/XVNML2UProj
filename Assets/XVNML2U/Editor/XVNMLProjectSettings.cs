@@ -8,7 +8,7 @@ namespace XVNML2U.Editor
 #if UNITY_EDITOR
     public sealed class XVNMLProjectSettings : ScriptableObject
     {
-        public const string k_XVNMLProjectSettingsPath = "Assets/Editor/XVNML2UProjectSettings.asset";
+        public const string k_XVNMLProjectSettingsPath = "Assets/XVNML2UProjectSettings.asset";
 
         // Initialize default project settings here
         [SerializeField]

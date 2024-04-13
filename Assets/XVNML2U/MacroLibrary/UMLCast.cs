@@ -1,7 +1,6 @@
 ﻿#pragma warning disable IDE0051 // Remove unused private members
 #pragma warning disable IDE0060 // Remove used parameters
 
-using XVNML.Core.Native;
 using XVNML.Utilities.Macros;
 using XVNML2U.Data;
 using XVNML2U.Mono;

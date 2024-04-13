@@ -23,7 +23,7 @@ namespace XVNML2U.FileSupport
             }
         }
 
-        private const string IconPath = "Assets/Editor/Editor Default Resources/Icons/xvnml_file_icon.png";
+        private const string IconPath = "Assets/XVNML2U/Editor/Editor Default Resources/Icons/xvnml_file_icon.png";
         private int m_InstanceID;
 
         /// <summary>

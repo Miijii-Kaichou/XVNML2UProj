@@ -1,0 +1,41 @@
+<proxy name::"XVNMLEssentials.Main.XVNML" lang::CSharp engine::Unity screenWidth::1920 screenHeight::1080>
+     <metadata name::"_metadata">
+          <title name::"XVNMLEssentials"/>
+          <date value::"06/25/2023"/>
+          <copyright year::2023 owner::"Enjyoii"/>
+     </metadata>
+
+     <castDefinitions>
+          <cast name::"Hana"  src::"Hana\Hana.cast.xvnml"/>
+          <cast name::"Sonia" src::$nil/>
+     </castDefinitions>
+
+     <sceneDefinitions>
+          <scene name::"OutsideOfSchool" src::"School\OutsideOfSchool.scene.xvnml"/>
+     </sceneDefinitions>
+
+     <audioDefinitions>
+          <audio name::"PeacefulMusic" src::"BGM\SpitFireLabsTes1t.wav"/>
+     </audioDefinitions>
+
+     <keycodeDefinitions name::"_globalInputDef">
+          <keycode name::"_proceedWithMouse"     vkey::LeftMouse      purpose::PROCEED         />
+          <keycode name::"_proceedWithEnter"     vkey::Return         purpose::PROCEED         />
+          <keycode name::"_navUp"                vkey::Up             purpose::NAVIGATION_UP   />
+          <keycode name::"_navDown"              vkey::Down           purpose::NAVIGATION_DOWN />
+          <keycode name::"_navLeft"              vkey::Left           purpose::NAVIGATION_LEFT />
+          <keycode name::"_navRight"             vkey::Right          purpose::NAVIGATION_RIGHT/>
+     </keycodeDefinitions>
+
+     <dialogue name::"XVNML2U Sample" src::"XVNML2USample.dialogue.xvnml"/>
+
+     <imageDefinitions name::"_globalImageDefs">
+          <image name::"BestPracticesItem1" src::"Screenshot 2023-07-18 220714.png"  pathMode::Relative/>
+          <image name::"BestPracticesItem2" src::"Screenshot 2023-07-18 221038.png"  pathMode::Relative/>
+          <image name::"BestPracticesItem3" src::$nil                                pathMode::Relative/>
+          <image name::"BestPracticesItem4" src::$nil                                pathMode::Relative/>
+          <image name::"BestPracticesItem5" src::$nil                                pathMode::Relative/>
+     </imageDefinitions>
+
+     <macroCache name::"main" src::"main.macro.cache.xvnml" pathMode::Relative/>
+</proxy>

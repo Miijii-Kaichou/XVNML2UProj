@@ -22,7 +22,7 @@ namespace XVNML2U.Editor
             xvnml.filePath = ctx.assetPath;
             xvnml.ReadContentFromFile();
 
-            Texture2D icon = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/xvnml_file_icon.png");
+            Texture2D icon = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/XVNML2U/Editor/Editor Default Resources/Icons/xvnml_file_icon.png");
             EditorGUIUtility.SetIconForObject(xvnml, icon);
             ctx.AddObjectToAsset(name, xvnml);
             ctx.SetMainObject(xvnml);

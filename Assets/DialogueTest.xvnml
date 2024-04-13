@@ -1,0 +1,22 @@
+<proxy	name::"DialogueTest"
+		engine::"UnityEngine"
+		target::".."
+		lang::"CSharp">
+
+	<keycodeDefinitions name::"_globalInputDef">
+    	<keycode name::"_proceedWithMouse"     vkey::LeftMouse      purpose::PROCEED         />
+    	<keycode name::"_proceedWithEnter"     vkey::Return         purpose::PROCEED         />
+    	<keycode name::"_navUp"                vkey::Up             purpose::NAVIGATION_UP   />
+    	<keycode name::"_navDown"              vkey::Down           purpose::NAVIGATION_DOWN />
+    	<keycode name::"_navLeft"              vkey::Left           purpose::NAVIGATION_LEFT />
+    	<keycode name::"_navRight"             vkey::Right          purpose::NAVIGATION_RIGHT/>
+	</keycodeDefinitions>
+
+	<dialogue name::"Test">
+		@ {set_text_speed::100|pass}<
+		@ Hello!<
+		@ This is a test!<
+		@ You have been informed...<
+		@ Goodbye!<<
+	</dialogue>
+</proxy>
