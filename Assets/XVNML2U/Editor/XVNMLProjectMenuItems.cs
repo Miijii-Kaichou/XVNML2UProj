@@ -3,7 +3,6 @@ using System.Linq;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
-using XVNML.Core.Extensions;
 
 namespace XVNML2U.Editor
 {
@@ -13,13 +12,17 @@ namespace XVNML2U.Editor
     {
         private static string FileTemplateSource = "Assets/Resources/XVNML2U/Templates/";
         private static bool FileTemplateSourceUpdated = false;
+        
         private static readonly StringBuilder StringBuilder = new StringBuilder();
 
         private const string FileMenuPath = "Assets/Create/XVNML2U/";
-        private const string XVNMLTemplateExtension = ".xvnml.txt";
-        private const string CSharpTemplateExtension = ".cs.txt";
-        private const string TextExtension = ".txt";
-        private const string TemplateSearchPattern = "XVNML2U/Resources/Templates";
+        
+        private const string XVNMLFileExtension = ".xvnml";
+        private const string CSharpFileExtension = ".cs";
+        private const string XVNMLTemplateExtension = XVNMLFileExtension + ".txt";
+        private const string CSharpTemplateExtension = CSharpFileExtension + ".txt";
+        
+        private const string TemplatePath = "Resources/Templates";
 
 
         [MenuItem(FileMenuPath + "XVNML/Proxy", priority = 81)]
@@ -46,13 +49,13 @@ namespace XVNML2U.Editor
             GenerateCSharpTemplate("NewUDTag");
         }
 
-        [MenuItem(FileMenuPath + "C#/Reaction", priority = 82)]
+        [MenuItem(FileMenuPath + "C#/Reaction", priority = 83)]
         private static void CreateReactionScript()
         {
             GenerateCSharpTemplate("NewReaction");
         }
 
-        [MenuItem(FileMenuPath + "C#/Runtime Environment Model", priority = 82)]
+        [MenuItem(FileMenuPath + "C#/Runtime Environment Model", priority = 83)]
         private static void CreateRuntimeEnvironmentModel()
         {
             GenerateCSharpTemplate("NewRuntimeEnvironmentModel");
@@ -69,7 +72,7 @@ namespace XVNML2U.Editor
                 .Append(XVNMLTemplateExtension);
 
             string target = StringBuilder.ToString();
-            string defaultFileName = name + ".xvnml";
+            string defaultFileName = name + XVNMLFileExtension;
 
             ProjectWindowUtil.CreateScriptAssetFromTemplateFile(target, defaultFileName);
             StringBuilder.Clear();
@@ -85,7 +88,7 @@ namespace XVNML2U.Editor
                .Append(CSharpTemplateExtension);
 
             string target = StringBuilder.ToString();
-            string defaultFileName = name + ".cs";
+            string defaultFileName = name + CSharpFileExtension;
 
             ProjectWindowUtil.CreateScriptAssetFromTemplateFile(target, defaultFileName);
             StringBuilder.Clear();
@@ -93,11 +96,11 @@ namespace XVNML2U.Editor
 
         private static void ProvideUpdatedTemplateLocation()
         {
+            var dataPath = Application.dataPath;
+
             if (FileTemplateSourceUpdated) return;
 
-            FileTemplateSource = Directory
-               .GetDirectories(Application.dataPath, TemplateSearchPattern, SearchOption.AllDirectories)
-               .First();
+            FileTemplateSource = XVNMLDirectoryNavigator.GoToDirectory(TemplatePath);
 
             FileTemplateSourceUpdated = true;
         } 

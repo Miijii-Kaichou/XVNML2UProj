@@ -6,11 +6,7 @@ namespace XVNML2U.Mono
 {
     public sealed class DialogueProcessAllocator : Singleton<DialogueProcessAllocator>
     {
-        [Tooltip("How many channels to allocate for " +
-                 "Concurrent Dialogue Processes."), Range(1,12)]
-        public uint channelSize = 12;
-
-        public static uint ChannelSize => Instance.channelSize;
+        public static int ChannelSize;
 
         internal static XVNMLDialogueControl[] ProcessReference { get; private set; }
 
@@ -18,10 +14,10 @@ namespace XVNML2U.Mono
 
         private static void Initialize()
         {
-            int size = (int)Instance.channelSize;
-            ProcessReference = new XVNMLDialogueControl[size];
+            ChannelSize = XVNML2USettingsUtil.ActiveProjectSettings.CDPChannelLimit;
+            ProcessReference = new XVNMLDialogueControl[ChannelSize];
             Application.quitting += ApplicationClosing;
-            DialogueWriter.AllocateChannels(size);
+            DialogueWriter.AllocateChannels(ChannelSize);
         }
 
         private static void ApplicationClosing()
@@ -38,8 +34,10 @@ namespace XVNML2U.Mono
 
         internal static void Refresh()
         {
-            var size = (int)Instance.channelSize;
-            DialogueWriter.AllocateChannels(size);
+            ChannelSize = XVNML2USettingsUtil.ActiveProjectSettings.CDPChannelLimit;
+            DialogueWriter.AllocateChannels(ChannelSize);
         }
+
+        public int GetChannelSize() => ChannelSize;
     }
 }

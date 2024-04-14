@@ -15,8 +15,9 @@ namespace XVNML2U.Editor
     {
         private const string HierarchyMenuItemPath = "Window/General/Hierarchy";
         private const string NullImageResourcePath = "Images/NullImage";
-        private const string BasicModuleKitPrefabResourcePath = "BasicModuleKit.prefab";
-        private const string VNModuleKitPrefabResourcePath = "Assets/Resources/Kits/VNModuleKit.prefab";
+        private const string PrefabAssetExtension = ".prefab";
+
+
 
         private static readonly ColorBlock DefaultResponseControlButtonColorBlock = new()
         {
@@ -31,7 +32,7 @@ namespace XVNML2U.Editor
         private static readonly Color WhiteSemiTransparentColor = new(1, 1, 1, 0.5f);
         private static readonly StringBuilder StringBuilder = new StringBuilder();
 
-        public static object KitAssetSource = "Assets/XVNML2U/Resources/Kits/";
+        public static string KitAssetSource = "Assets/XVNML2U/Resources/Kits/";
         public static bool KitAssetSourceUpdated = false;
         public static string KitSearchPattern = "XVNML2U/Resources/Kits";
 
@@ -74,8 +75,6 @@ namespace XVNML2U.Editor
         {
             GameObject newDialogueWriterAllocator = new();
             DialogueProcessAllocator dialogueProcessAllocatorComponent = newDialogueWriterAllocator.AddComponent<DialogueProcessAllocator>();
-
-            dialogueProcessAllocatorComponent.channelSize = 1;
 
             newDialogueWriterAllocator.name = "XVNMLDialogueWriterAllocator";
 
@@ -454,7 +453,7 @@ namespace XVNML2U.Editor
             StringBuilder.Append(KitAssetSource)
                 .Append('/')
                 .Append(kitName)
-                .Append(".prefab");
+                .Append(PrefabAssetExtension);
 
             GameObject newBasicModuleKitObject = PrefabUtility.LoadPrefabContents(StringBuilder.ToString());
             newBasicModuleKitObject = Instantiate(newBasicModuleKitObject);
@@ -474,7 +473,7 @@ namespace XVNML2U.Editor
             StringBuilder.Append(KitAssetSource)
                 .Append('/')
                 .Append(kitName)
-                .Append(".prefab");
+                .Append(PrefabAssetExtension);
 
             GameObject newVNModuleKitObject = PrefabUtility.LoadPrefabContents(StringBuilder.ToString());
             newVNModuleKitObject = Instantiate(newVNModuleKitObject);
@@ -505,11 +504,19 @@ namespace XVNML2U.Editor
         #region Helper Methods
         private static void ProvideUpdatedKitLocation()
         {
+            var dataPath = Application.dataPath;
+
             if (KitAssetSourceUpdated) return;
 
             KitAssetSource = Directory
-               .GetDirectories(Application.dataPath, KitSearchPattern, SearchOption.AllDirectories)
+               .GetDirectories(dataPath, KitSearchPattern, SearchOption.AllDirectories)
                .First();
+
+            string test = KitAssetSource;
+            Debug.Log(test);
+
+            DirectoryInfo info = new DirectoryInfo(test);
+            Debug.Log(info.Parent);
 
             KitAssetSourceUpdated = true;
         }

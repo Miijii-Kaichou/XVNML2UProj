@@ -2651,11 +2651,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 491b0805b9a6d0844aa5e74f2dcc57eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _receiveLogs: 1
-  _enableVerbose: 1
-  _enableWarning: 0
-  _enableError: 0
-  _pauseGamePlayOnError: 0
 --- !u!4 &462769615
 Transform:
   m_ObjectHideFlags: 0
@@ -10868,4 +10863,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206b4bfafeeee0e44971fd2daa4952a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  channelSize: 1

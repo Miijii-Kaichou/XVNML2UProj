@@ -37,9 +37,8 @@ namespace XVNML2U.Editor
         {
             var necessaryExt = new[]
             {
-                ".xvnml",
-                ".json",
-                ".ha"
+                "xvnml",
+                "json"
             };
 
             var extensionsList = EditorSettings.projectGenerationUserExtensions.ToList();
@@ -50,6 +49,8 @@ namespace XVNML2U.Editor
                 extensionsList.Add(ext);
             }
 
+            if (EditorSettings.projectGenerationUserExtensions.SequenceEqual(extensionsList)) return;
+            
             EditorSettings.projectGenerationUserExtensions = extensionsList.ToArray();
         }
     }
