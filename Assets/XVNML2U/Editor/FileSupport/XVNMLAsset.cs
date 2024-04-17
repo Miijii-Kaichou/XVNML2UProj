@@ -1,12 +1,16 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Scripting;
 using XVNML.Utilities;
 
 #nullable enable
 namespace XVNML2U.FileSupport
 {
+    [PreferBinarySerialization]
     public sealed class XVNMLAsset : ScriptableObject
     {
         /// <summary>
@@ -42,7 +46,10 @@ namespace XVNML2U.FileSupport
 
         private void OnEnable()
         {
-            OnValidate();
+#if UNITY_EDITOR
+            var icon = AssetDatabase.LoadAssetAtPath<Texture2D>(IconPath);
+            EditorGUIUtility.SetIconForObject(this, icon);
+#endif
         }
 
         private void OnValidate()
@@ -58,19 +65,20 @@ namespace XVNML2U.FileSupport
         {
             if (allowCacheUsageAndGeneration == false)
             {
-                XVNMLObj.Create(filePath!, top =>
+                XVNMLObj.Create(filePath!, obj =>
                 {
-                    this.top = top;
-                    onBuildFinished?.Invoke(top!);
+                    top = obj;
+                    onBuildFinished?.Invoke(obj!);
                 }, allowCacheUsageAndGeneration);
+
                 return;
             }
 
-            XVNMLObj.UseOrCreate(filePath!, top =>
+            XVNMLObj.UseOrCreate(filePath!, obj =>
             {
-                this.top = top;
-                onBuildFinished?.Invoke(top!);
-            });
+                top = obj;
+                onBuildFinished?.Invoke(obj!);
+            }, Application.persistentDataPath + "/obj");
         }
 
         public override int GetHashCode()
@@ -84,7 +92,7 @@ namespace XVNML2U.FileSupport
             content = streamReader
             .ReadToEnd()
             .Replace("\r", string.Empty);
-            
+
             streamReader.Close();
         }
 
@@ -95,6 +103,6 @@ namespace XVNML2U.FileSupport
             streamWriter.Write(content);
             streamWriter.Close();
         }
-    } 
+    }
 }
 #nullable disable

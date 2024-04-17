@@ -2,9 +2,9 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace XVNML2U
+namespace XVNML2U.Mono
+
 {
-#if UNITY_EDITOR
     public sealed class XVNMLProjectSettings : ScriptableObject
     {
         public const string k_XVNMLProjectSettingsPath = "Assets/XVNML2UProjectSettings.asset";
@@ -53,7 +53,12 @@ namespace XVNML2U
 
         internal static XVNMLProjectSettings GetOrCreateSettings()
         {
-            var settings = AssetDatabase.LoadAssetAtPath<XVNMLProjectSettings>(k_XVNMLProjectSettingsPath);
+            XVNMLProjectSettings settings = null;
+
+#if UNITY_EDITOR
+            settings = AssetDatabase.LoadAssetAtPath<XVNMLProjectSettings>(k_XVNMLProjectSettingsPath);
+#endif
+
             if (settings == null)
             {
                 settings = CreateInstance<XVNMLProjectSettings>();
@@ -71,18 +76,20 @@ namespace XVNML2U
                 settings._enableWarning = true;
                 settings._enableError = true;
                 settings._pauseGamePlayOnError = true;
-
+#if UNITY_EDITOR
                 AssetDatabase.CreateAsset(settings, k_XVNMLProjectSettingsPath);
                 AssetDatabase.SaveAssets();
+#endif
             }
             return settings;
         }
 
+#if UNITY_EDITOR
         public static SerializedObject GetSerializedSettings()
         {
             XVNML2USettingsUtil.Set(GetOrCreateSettings());
             return new SerializedObject(GetOrCreateSettings());
         }
-    }
 #endif
+    }
 }

@@ -17,7 +17,7 @@ MonoBehaviour:
   _disableTokenizer: 1
   _defaultInterval: 1
   _CDPChannelLimit: 1
-  _receiveLogs: 0
+  _receiveLogs: 1
   _enableVerbose: 1
   _enableWarning: 1
   _enableError: 1

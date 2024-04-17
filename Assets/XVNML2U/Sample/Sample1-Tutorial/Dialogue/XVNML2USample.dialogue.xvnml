@@ -8,7 +8,7 @@
                |set_prop_scale::($_defaultPropScale, $_defaultPropScale)
                |pass}<
           @ Hello {insd::$YourName|set::("YourName", "Dorothy")}.<
-          @ Or should I call you...{delay::1000|insd::$YourName}.<
+          @ Or should I call you... {delay::1000|insd::$YourName}.<
           @ {align::"center"}Welcome to {bold|emphasis|color::"yellow"}XVNML2U!{color_end|emphasis_end|bold_end|style_end}<
           @ This package{$_think} demonstrates the capabilities in which the XVNML
            Class Library is capable of{delay::500|clr}when used with the Unity Game Engine.<

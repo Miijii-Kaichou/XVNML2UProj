@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using XVNML2U.Mono;
 
-namespace XVNML2U.Data
+namespace XVNML2U
 {
     public static class XVNMLProjectSettingsContainer
     {

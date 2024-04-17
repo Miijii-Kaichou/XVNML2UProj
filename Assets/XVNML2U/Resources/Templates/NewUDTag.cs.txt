@@ -1,14 +1,14 @@
 using XVNML.Core.Tags;
 
-[AssociateWithTag("udtag", typeof(#SCRIPTNAME#), TagOccurance.Multiple, true)]
-public sealed class UDTag#SCRIPTNAME# : TagBase
+[AssociateWithTag("#SCRIPTNAME_LOWER#", typeof(Proxy), TagOccurance.Multiple, true)]
+public sealed class #SCRIPTNAME#Tag : TagBase
 {
 	protected override string[] AllowedParameters => new[]
 	{
-		"param1",
-		"param2",
-		"param3"
-	}
+		nameof(param1),
+		nameof(param2),
+		nameof(param3)
+	};
 	
 	// Uncomment this to set flags for user-defined tag.
 	//protected override string[] AllowedFlags => new[]
@@ -28,10 +28,8 @@ public sealed class UDTag#SCRIPTNAME# : TagBase
 		// Always call this, or default property for tag will not function
 		base.OnResolve(fileOrigin);
 		
-		int paramElementID = 0;
-		
-		param1 = GetParameterValue<string>(AllowedParameters[paramElementID++]);
-		param2 = GetParameterValue<int>(AllowedParameters[paramElementID++]);
-		param3 = GetParameterValue<bool)(AllowedParameters[paramElementID]);
+		param1 = GetParameterValue<string>(nameof(param1));
+		param2 = GetParameterValue<int>(nameof(param2));
+		param3 = GetParameterValue<bool>(nameof(param3));
 	}
 }

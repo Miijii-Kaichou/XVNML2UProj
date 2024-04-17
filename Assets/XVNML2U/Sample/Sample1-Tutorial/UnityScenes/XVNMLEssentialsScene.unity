@@ -4734,7 +4734,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _main: {fileID: -2771518378797853016, guid: 52cc82b2d2d6a2f44b26df5ddcddf03f, type: 3}
-  _allowForCacheUsageAndGeneration: 0
+  _markAsReadyForBuild: 1
   _mainCamera: {fileID: 519420031}
 --- !u!114 &888242072
 MonoBehaviour:

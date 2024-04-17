@@ -1,5 +1,6 @@
 using UnityEngine;
 using XVNML.Core.Tags.UserOverrides;
+using XVNML.Utilities;
 using XVNML.Utilities.Tags;
 
 namespace XVNML2U

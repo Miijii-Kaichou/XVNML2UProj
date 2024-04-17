@@ -1,4 +1,6 @@
-﻿namespace XVNML2U
+﻿using XVNML2U.Mono;
+
+namespace XVNML2U
 {
     public static class XVNML2USettingsUtil
     {

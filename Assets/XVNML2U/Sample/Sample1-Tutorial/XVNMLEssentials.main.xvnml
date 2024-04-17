@@ -5,6 +5,13 @@
           <copyright year::2023 owner::"Enjyoii"/>
      </metadata>
 
+     <gameDataGroup #isMutable name::"_PlayerPrefsGameData">
+          <gameData key::"_playerName"        value::"New Player"/>
+          <gameData key::"_friendshipPoints"  value::000/>
+          <gameData key::"_eventID"           value::000/>
+          <gameData key::"_isNewGame"         value::true/>
+     </gameDataGroup>
+
      <castDefinitions>
           <cast name::"Hana"  src::"Hana\Hana.cast.xvnml"/>
           <cast name::"Sonia" src::$nil/>

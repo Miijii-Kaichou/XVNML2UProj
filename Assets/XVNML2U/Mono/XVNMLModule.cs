@@ -24,8 +24,10 @@ namespace XVNML2U.Mono
 
         [SerializeField, Tooltip("Allow for the module to use existing cache data." +
             " If it doesn't exist," +
-            " it'll create on upon completion of build process.")]
-        private bool _allowForCacheUsageAndGeneration = false;
+            " it'll create on upon completion of build process." +
+            "This is especially important for having the XVNML project consistent " +
+            "on a stand-alone build.")]
+        private bool _markAsReadyForBuild = false;
 
         [SerializeField]
         private Camera _mainCamera;
@@ -60,10 +62,12 @@ namespace XVNML2U.Mono
             EditorApplication.playModeStateChanged += EvaluatePlayModeState;
 #endif
 
+            Application.quitting += ShutDown;
+
             if (_main == null) return;
 
             onModuleBuildProcessComplete += FlagAsFinished;
-            _main.Build(onModuleBuildProcessComplete, _allowForCacheUsageAndGeneration);
+            _main.Build(onModuleBuildProcessComplete, _markAsReadyForBuild);
         }
 
         private void FlagAsFinished(XVNMLObj? obj)
