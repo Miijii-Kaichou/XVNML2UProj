@@ -1,19 +1,18 @@
 <source name::"XVNML2USample.Dialogue.XVNML">
      <dialogue name::"XVNML2U Sample">
           @ {
-               initialize::("_defaultPropScale", int, 5i)
-               |initialize::("_word", string, "THIS")
-               |$_defaultTextSpeed
+               $_defaultTextSpeed
                |$_switchToPropFadeInMode
-               |set_prop_scale::($_defaultPropScale, $_defaultPropScale)
-               |pass}<
+               |set_prop_scale::(5i, 5i)
+               |pass
+          }<
           @ Hello {insd::$YourName|set::("YourName", "Dorothy")}.<
           @ Or should I call you... {delay::1000|insd::$YourName}.<
           @ {align::"center"}Welcome to {bold|emphasis|color::"yellow"}XVNML2U!{color_end|emphasis_end|bold_end|style_end}<
           @ This package{$_think} demonstrates the capabilities in which the XVNML
            Class Library is capable of{delay::500|clr}when used with the Unity Game Engine.<
           @ What you see here{delay::750} is a normal dialogue.<
-          @ And {insert::$_word|delay::1000} is a dialogue with{set_text_speed::60} a
+          @ And {insert::"THIS"|delay::1000} is a dialogue with{set_text_speed::60} a
            looooooooooooooooooooooooooooooooooooooooooooooooooooot of {$_defaultTextSpeed}charisma!!!!<
           @ And with a normal XVNML Dialogue Control component, you can run whatever
            dialogue you want.<
@@ -219,10 +218,10 @@
           @ You'll soon realize that you can do a lot of cool stuff with XVNML2U.<
           @ For example, Cast Reactions {paren}which we had used about 3 times so far{paren_end}.<
           @ Last thing that is nice to know about Normal Cast Signatures is that by default...<
-          @ It follows the "Role{tag_end}Name{tag_end}Expression{tag_end}Voice" format.<
+          @ It follows the {quot}Role{tag_end}Name{tag_end}Expression{tag_end}Voice{quot} format.<
           @ However, you can omit either an expression or a voice.<
           @ To omit a voice, just name the cast expressions as normal.<
-          @ To omit an expression, use the "V{colon|colon}" prefix, followed by the voice name.<
+          @ To omit an expression, use the {quot}V{colon|colon|quot} prefix, followed by the voice name.<
           @ You can even change the order from Expression{tag_end}Voice to Voice{tag_end}Expression!<
           @ You just need to make sure that an Expression Prefix {paren}E{colon|colon}{paren_end}
            and a {paren}V{colon|colon}{paren_end} before the expression name and voice name

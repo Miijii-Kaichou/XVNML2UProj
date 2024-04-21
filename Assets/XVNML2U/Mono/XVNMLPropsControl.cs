@@ -213,9 +213,13 @@ namespace XVNML2U.Mono
             return result;
         }
 
-        internal static void SetPropScale(int xScale, int yScale, int zScale = 1)
+        internal static void SetPropScale(object xScale, object yScale, object? zScale = null)
         {
-            SetScale = new Vector3(xScale, yScale, zScale);
+            int xSca = xScale.ToInt();
+            int ySca = yScale.ToInt();
+            int zSca = zScale == null ? 1 : zScale.ToInt();
+            Debug.Log($"Prop Scale Set To: [{xSca},{ySca},{zSca}]");
+            SetScale = new Vector3(xSca, ySca, zSca);
         }
 
         internal static void SetPropTransitionMode(TransitionMode transitionMode)
