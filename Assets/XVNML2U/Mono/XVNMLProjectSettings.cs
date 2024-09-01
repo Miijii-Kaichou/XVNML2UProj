@@ -3,7 +3,6 @@ using UnityEngine;
 
 
 namespace XVNML2U.Mono
-
 {
     public sealed class XVNMLProjectSettings : ScriptableObject
     {
@@ -11,9 +10,8 @@ namespace XVNML2U.Mono
 
         // Initialize default project settings here
         [SerializeField]
-        private bool _checkForUpdates = true;
-        public bool CheckForUpdates => CheckForUpdates;
-
+        private bool _checkForUpdatesOnStartUp = true;
+        public bool CheckForUpdatesOnStartUp => _checkForUpdatesOnStartUp;
 
         [SerializeField]
         private bool _allowVSCodeEditing;
@@ -64,7 +62,7 @@ namespace XVNML2U.Mono
                 settings = CreateInstance<XVNMLProjectSettings>();
 
                 // Set your default setting values here
-                settings._checkForUpdates = true;
+                settings._checkForUpdatesOnStartUp = true;
                 settings._allowVSCodeEditing = true;
                 settings._disableTokenizer = true;
                 

@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28efb0e4fadae27439219a304bda8ddb, type: 3}
   m_Name: XVNML2UProjectSettings
   m_EditorClassIdentifier: 
-  _checkForUpdates: 1
+  _checkForUpdatesOnStartUp: 1
   _allowVSCodeEditing: 1
   _disableTokenizer: 1
   _defaultInterval: 1
-  _CDPChannelLimit: 1
+  _CDPChannelLimit: 12
   _receiveLogs: 1
   _enableVerbose: 1
   _enableWarning: 1
   _enableError: 1
-  _pauseGamePlayOnError: 0
+  _pauseGamePlayOnError: 1

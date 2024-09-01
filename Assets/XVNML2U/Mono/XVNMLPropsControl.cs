@@ -58,7 +58,7 @@ namespace XVNML2U.Mono
                 propObject.AddComponent<UnityEngine.UI.Image>();
                 PropEntity propEntityComponent = propObject.AddComponent<PropEntity>();
                 propObject.name = $"PropEntity [Empty]";
-                propObject.transform.parent = Instance._rectTransform;
+                propObject.transform.SetParent(Instance._rectTransform);
                 propObject.transform.localScale = new Vector3(1, 1, 1);
                 CachedProps.Add(propEntityComponent);
             }
@@ -141,7 +141,7 @@ namespace XVNML2U.Mono
             propEntityComponent.SetGraphic(imageComponent.sprite, Color.white);
             newImageObject.name = $"${imageName} [Runtime Image]";
 
-            newImageObject.transform.parent = Instance._rectTransform;
+            newImageObject.transform.SetParent(Instance._rectTransform);
             newImageObject.transform.localScale = SetScale;
             newImageObject.transform.localPosition = new Vector3(x, y, 0);
 

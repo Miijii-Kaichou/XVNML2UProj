@@ -1,10 +1,7 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
+﻿using System;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Scripting;
 using XVNML.Utilities;
 
 #nullable enable

@@ -174,8 +174,7 @@
                ("Anonymous Cast Signatures...")>
                     @ {$_p1Anonymous}<<
                ("I've learned everything there is to know about Cast Signatures...")>
-                    @ That's great to hear!
-                    {$_p1_end}<<
+                    @ That's great to hear!{$_p1_end}<<
           )
 
           ["P1-Skriptr-CastSignatures-Narrative"]
@@ -321,8 +320,7 @@
           @ The documentation has all of that information checked.<
           @ Be sure to read it thoroughly.<
           @ You'll soon realize that you can do a whole lot with XVNML
-           as you explore more into the XVNML2U package.
-          {$_main}<
+           as you explore more into the XVNML2U package.{$_main}<
 
           #//endregion
      

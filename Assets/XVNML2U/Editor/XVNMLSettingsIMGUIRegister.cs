@@ -30,7 +30,7 @@ namespace XVNML2U.Editor
 
         private static void DrawIMGUI(SerializedObject settings)
         {
-            SerializedProperty sp_checkForUpdates = settings.FindProperty("_checkForUpdates");
+            SerializedProperty sp_checkForUpdates = settings.FindProperty("_checkForUpdatesOnStartUp");
             
             SerializedProperty sp_defaultInterval = settings.FindProperty("_defaultInterval");
             SerializedProperty sp_channelLimit = settings.FindProperty("_CDPChannelLimit");

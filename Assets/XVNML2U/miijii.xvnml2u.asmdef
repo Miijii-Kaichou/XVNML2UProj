@@ -18,7 +18,8 @@
         "XVNML.dll",
         "unityplastic.dll",
         "DOTween.dll",
-        "DOTweenEditor.dll"
+        "DOTweenEditor.dll",
+        "Newtonsoft.Json.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
