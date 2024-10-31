@@ -145,8 +145,7 @@
                     @ You have sample files to look over and study.<
                     @ However, if you need more context for something, or understanding...<
                     @ You can always look at the documentation that comes with XVNML2U...<
-                    @ As it goes more in-depth with how to work with XVNML.
-                    {$_main}<<
+                    @ As it goes more in-depth with how to work with XVNML.{$_main}<<
           )
 
           ["P1-Skriptr-CastSignatures-Main-FirstTime"]
@@ -225,7 +224,7 @@
           @ You just need to make sure that an Expression Prefix {paren}E{colon|colon}{paren_end}
            and a {paren}V{colon|colon}{paren_end} before the expression name and voice name
            respectively.
-          {jump_to::"P1-Skriptr-CastSignatures-Main"}<
+           {jump_to::"P1-Skriptr-CastSignatures-Main"}<
           
           ["P1-Skriptr-CastSignatures-Persistent"]
           @ {$_defaultTextSpeed}A Persistent Cast Signature takes the last cast member to speak, and
@@ -242,7 +241,7 @@
            for having a Persistent Cast Signature{paren_end}.<
           @ You can set the Expressions and Voices of the previous mentioned cast
            as normal.
-          {jump_to::"P1-Skriptr-CastSignatures-Main"}<
+           {jump_to::"P1-Skriptr-CastSignatures-Main"}<
           
           ["P1-Skriptr-CastSignatures-Anonymous"]
           @ {$_defaultTextSpeed}An Anonymous Cast Signature denotes that the speaker is unknown.<
@@ -255,7 +254,7 @@
            an Anonymous Cast Signature has no persistency.<
           @ So, you'll have to keep on typing {quot|qm|qm|qm|quot} until
            the speaker is known to the player.
-          {jump_to::"P1-Skriptr-CastSignatures-Main"}<
+           {jump_to::"P1-Skriptr-CastSignatures-Main"}<
           
           ["P1-Skriptr-CastSignatures-Complete"]
           @ {$_defaultTextSpeed}It's definitely a lot, huh?<
@@ -362,9 +361,7 @@
           @ Of course, if anything, you can always get the binary for XVNML and do the integration yourself...<
           @ Allowing you to reduce the amount of bloat that you get from XVNML2U.<
           @ There will be a whole section on how to integrate XVNML into your own projects without
-           the use of XVNML2U.
-          {$_main}<
-
+           the use of XVNML2U.{$_main}<
           #//endregion    
 
           #//What is XVNML2U
@@ -395,8 +392,8 @@
           @ So, if you ever want to simulate a crowd of people taking in the middle of
            Town Square...<
           @ You'd utilize CDPs to achieve that.<
-          @ However, it's required to have the DialogueProcessAllocator in your scene 
-          {paren}or if you are integrating XVNML on your own, something equivalent to it.{paren_end}<
+          @ However, it's required to have the DialogueProcessAllocator in your scene
+           {paren}or if you are integrating XVNML on your own, something equivalent to it.{paren_end}<
           @ Because it'll allow you to not only run multiple dialogue at once,
            you can use it to send actions to a target DialogueControl...<
           @ {paren}which is another important component{paren_end}.<
@@ -686,8 +683,7 @@
            just playing an SFX or music.<
           @ Which is why we seperated Voices to the CastController...<
           @ Since it maps out a cast and their corresponding portraits and voices...<
-          @ from the XVNMLAudioController, which does all the worldly, environmental stuff.
-          {jump_to::"P3-XVNML2U-UnityComponents-Main"}<
+          @ from the XVNMLAudioController, which does all the worldly, environmental stuff.{jump_to::"P3-XVNML2U-UnityComponents-Main"}<
 
           ["P3-XVNML2U-UnityComponents-Complete"]
           @ As you see{delay::500}, there are a lot of features and tools at your disposal...<
@@ -704,8 +700,7 @@
           @ and to also have a better understanding of how everything works.<
           @ Seriously{pause}, I can't stress this enough!<
           @ XVNML2U is a SUPER POWER for story-tellers of all facets of life.<
-          @ It truly is amazing, and we hope that you find it just as amazing as well.
-          {$_main}<
+          @ It truly is amazing, and we hope that you find it just as amazing as well.{$_main}<
 
           #//endregion
 
@@ -855,8 +850,7 @@
           @ Go to your Project Settings, click on "Editor"...<
           @ And under "C# Project Generation", add the necessary extension to the
            "Addition extensions to include" field.<
-          @ That should hopefully do the trick.
-          {$_main}<
+          @ That should hopefully do the trick.{$_main}<
           
           #//endregion
 
@@ -974,8 +968,7 @@
 
           @ Be sure the balance the amount of macros used verses the amount of Skriptr lines that
            needs to be parsed.<
-          @ And hopefully your XVNML file will {b}become a lot more optimized{bed}.
-          {$_main}<
+          @ And hopefully your XVNML file will {b}become a lot more optimized{bed}.{$_main}<
 
           #//endregion
 

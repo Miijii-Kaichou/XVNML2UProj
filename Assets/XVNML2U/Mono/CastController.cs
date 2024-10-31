@@ -7,7 +7,6 @@ using XVNML.Core.Dialogue;
 using XVNML.Core.Dialogue.Structs;
 using XVNML.Utilities.Tags;
 using XVNML2U.Data;
-using XVNML2U.Mono;
 
 using DG.Tweening;
 using XVNML.Core.Native;

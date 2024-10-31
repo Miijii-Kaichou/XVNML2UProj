@@ -218,7 +218,7 @@ namespace XVNML2U.Mono
             int xSca = xScale.ToInt();
             int ySca = yScale.ToInt();
             int zSca = zScale == null ? 1 : zScale.ToInt();
-            Debug.Log($"Prop Scale Set To: [{xSca},{ySca},{zSca}]");
+
             SetScale = new Vector3(xSca, ySca, zSca);
         }
 

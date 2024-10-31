@@ -18,6 +18,7 @@ namespace XVNML2U.Editor
         {
             get
             {
+                if (xvnmlContent == null) return false;
                 return xvnmlContent.stringValue.Length > MaxCharacterLength;
             }
         }
@@ -26,6 +27,7 @@ namespace XVNML2U.Editor
         {
             get
             {
+                if (xvnmlContent == null) return false;
                 return xvnmlContent.stringValue.SequenceEqual(_overrideContent) == false;
             }
         }
