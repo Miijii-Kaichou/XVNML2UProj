@@ -13,6 +13,8 @@ namespace XVNML2U.Mono
 
         public static bool IsInitialized = false;
 
+        public static bool Enabled = false;
+
         public static void Init(XVNMLModule module)
         {
             if (IsNull) return;
@@ -54,10 +56,12 @@ namespace XVNML2U.Mono
             }
 
             IsInitialized = true;
+            Enabled = IsInitialized;
         }
 
         public static bool KeyPressed(XVNMLModule module, VirtualKey key)
         {
+            if (Enabled == false) return Enabled;
             if (VKPurposeMap.ContainsKey(module) == false) return false;
             var modulesWithKey = VKPurposeMap[module].Where(ivp => ivp.Value.Contains(key));
             return modulesWithKey.Any() && Input.GetKeyDown((KeyCode)key);
@@ -65,6 +69,7 @@ namespace XVNML2U.Mono
 
         public static bool KeyHold(XVNMLModule module, VirtualKey key)
         {
+            if (Enabled == false) return Enabled;
             if (VKPurposeMap.ContainsKey(module) == false) return false;
             var modulesWithKey = VKPurposeMap[module].Where(ivp => ivp.Value.Contains(key));
             return modulesWithKey.Any() && Input.GetKey((KeyCode)key);
@@ -72,6 +77,7 @@ namespace XVNML2U.Mono
 
         public static bool KeyReleased(XVNMLModule module, VirtualKey key)
         {
+            if (Enabled == false) return Enabled;
             if (VKPurposeMap.ContainsKey(module) == false) return false;
             var modulesWithKey = VKPurposeMap[module].Where(ivp => ivp.Value.Contains(key));
             return modulesWithKey.Any() && Input.GetKeyUp((KeyCode)key);
@@ -79,29 +85,33 @@ namespace XVNML2U.Mono
 
         public static bool KeyPressed(XVNMLModule module, string key)
         {
+            if (Enabled == false) return Enabled;
             if (VKPurposeMap.ContainsKey(module) == false) return false;
             return Input.GetKeyDown((KeyCode)AttachedKeycodeDefinitions[module].GetElement<Keycode>(key).vkey);
         }
 
         public static bool KeyHold(XVNMLModule module, string key)
         {
+            if (Enabled == false) return Enabled;
             if (VKPurposeMap.ContainsKey(module) == false) return false;
             return Input.GetKey((KeyCode)AttachedKeycodeDefinitions[module].GetElement<Keycode>(key).vkey);
         }
 
         public static bool KeyReleased(XVNMLModule module, string key)
         {
+            if (Enabled == false) return Enabled;
             if (VKPurposeMap.ContainsKey(module) == false) return false;
             return Input.GetKeyUp((KeyCode)AttachedKeycodeDefinitions[module].GetElement<Keycode>(key).vkey);
         }
 
         public static bool OnInput(XVNMLModule module, InputEvent purpose)
         {
+            if (Enabled == false) return Enabled;
             if (VKPurposeMap.ContainsKey(module) == false) return false;
             SortedDictionary<InputEvent, List<VirtualKey>> targetInputKeyPairs = VKPurposeMap[module];
             var validInput = VKPurposeMap[module].ContainsKey(purpose);
             if (validInput == false) return validInput;
-            
+
             var vkList = VKPurposeMap[module][purpose];
             if (vkList.Count == 1)
             {
@@ -118,6 +128,7 @@ namespace XVNML2U.Mono
 
         public static bool OnInputActive(XVNMLModule module, InputEvent purpose)
         {
+            if (Enabled == false) return Enabled;
             if (VKPurposeMap.ContainsKey(module) == false) return false;
             SortedDictionary<InputEvent, List<VirtualKey>> targetInputKeyPairs = VKPurposeMap[module];
             var validInput = VKPurposeMap[module].ContainsKey(purpose);
@@ -139,6 +150,7 @@ namespace XVNML2U.Mono
 
         public static bool OnInputRelease(XVNMLModule module, InputEvent purpose)
         {
+            if (Enabled == false) return Enabled;
             if (VKPurposeMap.ContainsKey(module) == false) return false;
             SortedDictionary<InputEvent, List<VirtualKey>> targetInputKeyPairs = VKPurposeMap[module];
             var validInput = VKPurposeMap[module].ContainsKey(purpose);

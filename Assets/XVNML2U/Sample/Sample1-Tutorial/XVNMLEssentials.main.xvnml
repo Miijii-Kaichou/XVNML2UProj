@@ -2,9 +2,8 @@
      <metadata name::"_metadata">
           <title name::"XVNMLEssentials"/>
           <date value::"06/25/2023"/>
-          <copyright year::2023 owner::"Enjyoii"/>
+          <copyright year::2023 owner::"Enjyoii"/>     
      </metadata>
-
      <castDefinitions>
           <cast name::"Hana"  src::"Hana\Hana.cast.xvnml"/>
           <cast name::"Sonia" src::$nil/>

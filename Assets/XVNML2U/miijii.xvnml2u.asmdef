@@ -16,10 +16,10 @@
     "overrideReferences": true,
     "precompiledReferences": [
         "XVNML.dll",
-        "unityplastic.dll",
+        "Newtonsoft.Json.dll",
         "DOTween.dll",
         "DOTweenEditor.dll",
-        "Newtonsoft.Json.dll"
+        "DOTweenUpgradeManager.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

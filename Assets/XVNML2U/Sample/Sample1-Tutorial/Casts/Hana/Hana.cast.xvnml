@@ -17,9 +17,9 @@
 	<imageDefinitions>
 		<image name::"HanaSmile"		src::"HanaSmile.png"	pathMode::Relative/>
 		<image name::"HanaHappy"		src::"HanaHappy.png"	pathMode::Relative/>
-		<image name::"HanaSad"			src::"HanaSad.png"	    pathMode::Relative/>
-		<image name::"HanaAngry"		src::"HanaAngry.png"	pathMode::Relative/>
-		<image name::"HanaNeutral"		src::"HanaNeutral.png" 	pathMode::Relative/>
+		<image name::"HanaSad"			src::$nil	    pathMode::Relative/>
+		<image name::"HanaAngry"		src::$nil	pathMode::Relative/>
+		<image name::"HanaNeutral"		src::$nil 	pathMode::Relative/>
 	</imageDefinitions>
 	
 	<audioDefinitions>
