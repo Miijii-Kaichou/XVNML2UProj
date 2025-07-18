@@ -1,0 +1,24 @@
+{
+  "name": "com.miijii.xvnml2u",
+  "version": "0.1.0",
+  "displayName": "XVNML2U",
+  "description": "A Unity Extension with XVNML Implemented!",
+  "unity": "2019.1",
+  "unityRelease": "0b5",
+  "documentationUrl": "https://doc.xvnml.co/xvnml2u",
+  "changelogUrl": "https://xvnml.co/xvnml2u/changelog.html",
+  "licensesUrl": "https://xvnml.co/xvnml2u/licensing.html",
+  "dependencies": {
+    "com.unity.textmeshpro": "3.0.6"
+  },
+  "keywords": [
+    "keyword1",
+    "keyword2",
+    "keyword3"
+  ],
+  "author": {
+    "name": "Miijii",
+    "email": "miijii@enjyoii.co",
+    "url": "https://www.enjyoii.co"
+  }
+}

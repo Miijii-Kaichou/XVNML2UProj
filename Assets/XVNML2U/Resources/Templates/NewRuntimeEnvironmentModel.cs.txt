@@ -1,0 +1,23 @@
+#nullable enable
+
+using XVNML.Core.Native;
+
+public sealed class #SCRIPTNAME#
+{
+	internal static string? PlayerName
+	{
+		get
+		{
+			return RuntimeReferenceTable
+			.Get()
+			.value?
+			.ToString();
+		}
+		set
+		{
+			RuntimeReferenceTable.Set(value: value);
+		}
+	}
+}
+
+#nullable disable

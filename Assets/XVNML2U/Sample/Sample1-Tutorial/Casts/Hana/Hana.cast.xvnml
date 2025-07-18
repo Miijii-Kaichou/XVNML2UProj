@@ -1,0 +1,28 @@
+<source name::"Hana.Cast">
+	<castDefinitions>
+		<cast name::"Hana">
+			<portraitDefinitions>
+				<portrait name::"Smile"		img::$HanaSmile/>
+				<portrait name::"Happy" 	img::$HanaHappy/>
+				<portrait name::"Sad" 		img::$HanaSad/>
+				<portrait name::"Angry" 	img::$HanaAngry/>
+				<portrait name::"Neutral" 	img::$HanaNeutral/>
+			</portraitDefinitions>
+			<voiceDefinitions>
+				<voice name::"Wow" 	audio::$HanaWow/>
+			</voiceDefinitions>
+		</cast>
+	</castDefinitions>
+	
+	<imageDefinitions>
+		<image name::"HanaSmile"		src::"HanaSmile.png"	pathMode::Relative/>
+		<image name::"HanaHappy"		src::"HanaHappy.png"	pathMode::Relative/>
+		<image name::"HanaSad"			src::$nil	    pathMode::Relative/>
+		<image name::"HanaAngry"		src::$nil	pathMode::Relative/>
+		<image name::"HanaNeutral"		src::$nil 	pathMode::Relative/>
+	</imageDefinitions>
+	
+	<audioDefinitions>
+		<audio name::"HanaWow"			src::"HanaWow.wav"		pathMode::Relative/>
+	</audioDefinitions>
+</source>

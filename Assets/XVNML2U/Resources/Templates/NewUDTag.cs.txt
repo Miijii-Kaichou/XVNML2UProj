@@ -1,0 +1,36 @@
+using XVNML.Core.Tags;
+using XVNML.Utilities.Tags;
+
+[AssociateWithTag("#SCRIPTNAME_LOWER#", typeof(Proxy), TagOccurance.Multiple, true)]
+public sealed class #SCRIPTNAME#Tag : TagBase
+{
+	protected override string[] AllowedParameters => new[]
+	{
+		nameof(param1),
+		nameof(param2),
+		nameof(param3)
+	};
+	
+	// Uncomment this to set flags for user-defined tag.
+	//protected override string[] AllowedFlags => new[]
+	//{
+	//	"flag1"
+	//	"flag2"
+	//	"flag3"
+	//}
+	
+	// Create your tag members here...
+	public string param1;
+	public int param2;
+	public bool param3;
+	
+	public override void OnResolve(string fileOrigin)
+	{
+		// Always call this, or default property for tag will not function
+		base.OnResolve(fileOrigin);
+		
+		param1 = GetParameterValue<string>(nameof(param1));
+		param2 = GetParameterValue<int>(nameof(param2));
+		param3 = GetParameterValue<bool>(nameof(param3));
+	}
+}

@@ -1,0 +1,15 @@
+<source name::"OutsideOfSchool.Scene.XVNML">
+	<imageDefinitions>
+		<image name::"OutsideOfSchoolImg" src::"/OutsideOfSchool.png" pathMode::Relative/>
+		<image name::"OutsideOfSchool_RoofTopA" src::$nil pathMode::Relative/>
+		<image name::"OutsideOfSchool_RoofTopB" src::$nil pathMode::Relative/>
+		<image name::"OutsideOfSchool_RoofTopC" src::$nil pathMode::Relative/>
+		<image name::"InsideOfSchool_Class1AImg" src::$nil pathMode::Relative/>
+		<image name::"InsideOfSchool_Class2AImg" src::$nil pathMode::Relative/>
+		<image name::"InsideOfSchool_CafeteriaAImg" src::$nil pathMode::Relative/>
+		<image name::"InsideOfSchool_CafeteriaBImg" src::$nil pathMode::Relative/>
+	</imageDefinitions>
+	<sceneDefinitions>
+		<scene name::"OutsideOfSchool" img::$OutsideOfSchoolImg/>
+	</sceneDefinitions>
+</source>
